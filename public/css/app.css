@@ -116,6 +116,7 @@ os-datatable::part(content) {
 }
 
 os-datatable::part(wrapper) {
+    border: unset;
     border-radius: var(--r-huge);
 }
 
