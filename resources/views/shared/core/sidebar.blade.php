@@ -7,6 +7,10 @@
         <li class="w-full">
             <ul class="w-full flex flex-col">
                 <li class="w-full">
+                    <h3 class="font-x-thin text-x-black text-xs mx-2">{{ __('Global') }}</h3>
+                    <hr class="border-x-shade">
+                </li>
+                <li class="w-full">
                     <a href="{{ route('views.core.index') }}"
                         class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('dashboard') ? '!bg-x-black' : '' }}">
                         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
@@ -20,9 +24,9 @@
         </li>
         <li class="w-full">
             <ul class="w-full flex flex-col">
-                <li>
-                    <h3 class="font-x-huge text-x-black text-xs px-2 pb-1">{{ __('System') }}</h3>
-                    <hr>
+                <li class="w-full">
+                    <h3 class="font-x-thin text-x-black text-xs mx-2">{{ __('System') }}</h3>
+                    <hr class="border-x-shade">
                 </li>
                 <li class="w-full">
                     <a href="{{ route('views.users.index') }}"
