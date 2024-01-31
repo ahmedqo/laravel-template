@@ -7,7 +7,7 @@
         <li class="w-full">
             <ul class="w-full flex flex-col">
                 <li class="w-full">
-                    <h3 class="font-x-thin text-x-black text-xs mx-2">{{ __('Global') }}</h3>
+                    <h3 class="font-x-thin text-x-black text-xs mx-2">{{ __('General') }}</h3>
                     <hr class="border-x-shade">
                 </li>
                 <li class="w-full">
