@@ -3298,7 +3298,8 @@ OS.$Component.Datatable = (function() {
                 this.emit("download");
             },
             parse(str) {
-                str = str.replace(/"/g, `""`);
+                if (!str) return '""';
+                str = String(str).replace(/"/g, `""`);
                 if (/[",\n]/.test(str)) {
                     str = `"${str}"`;
                 }
