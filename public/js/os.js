@@ -3193,8 +3193,6 @@ OS.$Component.Datatable = (function() {
                 this.state.iframe.write(div.innerHTML);
                 this.state.iframe.close();
                 const pos = window.scrollY;
-                this.state.iframe.documentElement.lang = this.props.locale;
-                this.state.iframe.documentElement.dir = this.props.locale === "ar" ? "rtl" : "ltr";
                 this.refs.print.contentWindow.print();
                 window.scroll(0, pos);
                 this.emit("print");
@@ -3347,7 +3345,11 @@ OS.$Component.Datatable = (function() {
                             this.emit("change:" + name, { data: newValue });
                             break;
                         case "print":
-                            newValue && (this.state.iframe = this.refs.print.contentDocument || this.refs.print.contentWindow.document);
+                            if (newValue) {
+                                this.state.iframe = this.refs.print.contentDocument || this.refs.print.contentWindow.document;
+                                this.state.iframe.documentElement.dir = this.props.locale === "ar" ? "rtl" : "ltr";
+                                this.state.iframe.documentElement.lang = this.props.locale;
+                            }
                             this.emit("change:" + name, { data: newValue });
                             break;
                         case "rows":
