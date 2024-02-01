@@ -5,7 +5,7 @@
     <div class="w-full flex flex-col gap-6">
         <div class="flex flex-col gap-4">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
-                {{ __('Statistiques') }}
+                {{ __('Statistics') }}
             </h1>
             <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-4">
                 <li

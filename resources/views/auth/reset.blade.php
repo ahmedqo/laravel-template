@@ -14,10 +14,8 @@
             <form action="{{ route('actions.reset.index', $token) }}" method="POST"
                 class="w-full flex flex-col gap-4 lg:gap-6 p-4 lg:p-6 bg-x-white rounded-x-huge shadow-x-core">
                 @csrf
-                <os-password label="{{ __('New Password') }}" name="new_password"
-                    value="{{ old('new_password') }}"></os-password>
-                <os-password label="{{ __('Confirm Password') }}" name="confirm_password"
-                    value="{{ old('confirm_password') }}"></os-password>
+                <os-password label="{{ __('New Password') }}" name="new_password"></os-password>
+                <os-password label="{{ __('Confirm Password') }}" name="confirm_password"></os-password>
                 <os-button
                     class="rounded-x-thin px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                     <span>{{ __('Reset') }}</span>

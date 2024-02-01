@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     @if (!$paginator->onFirstPage())
-        <a id="prev" slot="tools-end" title="{{ __('Prev') }}" href="{{ $paginator->previousPageUrl() }}"
+        <a id="prev" slot="end" title="{{ __('Prev') }}" href="{{ $paginator->previousPageUrl() }}"
             class="block p-2 rounded-x-huge text-x-black outline-none !bg-opacity-40 hover:bg-x-shade focus:bg-x-shade focus-within:bg-x-shade">
             <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                 <path
@@ -10,7 +10,7 @@
     @endif
 
     @if ($paginator->hasMorePages())
-        <a id="next" slot="tools-end" title="{{ __('Next') }}" href="{{ $paginator->nextPageUrl() }}"
+        <a id="next" slot="end" title="{{ __('Next') }}" href="{{ $paginator->nextPageUrl() }}"
             class="block p-2 rounded-x-huge text-x-black outline-none !bg-opacity-40 hover:bg-x-shade focus:bg-x-shade focus-within:bg-x-shade">
             <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                 <path

@@ -18,7 +18,7 @@ class Core
 
     public static function genderList()
     {
-        return ['male', 'female'];
+        return ['Male', 'Female'];
     }
 
     public static function formatNumber($num)

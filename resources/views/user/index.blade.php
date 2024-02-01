@@ -4,7 +4,7 @@
 @section('content')
     <div class="flex flex-col gap-2">
         <os-datatable print search filter download title="{{ __('Users List') }}">
-            <a slot="tools-end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
+            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
                 class="block p-2 rounded-x-thin text-x-black outline-none !bg-opacity-40 hover:bg-x-shade focus:bg-x-shade focus-within:bg-x-shade">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -28,7 +28,7 @@
             const link = "{{ route('views.users.index') }}";
             if (prev) {
                 div.innerHTML = `
-                    <a id="prev" slot="tools-end" title="{{ __('Prev') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + prev}"
+                    <a id="prev" slot="end" title="{{ __('Prev') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + prev}"
                         class="block p-2 rounded-x-huge text-x-black outline-none !bg-opacity-40 hover:bg-x-shade focus:bg-x-shade focus-within:bg-x-shade">
                         <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                             <path
@@ -40,7 +40,7 @@
             }
             if (next) {
                 div.innerHTML = `
-                    <a id="next" slot="tools-end" title="{{ __('Next') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + next}"
+                    <a id="next" slot="end" title="{{ __('Next') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + next}"
                         class="block p-2 rounded-x-huge text-x-black outline-none !bg-opacity-40 hover:bg-x-shade focus:bg-x-shade focus-within:bg-x-shade">
                         <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                             <path
@@ -76,26 +76,57 @@
         datatable.cols = [{
             name: "id",
             text: "{{ __('Id') }}",
-            draw: () => "<center>{{ __('Id') }}</center>",
-            render: (row) => `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`
+            headRender: () => "<center>{{ __('Id') }}</center>",
+            headPdfRender: function() {
+                return this.headRender();
+            },
+            bodyRender: (row) =>
+                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             name: "first_name",
             text: "{{ __('First Name') }}",
-            render: (row) => capitalize(row.first_name),
+            bodyRender: (row) => capitalize(row.first_name),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             name: "last_name",
             text: "{{ __('Last Name') }}",
-            render: (row) => capitalize(row.last_name),
+            bodyRender: (row) => capitalize(row.last_name),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             visible: false,
             name: "gender",
             text: "{{ __('Gender') }}",
-            render: (row) => capitalize(row.gender) ?? "__",
+            bodyRender: (row) => capitalize(row.gender) ?? "__",
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             visible: false,
             name: "birth_date",
             text: "{{ __('Birth Date') }}",
-            render: (row) => capitalize(row.birth_date) ?? "__",
+            bodyRender: (row) => capitalize(row.birth_date) ?? "__",
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             name: "email",
             text: "{{ __('Email') }}"
@@ -106,12 +137,21 @@
             name: "address",
             text: "{{ __('Address') }}",
             visible: false,
-            render: (row) => capitalize(row.address) ?? "__"
+            bodyRender: (row) => capitalize(row.address) ?? "__",
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
         }, {
             name: "action",
-            text: "{{ __('Action') }}",
-            draw: () => "<center>{{ __('Action') }}</center>",
-            render: (row) => {
+            text: "{{ __('Actions') }}",
+            headRender: () => "<center>{{ __('Actions') }}</center>",
+            headPdfRender: function() {
+                return this.headRender();
+            },
+            bodyRender: (row) => {
                 return `
                     <action-tools 
                         target="${row.id}" 
@@ -120,7 +160,9 @@
                         clear="{{ route('actions.users.clear', 'XXX') }}"
                     />
                 `;
-            }
+            },
+            bodyPdfRender: () => "",
+            bodyCsvRender: () => "",
         }];
 
         datatable.rows = {!! json_encode($data) !!}.data;

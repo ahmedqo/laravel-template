@@ -10,7 +10,7 @@
             <form action="{{ route('actions.blank.index') }}" method="POST"
                 class="w-full flex flex-col gap-4 lg:gap-6 p-4 lg:p-6 bg-x-white rounded-x-huge shadow-x-core">
                 <p class="text-base text-x-black">
-                    {{ __('Did you forget your password? No problem. Just tell us your email, and we will send you a link that will allow you to choose a new password') }}
+                    {{ __('Forgot your password? No problem. Just tell us your email, and we will send you a link that will allow you to choose a new password') }}
                 </p>
                 @csrf
                 <os-text type="email" label="{{ __('Email') }}" name="email" value="{{ old('email') }}"></os-text>

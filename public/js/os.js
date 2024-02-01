@@ -3,7 +3,9 @@ const OS = {
     $Wrapper: null,
     $Toaster: null,
     $Selectors: {
+        Filterable: "os-filterable",
         Datatable: "os-datatable",
+        Fillable: "os-fillable",
         Dropdown: "os-dropdown",
         Password: "os-password",
         Wrapper: "os-wrapper",
@@ -12,8 +14,6 @@ const OS = {
         Switch: "os-switch",
         Select: "os-select",
         Option: "os-option",
-        Filter: "os-filter",
-        Filler: "os-filler",
         Button: "os-button",
         Topbar: "os-topbar",
         Group: "os-group",
@@ -2898,7 +2898,7 @@ OS.$Component.Datatable = (function() {
                     height: max-content;
                     background: transparent;
                     {{ @state.pos ? "bottom" : "top" }}: 0;
-                    ($ if @props.locale === "rtl" $)
+                    ($ if @props.locale === "ar" $)
                         left: 0;
                     ($ else $)
                         right: 0;
@@ -2937,7 +2937,7 @@ OS.$Component.Datatable = (function() {
                 ($ endif $)
                 ($ if @props.print || @props.search || @props.filter || @props.download || @this.querySelector("[slot=tools-start]") || @this.querySelector("[slot=tools-end]") $)
                     <div ref="tools" part="tools">
-                        <slot name="tools-start" />
+                        <slot name="start" />
                         ($ if @props.search $)
                             <button search title="{{ @state.locales[@props.locale].Search }}" ref="btn" part="btn" @click="{{ @rules.toggle }}">
                                 <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
@@ -2983,7 +2983,7 @@ OS.$Component.Datatable = (function() {
                                 ($ endif $)
                             </div>      
                         ($ endif $)
-                        <slot name="tools-end" />
+                        <slot name="end" />
                     </div>
                 ($ endif $)
             </div>
@@ -2995,8 +2995,8 @@ OS.$Component.Datatable = (function() {
                         ($ each col into @props.cols $)
                             ($ if col.visible !== false $)
                                 <td ref="tableheadcol" part="table-head-col">
-                                    ($ if col.draw $)
-                                        {{> col.draw() }}
+                                    ($ if col.headRender $)
+                                        {{> col.headRender() }}
                                     ($ else $)
                                         {{ col.text || col.name }}
                                     ($ endif $)
@@ -3020,7 +3020,11 @@ OS.$Component.Datatable = (function() {
                                 ($ each col into @props.cols $)
                                     ($ if col.visible !== false $)
                                         <td ref="tablebodycol" part="table-body-col">
-                                            {{> col.render ? col.render(row) : row[col.name] }}
+                                            ($ if col.bodyRender $)
+                                                {{> col.bodyRender(row) }}
+                                            ($ else $)
+                                                {{ row[col.name] }}
+                                            ($ endif $)
                                         </td>
                                     ($ endif $)
                                 ($ endeach $)
@@ -3046,95 +3050,15 @@ OS.$Component.Datatable = (function() {
                     <meta charset="UTF-8"/>
                     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                    <style>
-                        @page {
-                            size: {{ @props.size }};
-                            margin: {{ @props.margin }};
-                        }
-                        
-                        body { 
-                            margin: 0;
-                        }
-
-                        [part="print-page"] {
-                            width: 100%
-                        }
-
-                        ($ if @truty(@props.title, [""]) $)
-                            [part="print-title"] {
-                                font-weight: 700;
-                                text-align: center;
-                                margin: 0 0 1rem 0;
-                                font-size: {{  @theme.fonts.sizes("XLARGE") }};
-                                line-height: {{  @theme.fonts.lines("XLARGE") }};
-                            }
-                        ($ endif $)
-
-                        [part="print-wrapper"] {
-                            width: 100%;
-                            border-width: 1px;
-                            border-style: solid;
-                            border-radius: .25rem; 
-                            background: {{ @theme.colors("OS-WHITE") }};
-                            border-color: {{ @theme.colors("OS-SHADE") }};
-                        }
-
-                        [part="print-table"] {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-
-                        [part="print-table-head-col"],
-                        [part="print-table-body-col"],
-                        [part="print-table-empty-col"] {
-                            padding: .5rem 1rem;
-                            color: {{ @theme.colors("OS-BLACK") }};
-                        }
-
-                        [part="print-table-head-col"]:first-of-type,
-                        [part="print-table-body-col"]:first-of-type {
-                            padding-inline-start: 2rem;
-                        }
-
-                        [part="print-table-head-col"]:last-of-type,
-                        [part="print-table-body-col"]:last-of-type {
-                            padding-inline-end: 2rem;
-                        }
-
-                        [part="print-table-head-col"] {
-                            font-weight: 700;
-                            font-size: {{  @theme.fonts.sizes("SMALL") }};
-                            line-height: {{  @theme.fonts.lines("SMALL") }};
-                        }
-
-                        [part="print-table-body-row"],
-                        [part="print-table-empty-row"] {
-                            border-top-width: 1px;
-                            border-top-style: solid;
-                            border-top-color: {{ @theme.colors("OS-SHADE") }};
-                        }
-
-                        [part="print-table-body-col"] {
-                            font-size: {{  @theme.fonts.sizes("BASE") }};
-                            line-height: {{  @theme.fonts.lines("BASE") }};
-                        }
-
-                        [part="print-table-empty-col"] {
-                            font-weight: 700;
-                            padding: 1rem 2rem;
-                            text-align: center;
-                            font-size: {{  @theme.fonts.sizes("BASE") }};
-                            line-height: {{  @theme.fonts.lines("BASE") }};
-                        }
-                    </style>
+                    <slot name="styles" />
                 </head>
                 <body>
-                    <table part="print-page">
+                    <table id="page">
                         <thead>
                             <tr>
                                 <td>
-                                    <div part="print-head">
-                                        <slot name="print-header" />
+                                    <div id="head">
+                                        <slot name="header" />
                                     </div>
                                 </td>
                             </tr>
@@ -3142,20 +3066,20 @@ OS.$Component.Datatable = (function() {
                         <tbody>
                             <tr>
                                 <td>
-                                    <main part="print-main">
-                                        <slot name="print-main-start" />
+                                    <main id="main">
+                                        <slot name="main-start" />
                                         ($ if @truty(@props.title, [""]) $)
-                                            <h1 part="print-title">{{ @props.title }}</h1>
+                                            <h1 id="title">{{ @props.title }}</h1>
                                         ($ endif $)
-                                        <div part="print-wrapper">
-                                            <table part="print-table">
-                                                <thead part="print-table-head">
-                                                    <tr part="print-table-head-row">
+                                        <div id="wrapper">
+                                            <table id="table">
+                                                <thead id="table-head">
+                                                    <tr id="table-head-row">
                                                         ($ each col into @props.cols $)
                                                             ($ if col.visible !== false $)
-                                                                <td part="print-table-head-col">
-                                                                    ($ if col.draw $)
-                                                                        {{> col.draw() }}
+                                                                <td class="table-head-col">
+                                                                    ($ if col.headPdfRender $)
+                                                                        {{> col.headPdfRender() }}
                                                                     ($ else $)
                                                                         {{ col.text || col.name }}
                                                                     ($ endif $)
@@ -3164,20 +3088,24 @@ OS.$Component.Datatable = (function() {
                                                         ($ endeach $)
                                                     </tr>
                                                 </thead>
-                                                <tbody part="print-table-body">
+                                                <tbody id="table-body">
                                                     ($ forelse row into @state.rows $)
-                                                        <tr part="print-table-body-row">
+                                                        <tr class="table-body-row">
                                                             ($ each col into @props.cols $)
                                                                 ($ if col.visible !== false $)
-                                                                    <td part="print-table-body-col">
-                                                                        {{> col.render ? col.render(row) : row[col.name] }}
+                                                                    <td class="table-body-col">
+                                                                        ($ if col.bodyPdfRender $)
+                                                                            {{> col.bodyPdfRender(row) }}
+                                                                        ($ else $)
+                                                                            {{ row[col.name] }}
+                                                                        ($ endif $)
                                                                     </td>
                                                                 ($ endif $)
                                                             ($ endeach $)
                                                         </tr>
                                                     ($ empty $)
-                                                        <tr part="print-table-empty-row">
-                                                            <td colspan="{{ @props.cols.length }}" part="print-table-empty-col">
+                                                        <tr id="table-empty-row">
+                                                            <td colspan="{{ @props.cols.length }}" id="table-empty-col">
                                                                 {{ @state.locales[@props.locale].NoDataFound }}
                                                             </td>
                                                         </tr>
@@ -3185,7 +3113,7 @@ OS.$Component.Datatable = (function() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <slot name="print-main-end" />
+                                        <slot name="main-end" />
                                     </main>
                                 </td>
                             </tr>
@@ -3193,8 +3121,8 @@ OS.$Component.Datatable = (function() {
                         <tfoot>
                             <tr>
                                 <td>
-                                    <div part="print-footer">
-                                        <slot name="print-footer" />
+                                    <div id="footer">
+                                        <slot name="footer" />
                                     </div>
                                 </td>
                             </tr>
@@ -3237,14 +3165,36 @@ OS.$Component.Datatable = (function() {
             print() {
                 const div = document.createElement("div");
                 div.innerHTML = this.refs.page.outerHTML;
-                ["print-header", "print-main-start", "print-main-end", "print-footer"].map(e => {
-                    const el = this.querySelector(`[slot=${e}]`);
-                    if (el) div.querySelector(`[name=${e}]`).insertAdjacentHTML("afterend", el.innerHTML);
+                div.querySelector("[name=styles]").insertAdjacentHTML("beforebegin", `
+                    <style>
+                        body { margin: 0; }
+                        #page { width: 100% }
+                        #table { width: 100%; border-collapse: collapse; }
+                        @page { size: ${this.props.size}; margin: ${this.props.margin}; }
+                        .table-head-col:last-of-type, .table-body-col:last-of-type { padding-inline-end: 2rem; }
+                        .table-head-col:first-of-type, .table-body-col:first-of-type { padding-inline-start: 2rem; }
+                        .table-body-col { font-size: ${OS.$Theme.Fonts.Sizes("BASE")}; line-height: ${OS.$Theme.Fonts.Lines("BASE")}; }
+                        .table-head-col, .table-body-col, #table-empty-col { padding: .5rem 1rem; color: ${OS.$Theme.Colors("OS-BLACK")}; }
+                        .table-head-col { font-weight: 700; font-size: ${OS.$Theme.Fonts.Sizes("SMALL")}; line-height: ${OS.$Theme.Fonts.Lines("SMALL")}; }
+                        .table-body-row, #table-empty-row { border-top-width: 1px; border-top-style: solid; border-top-color: ${OS.$Theme.Colors("OS-SHADE")}; }
+                        #title { font-weight: 700; text-align: center; margin: 0 0 1rem 0; font-size: ${OS.$Theme.Fonts.Sizes("XLARGE")}; line-height: ${OS.$Theme.Fonts.Lines("XLARGE")}; }
+                        #table-empty-col { font-weight: 700; padding: 1rem 2rem; text-align: center; font-size: ${OS.$Theme.Fonts.Sizes("BASE")}; line-height: ${OS.$Theme.Fonts.Lines("BASE")}; }
+                        #wrapper { width: 100%; border-width: 1px; border-style: solid; border-radius: .25rem;  background: ${OS.$Theme.Colors("OS-WHITE")}; border-color: ${OS.$Theme.Colors("OS-SHADE")}; }
+                    </style>
+                `);
+                ["styles", "header", "main-start", "main-end", "footer"].map(e => {
+                    const els = this.querySelectorAll(`[slot=${e}]`);
+                    els.forEach(el => {
+                        div.querySelector(`[name=${e}]`).insertAdjacentHTML("beforebegin", el.innerHTML);
+                    });
+                    div.querySelector(`[name=${e}]`).remove();
                 });
                 this.state.iframe.open();
                 this.state.iframe.write(div.innerHTML);
                 this.state.iframe.close();
                 const pos = window.scrollY;
+                this.state.iframe.documentElement.lang = this.props.locale;
+                this.state.iframe.documentElement.dir = this.props.locale === "ar" ? "rtl" : "ltr";
                 this.refs.print.contentWindow.print();
                 window.scroll(0, pos);
                 this.emit("print");
@@ -3279,14 +3229,14 @@ OS.$Component.Datatable = (function() {
                 const cols = []
                 this.props.cols.forEach(col => {
                     if (col.visible !== false)
-                        cols.push(this.rules.parse(col.text || col.name));
+                        cols.push(this.rules.parse(col.headCsvRender ? col.headCsvRender() : (col.text || col.name)));
                 });
                 const rows = [cols.join(",")];
                 this.state.rows.forEach(row => {
                     const cols = []
                     this.props.cols.forEach(col => {
                         if (col.visible !== false)
-                            cols.push(this.rules.parse(row[col.name]));
+                            cols.push(this.rules.parse(col.bodyCsvRender ? col.bodyCsvRender(row) : row[col.name]));
                     });
                     rows.push(cols.join(","));
                 });
@@ -3409,7 +3359,7 @@ OS.$Component.Datatable = (function() {
     });
 })();
 
-OS.$Component.Filter = (function() {
+OS.$Component.Filterable = (function() {
     const Style = /*css*/ `
         * {
             box-sizing: border-box;
@@ -3555,7 +3505,7 @@ OS.$Component.Filter = (function() {
     `;
 
     return OS.$Component({
-        tag: OS.$Selectors.Filter,
+        tag: OS.$Selectors.Filterable,
         tpl: Template,
         css: [Style],
     })({
@@ -4556,7 +4506,7 @@ OS.$Component.Area = (function() {
     });
 })();
 
-OS.$Component.Filler = (function() {
+OS.$Component.Fillable = (function() {
     const Style = /*css*/ `
         * {
             box-sizing: border-box;
@@ -4789,7 +4739,7 @@ OS.$Component.Filler = (function() {
     `;
 
     return OS.$Component({
-        tag: OS.$Selectors.Filler,
+        tag: OS.$Selectors.Fillable,
         tpl: Template,
         css: [Style],
         ctl: true,
@@ -7235,7 +7185,7 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Modal.define() &&
     OS.$Component.Dropdown.define() &&
     OS.$Component.Datatable.define() &&
-    OS.$Component.Filter.define() &&
+    OS.$Component.Filterable.define() &&
     OS.$Component.Switch.define() &&
     OS.$Component.Text.define() &&
     OS.$Component.Password.define() &&
@@ -7245,5 +7195,5 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Select.define() &&
     OS.$Component.Group.define() &&
     OS.$Component.Option.define() &&
-    OS.$Component.Filler.define() &&
+    OS.$Component.Fillable.define() &&
     OS.$Component.Button.define();
