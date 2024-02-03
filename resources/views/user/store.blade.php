@@ -2,7 +2,7 @@
 @section('title', __('New User'))
 
 @section('content')
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('New User') }}
         </h1>

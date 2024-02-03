@@ -110,12 +110,12 @@ os-modal::part(content),
 os-select::part(content),
 os-filter::part(content),
 os-dropdown::part(content),
-os-datatable::part(search),
-os-datatable::part(content) {
+os-data-visual::part(search),
+os-data-visual::part(content) {
     border-radius: var(--r-thin);
 }
 
-os-datatable::part(wrapper) {
+os-data-visual::part(wrapper) {
     border: unset;
     border-radius: var(--r-huge);
 }
@@ -126,9 +126,9 @@ os-select::part(content),
 os-filter::part(content),
 os-navbar::part(content),
 os-dropdown::part(content),
-os-datatable::part(search),
-os-datatable::part(content),
-os-datatable::part(wrapper) {
+os-data-visual::part(search),
+os-data-visual::part(content),
+os-data-visual::part(wrapper) {
     box-shadow: var(--shadow);
 }
 
@@ -141,11 +141,11 @@ os-switch:not([checked])::part(ground) {
 }
 
 os-switch::part(toggle),
-os-datatable::part(search) {
+os-data-visual::part(search) {
     background: rgb(var(--white));
 }
 
-os-datatable::part(title) {
+os-data-visual::part(title) {
     font-size: 1.25rem;
     line-height: 1.75rem;
     font-weight: var(--w-thin);
@@ -173,7 +173,7 @@ os-datatable::part(title) {
 }
 
 @media (min-width: 1024px) {
-    os-datatable::part(title) {
+    os-data-visual::part(title) {
         font-size: 1.5rem;
         line-height: 2rem;
     }

@@ -2,7 +2,7 @@
 @section('title', __('Edit User') . ' #' . $data->id)
 
 @section('content')
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit User') . ' #' . $data->id }}
         </h1>

@@ -3,8 +3,9 @@ const OS = {
     $Wrapper: null,
     $Toaster: null,
     $Selectors: {
+        ImageTransfer: "os-image-transfer",
+        DataVisual: "os-data-visual",
         Filterable: "os-filterable",
-        Datatable: "os-datatable",
         Fillable: "os-fillable",
         Dropdown: "os-dropdown",
         Password: "os-password",
@@ -1434,7 +1435,7 @@ OS.$Component.Wrapper = (function() {
         },
         rules: {
             toggle() {
-                const all_tags = [OS.$Selectors.Datatable, OS.$Selectors.Sidebar, OS.$Selectors.Modal, OS.$Selectors.Select, OS.$Selectors.Date, OS.$Selectors.Time, OS.$Selectors.Dropdown],
+                const all_tags = [OS.$Selectors.DataVisual, OS.$Selectors.Sidebar, OS.$Selectors.Modal, OS.$Selectors.Select, OS.$Selectors.Date, OS.$Selectors.Time, OS.$Selectors.Dropdown],
                     unq_tags = [OS.$Selectors.Modal, OS.$Selectors.Sidebar],
                     elements = [];
 
@@ -2530,11 +2531,33 @@ OS.$Component.Sidebar = (function() {
     });
 })();
 
-OS.$Component.Datatable = (function() {
+OS.$Component.DataVisual = (function() {
     const Style = /*css*/ `
         * {
             box-sizing: border-box;
             font-family: inherit;
+        }
+
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            background: transparent;
+            -moz-appearance: none;
+            appearance: none;
+            height: 5px;
+            width: 5px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            border-radius: 2px; 
+            background: {{ @theme.colors("GRAY", 300) }};
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: {{ @theme.colors("GRAY", 400) }};
         }
 
         @keyframes opacity-off {
@@ -2619,25 +2642,40 @@ OS.$Component.Datatable = (function() {
 
         ($ if @props.print || @props.search || @props.filter || @props.download || @this.querySelector("[slot=tools-start]") || @this.querySelector("[slot=tools-end]") $)
             [part="tools"] {
+                gap: .5rem;
                 display: flex;
                 margin: 0 auto;
                 max-width: 100%;
                 width: max-content;
+                align-items: center;
             }
 
             [part="btn"] {
+                padding: 0;
                 outline: none;
                 border: unset;
-                display: block;
-                padding: .5rem;
+                width: 1.5rem;
+                height: 1.5rem;
                 cursor: pointer;
-                border-radius: .25rem;
+                position: relative;
+                isolation: isolate;
                 background: transparent;
             }
 
-            [part="btn"]:hover,
-            [part="btn"]:focus,
-            [part="btn"]:focus-within {
+            [part="btn"]::before {
+                content: "";
+                z-index: -1; 
+                inset: -15%;
+                width: 130%;
+                height: 130%;
+                display: block;
+                position: absolute;
+                border-radius: .25rem;
+            }
+
+            [part="btn"]:hover::before,
+            [part="btn"]:focus::before,
+            [part="btn"]:focus-within::before {
                 background: {{ @theme.colors("OS-SHADE", 40) }};
             }
 
@@ -2658,33 +2696,11 @@ OS.$Component.Datatable = (function() {
 
         ($ if @props.filter $)
             [part="dropdown"] {
-                display: block;
+                display: flex;
                 position: relative;
                 width: max-content;
             }
         ($ endif $)
-
-        ::-webkit-scrollbar {
-            -webkit-appearance: none;
-            background: transparent;
-            -moz-appearance: none;
-            appearance: none;
-            height: 5px;
-            width: 5px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            border-radius: 2px; 
-            background: {{ @theme.colors("GRAY", 300) }};
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: {{ @theme.colors("GRAY", 400) }};
-        }
 
         ($ if @state.show $)
             [part="modal"] {
@@ -3134,7 +3150,7 @@ OS.$Component.Datatable = (function() {
     `;
 
     return OS.$Component({
-        tag: OS.$Selectors.Datatable,
+        tag: OS.$Selectors.DataVisual,
         tpl: Template,
         css: [Style],
     })({
@@ -3719,12 +3735,12 @@ OS.$Component.Switch = (function() {
             mounted() {
                 this.addEventListener("click", this.rules.change);
                 this.addEventListener("keydown", this.rules.change);
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
                 this.removeEventListener("click", this.rules.change);
                 this.removeEventListener("keydown", this.rules.change);
-                this.ctl.form.removeEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.removeEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -3949,10 +3965,10 @@ OS.$Component.Text = (function() {
                     this.removeAttribute("value");
                 }
 
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
-                this.ctl.form.removeEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.removeEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -4226,10 +4242,10 @@ OS.$Component.Password = (function() {
                     this.removeAttribute("value");
                 }
 
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -4470,10 +4486,10 @@ OS.$Component.Area = (function() {
                     }
                 }
 
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -4831,12 +4847,12 @@ OS.$Component.Fillable = (function() {
 
                 window.addEventListener("click", this.rules.hide);
                 window.addEventListener("scroll", this.rules.pos);
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
                 window.removeEventListener("click", this.rules.hide);
                 window.removeEventListener("scroll", this.rules.pos);
-                this.ctl.form.removeEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.removeEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -5418,7 +5434,7 @@ OS.$Component.Time = (function() {
                 window.addEventListener("click", this.rules.blur);
                 window.addEventListener("scroll", this.rules.pos);
                 this.addEventListener("click", this.rules.toggle);
-                this.ctl.form
+                this.ctl.form && this.ctl.form
                     .addEventListener("reset", this.reset.bind(this));
             },
             removed() {
@@ -5426,7 +5442,7 @@ OS.$Component.Time = (function() {
                 window.removeEventListener("click", this.rules.blur);
                 window.removeEventListener("scroll", this.rules.pos);
                 this.removeEventListener("click", this.rules.toggle);
-                this.ctl.form
+                this.ctl.form && this.ctl.form
                     .addEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
@@ -6205,7 +6221,7 @@ OS.$Component.Date = (function() {
                 window.addEventListener("click", this.rules.blur);
                 window.addEventListener("scroll", this.rules.pos);
                 this.addEventListener("click", this.rules.toggle);
-                this.ctl.form
+                this.ctl.form && this.ctl.form
                     .addEventListener("reset", this.reset.bind(this));
             },
             removed() {
@@ -6213,7 +6229,7 @@ OS.$Component.Date = (function() {
                 window.removeEventListener("click", this.rules.blur);
                 window.removeEventListener("scroll", this.rules.pos);
                 this.removeEventListener("click", this.rules.toggle);
-                this.ctl.form
+                this.ctl.form && this.ctl.form
                     .addEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
@@ -6975,7 +6991,7 @@ OS.$Component.Select = (function() {
                 window.addEventListener("click", this.rules.blur);
                 window.addEventListener("scroll", this.rules.pos);
                 this.addEventListener("click", this.rules.toggle);
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             removed() {
                 this.removeEventListener("DOMSubtreeModified", this.rules.init);
@@ -6983,7 +6999,7 @@ OS.$Component.Select = (function() {
                 window.removeEventListener("click", this.rules.blur);
                 window.removeEventListener("scroll", this.rules.pos);
                 this.removeEventListener("click", this.rules.toggle);
-                this.ctl.form.addEventListener("reset", this.reset.bind(this));
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
             },
             updated(name, oldValue, newValue, type) {
                 if (type === "attrs")
@@ -7044,6 +7060,345 @@ OS.$Component.Select = (function() {
                     }
                 }
             },
+        },
+    });
+})();
+
+OS.$Component.ImageTransfer = (function() {
+    const Style = /*css*/ `
+        * {
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        :host {
+            width: 100%;
+            overflow: hidden;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: .25rem;
+            background: {{ @theme.colors("OS-LIGHT") }};
+            border-color: {{ @theme.colors("OS-SHADE") }};
+            ($ if @props.multiple $)
+                gap: .5rem;
+                display: grid;
+                padding: .75rem;
+                grid-template-rows: 1fr; 
+                grid-template-columns: repeat(2, 1fr); 
+            ($ else $)
+                display: flex;
+                position: relative;
+            ($ endif $)
+        }
+
+        ($ if !@props.disabled $)
+            :host(:focus),
+            :host(:focus-within) {
+                outline-width: 1px;
+                outline-style: auto;
+                outline-color: {{ @theme.colors("OS-PRIME", 400) }};
+            }
+        ($ endif $)
+
+        [part="field"] {
+            display: none;
+        }
+
+        [part="item"],
+        [part="upload"] {
+            width: 100%;
+            border: unset;
+            display: flex;
+            outline: none;
+            padding: .75rem;
+            cursor: pointer;
+            aspect-ratio: 1/1;
+            align-items: center;
+            border-radius: .25rem;
+            justify-content: center;
+            background: transparent;
+            ($ if @props.multiple $)
+                background: {{ @theme.colors("OS-SHADE", 35) }};
+            ($ endif $)
+        }
+
+        [part="item"] {
+            padding: 0;
+            position: relative;
+        }
+
+        [part="item"]::before {
+            inset: 0;
+            z-index: 1;
+            content: "";
+            position: absolute;
+            pointer-events: none;
+            transition: background 250ms ease-in-out;
+        }
+
+        ($ if !@props.disabled $)
+            [part="item"]:hover,
+            [part="item"]:focus,
+            [part="upload"]:hover,
+            [part="upload"]:focus,
+            [part="item"]:focus-within,
+            [part="upload"]:focus-within {
+                background: {{ @theme.colors("OS-SHADE") }};
+            }
+
+            [part="upload"]:hover > [part="icon"],
+            [part="upload"]:focus > [part="icon"],
+            [part="upload"]:focus-within > [part="icon"] {
+                color: {{ @theme.colors("OS-PRIME") }};
+            }
+
+            [part="item"]:hover::before,
+            [part="item"]:focus::before,
+            [part="item"]:focus-within::before {
+                backdrop-filter: blur(5px);
+                background: {{ @theme.colors("OS-BLACK", 10) }};
+            }
+
+            [part="item"]:hover > [part="icon"],
+            [part="item"]:focus > [part="icon"],
+            [part="item"]:focus-within > [part="icon"] {
+                opacity: 1;
+            }
+        ($ endif $)
+
+        [part="icon"] {
+            width: 40%;
+            height: 40%;
+            display: block;
+            max-width: 6rem;
+            pointer-events: none;
+            color: {{ @theme.colors("OS-BLACK") }};
+        }
+
+        [part="item"] > [part="icon"] {
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            opacity: 0;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            transition: opacity 250ms ease-in-out;
+            color: {{ @theme.colors("OS-WHITE") }};
+        }
+
+        [part="image"] {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            pointer-events: none;
+            object-position: center;
+        }
+
+        ($ if @props.multiple $)
+            @media (min-width: 1024px) {
+                :host {
+                    grid-template-columns: repeat(4, 1fr); 
+                }
+            }
+        ($ endif $)
+    `;
+
+    const Template = /*html*/ `
+        <input type="file" ref="field" part="field" accept="{{ @rules.accept() }}"  
+            @change="{{ @rules.change }}"
+            ($ if @props.multiple $)
+                multiple="{{ @props.multiple }}"
+            ($ endif $)
+            ($ if @props.disabled $)
+                disabled="{{ @props.disabled }}"
+            ($ endif $)
+        />
+        ($ if @props.multiple || (@falsy(@props.value, [""]) && @falsy(@props.default, [""])) $)
+            <button ref="upload" part="upload" @click="{{ @rules.click }}"
+                ($ if @props.disabled $)
+                    disabled="{{ @props.disabled }}"
+                ($ endif $)
+            >
+                <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+                    <path d="M9.6 43.75C8.31377 43.75 7.22553 43.2898 6.3353 42.3694C5.4451 41.449 5 40.3925 5 39.2V10.15C5 8.89707 5.4451 7.81717 6.3353 6.9103C7.22553 6.00343 8.31377 5.55 9.6 5.55H28.45V15.65H33.1V20.3H43.2V39.2C43.2 40.3925 42.7427 41.449 41.8281 42.3694C40.9135 43.2898 39.8542 43.75 38.65 43.75H9.6ZM12.25 34.45H36.05L28.9 25L22.6 33.3L17.9 27.1L12.25 34.45ZM35.775 17.65V13.05H31.15V9.625H35.75V5H39.175V9.575H43.8V13.025H39.2V17.65H35.775Z" />
+                </svg>
+            </button>
+        ($ endif $)
+        ($ if @truty(@props.value, [""]) $)
+            ($ each file into @state.files.slice().reverse() $)
+                <button ref="item" part="item"
+                    data-type="files"
+                    data-id="{{ @loop.round }}"
+                    @click="{{ @rules.remove }}"
+                    ($ if @props.disabled $)
+                        disabled="{{ @props.disabled }}"
+                    ($ endif $)
+                >
+                    <img ref="image" part="image" src="{{ file[@props.source] }}" />
+                    <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+                        <path d="M12.5 43.05C11.2937 43.05 10.2255 42.6015 9.2953 41.7044C8.3651 40.8073 7.9 39.7392 7.9 38.5V10.9H5V6.35H16.4V4H31.25V6.35H42.65V10.9H39.75V38.5C39.75 39.7392 39.2966 40.8073 38.3897 41.7044C37.4828 42.6015 36.4029 43.05 35.15 43.05H12.5ZM17.7 34.6H21.4V14.7H17.7V34.6ZM26.35 34.6H30.1V14.7H26.35V34.6Z" />
+                    </svg>
+                </button>
+            ($ endeach $)
+        ($ endif $)
+        ($ if @truty(@props.default, [""]) $)
+            ($ if @props.multiple $)
+                ($ each file into @props.default.slice().reverse() $)
+                    <button ref="item" part="item"
+                        data-id="{{ @loop.round }}"
+                        @click="{{ @rules.remove }}"
+                        ($ if @props.disabled $)
+                            disabled="{{ @props.disabled }}"
+                        ($ endif $)
+                    >
+                        <img ref="image" part="image" src="{{ file[@props.source] }}" />
+                        <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+                            <path d="M12.5 43.05C11.2937 43.05 10.2255 42.6015 9.2953 41.7044C8.3651 40.8073 7.9 39.7392 7.9 38.5V10.9H5V6.35H16.4V4H31.25V6.35H42.65V10.9H39.75V38.5C39.75 39.7392 39.2966 40.8073 38.3897 41.7044C37.4828 42.6015 36.4029 43.05 35.15 43.05H12.5ZM17.7 34.6H21.4V14.7H17.7V34.6ZM26.35 34.6H30.1V14.7H26.35V34.6Z" />
+                        </svg>
+                    </button>
+                ($ endeach $)
+            ($ elif @falsy(@props.value, [""]) $)
+                <button ref="item" part="item"
+                    ($ if @props.disabled $)
+                        disabled="{{ @props.disabled }}"
+                    ($ endif $)
+                >
+                    <img ref="image" part="image" src="{{ @props.default[@props.source] }}" />
+                    <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+                        <path d="M12.5 43.05C11.2937 43.05 10.2255 42.6015 9.2953 41.7044C8.3651 40.8073 7.9 39.7392 7.9 38.5V10.9H5V6.35H16.4V4H31.25V6.35H42.65V10.9H39.75V38.5C39.75 39.7392 39.2966 40.8073 38.3897 41.7044C37.4828 42.6015 36.4029 43.05 35.15 43.05H12.5ZM17.7 34.6H21.4V14.7H17.7V34.6ZM26.35 34.6H30.1V14.7H26.35V34.6Z" />
+                    </svg>
+                </button>
+            ($ endif $)
+        ($ endif $)
+    `;
+
+    return OS.$Component({
+        tag: OS.$Selectors.ImageTransfer,
+        tpl: Template,
+        css: [Style],
+        ctl: true,
+    })({
+        attrs: ["accept", "source", "multiple", "disabled"],
+        props: {
+            value: "",
+            accept: "*",
+            source: "src",
+            default: [],
+            multiple: false,
+            disabled: false,
+        },
+        state: {
+            data: null,
+            files: [],
+        },
+        rules: {
+            change(event) {
+                if (this.props.disabled) return;
+                const files = this.props.multiple ? [...event.target.files] : (this.rules.clear(), [event.target.files[0]]);
+                files.forEach((file) => {
+                    this.state.files.push({
+                        [this.props.source]: URL.createObjectURL(file)
+                    });
+                    this.state.data.items.add(file);
+                });
+                this.refs.field.value = "";
+                this.props.value = this.props.multiple ? (this.render(), this.state.data.files.length ? this.state.data.files : "") : this.state.data.files[0];
+            },
+            remove(event) {
+                if (!this.props.multiple) return;
+                const { id, type } = event.target.dataset;
+                var idx, file;
+                if (type === "files") {
+                    idx = this.state.files.length - +id;
+                    file = this.state.data.files[idx];
+                } else {
+                    idx = this.props.default.length - +id;
+                    file = this.props.default[idx];
+                }
+
+                this.emit("delete", { data: file }, () => {
+                    if (type === "files") {
+                        this.state.files.splice(idx, 1);
+                        this.state.data.items.remove(idx);
+                        this.props.value = this.state.data.files.length ? this.state.data.files : "";
+                    } else {
+                        this.props.default.splice(idx, 1);
+                    }
+                    this.render();
+                });
+            },
+            click() {
+                if (this.props.disabled) return;
+                this.refs.field.click();
+            },
+            accept() {
+                return this.props.accept.split(",").map(e => e.trim()).filter(Boolean).map(e => "image/" + e).join(", ");
+            },
+            clear() {
+                this.props.value = "";
+                this.state.files = [];
+                this.state.data.clearData();
+            }
+        },
+        setup: {
+            created() {
+                this.reset = function() {
+                    this.ctl.setFormValue(null);
+                    this.rules.clear();
+                    this.emit("reset");
+                }
+                this.state.data = new DataTransfer();
+                this.focus = function() { this.refs.field.focus() }
+                this.blur = function() { this.refs.field.blur() }
+            },
+            mounted() {
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
+            },
+            removed() {
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
+            },
+            updated(name, oldValue, newValue, type) {
+                if (type === "attrs")
+                    switch (name) {
+                        case "accept":
+                        case "source":
+                            this.props[name] = newValue;
+                            break;
+                        case "multiple":
+                        case "disabled":
+                            this.props[name] = this.truty(newValue);
+                            break;
+                    }
+
+                if (type === "props") {
+                    this.setter(name, newValue, ["accept", "source", "multiple", "disabled"]);
+                    switch (name) {
+                        case "accept":
+                        case "source":
+                        case "disabled":
+                            this.emit("change:" + name, { data: newValue });
+                            break;
+                        case "multiple":
+                            this.rules.clear();
+                            this.emit("change:" + name, { data: newValue });
+                            break;
+                        case "value":
+                            if (this.falsy(newValue, [""])) this.ctl.setFormValue(null);
+                            else {
+                                var value = newValue;
+                                if (this.props.multiple) {
+                                    value = new FormData();
+                                    [...newValue].forEach((file) => {
+                                        value.append(this.name, file);
+                                    });
+                                }
+                                this.ctl.setFormValue(value);
+                            }
+                            this.emit("change", { data: newValue });
+                    }
+                }
+            }
         },
     });
 })();
@@ -7125,10 +7480,10 @@ OS.$Component.Button = (function() {
                 if ((event.type === "click" || event.keyCode === 13) && this.ctl.form) {
                     switch (this.props.type) {
                         case "submit":
-                            this.ctl.form.requestSubmit();
+                            this.ctl.form && this.ctl.form.requestSubmit();
                             break;
                         case "reset":
-                            this.ctl.form.reset();
+                            this.ctl.form && this.ctl.form.reset();
                             break;
                     }
                 }
@@ -7186,7 +7541,7 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Topbar.define() &&
     OS.$Component.Modal.define() &&
     OS.$Component.Dropdown.define() &&
-    OS.$Component.Datatable.define() &&
+    OS.$Component.DataVisual.define() &&
     OS.$Component.Filterable.define() &&
     OS.$Component.Switch.define() &&
     OS.$Component.Text.define() &&
@@ -7198,4 +7553,5 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Group.define() &&
     OS.$Component.Option.define() &&
     OS.$Component.Fillable.define() &&
+    OS.$Component.ImageTransfer.define() &&
     OS.$Component.Button.define();

@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="w-full flex flex-col gap-6">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
                 {{ __('Statistics') }}
             </h1>
