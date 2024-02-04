@@ -12,6 +12,7 @@ const OS = {
         Wrapper: "os-wrapper",
         Toaster: "os-toaster",
         Sidebar: "os-sidebar",
+        Counter: "os-counter",
         Switch: "os-switch",
         Select: "os-select",
         Option: "os-option",
@@ -3370,6 +3371,7 @@ OS.$Component.DataVisual = (function() {
                             break;
                         case "rows":
                             this.state.rows = newValue;
+                            break;
                     }
                 }
             },
@@ -3614,6 +3616,7 @@ OS.$Component.Filterable = (function() {
                             break;
                         case "value":
                             this.refs.field.value = newValue;
+                            break;
                     }
                 }
             },
@@ -4277,6 +4280,7 @@ OS.$Component.Password = (function() {
                         case "disabled":
                         case "placeholder":
                             this.emit("change:" + name, { data: newValue });
+                            break;
                         case "value":
                             this.refs.field.value = newValue;
                             this.ctl.setFormValue(newValue ? newValue : null);
@@ -4910,6 +4914,7 @@ OS.$Component.Fillable = (function() {
                             break;
                         case "results":
                             this.state.expand = Array.isArray(newValue) && Boolean(newValue.length);
+                            break;
                     }
                 }
             },
@@ -7012,6 +7017,7 @@ OS.$Component.Select = (function() {
                         case "multiple":
                         case "disabled":
                             this.props[name] = this.truty(newValue);
+                            break;
                     }
 
                 if (type === "state")
@@ -7134,6 +7140,8 @@ OS.$Component.ImageTransfer = (function() {
             position: absolute;
             pointer-events: none;
             transition: background 250ms ease-in-out;
+            -moz-transition: background 250ms ease-in-out;
+            -webkit-transition: background 250ms ease-in-out;
         }
 
         ($ if !@props.disabled $)
@@ -7183,6 +7191,8 @@ OS.$Component.ImageTransfer = (function() {
             position: absolute;
             transform: translate(-50%, -50%);
             transition: opacity 250ms ease-in-out;
+            -moz-transition: opacity 250ms ease-in-out;
+            -webkit-transition: opacity 250ms ease-in-out;
             color: {{ @theme.colors("OS-WHITE") }};
         }
 
@@ -7396,9 +7406,289 @@ OS.$Component.ImageTransfer = (function() {
                                 this.ctl.setFormValue(value);
                             }
                             this.emit("change", { data: newValue });
+                            break;
                     }
                 }
             }
+        },
+    });
+})();
+
+OS.$Component.Counter = (function() {
+    const Style = /*css*/ `
+        * {
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        ::-webkit-search-cancel-button,
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            display: none;
+        }
+        
+        input {
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }      
+
+        :host {
+            gap: .5rem;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            border-width: 1px;
+            align-items: center;
+            border-style: solid;
+            border-radius: .25rem;
+            padding: .35rem .75rem;
+            background: {{ @theme.colors("OS-LIGHT") }};
+            border-color: {{ @theme.colors("OS-SHADE") }};
+        }
+
+        ($ if !@props.disabled $)
+            :host(:focus),
+            :host(:focus-within) {
+                outline-width: 1px;
+                outline-style: auto;
+                outline-color: {{ @theme.colors("OS-PRIME", 400) }};
+            }
+        ($ endif $)
+
+        [part="wrapper"] {
+            flex: 1;
+            width: 0%;
+            display: flex;
+            position: relative;
+            flex-direction: column;
+        }
+
+        ($ if @truty(@props.label, [""]) $)
+            [part="label"] {
+                width: 100%;
+                display: flex;
+                overflow: hidden;
+                font-weight: 600;
+                inset: 0 0 auto 0;  
+                position: absolute; 
+                padding: .5rem 0;
+                white-space: nowrap;
+                pointer-events: none;
+                flex-direction: column;
+                text-overflow: ellipsis;
+                justify-content: center;
+                color: {{ @theme.colors("OS-BLACK", 50) }};
+                font-size: {{  @theme.fonts.sizes("BASE") }};
+                line-height: {{  @theme.fonts.lines("BASE") }};
+                transition: 200ms ease-in-out padding, 200ms ease-in-out color, 200ms ease-in-out font-size, 200ms ease-in-out line-height;
+                -moz-transition: 200ms ease-in-out padding, 200ms ease-in-out color, 200ms ease-in-out font-size, 200ms ease-in-out line-height; 
+                -webkit-transition: 200ms ease-in-out padding, 200ms ease-in-out color, 200ms ease-in-out font-size, 200ms ease-in-out line-height;
+            }
+
+            ($ if typeof @props.value === "number" $)
+                [part="label"] {
+                    padding: 0;
+                    color: {{ @theme.colors("OS-BLACK", 80) }};
+                    font-size: {{  @theme.fonts.sizes("XSMALL") }};
+                    line-height: {{  @theme.fonts.lines("XSMALL") }};
+                }   
+            ($ endif $)
+        ($ endif $)
+
+        [part="field"] {
+            padding: 0;
+            width: 100%;
+            outline: none;
+            border: unset;
+            display: block;
+            cursor: default;
+            background: transparent;
+            color: {{ @theme.colors("OS-BLACK") }};
+            font-size: {{  @theme.fonts.sizes("BASE") }};
+            line-height: {{  @theme.fonts.lines("BASE") }};
+            padding: {{ @truty(@props.label, [""]) ? "1rem 0 0 0" : ".5rem 0" }};
+        }
+        
+        [part="trigger"] {
+            padding: 0;
+            border: unset;
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+            pointer-events: auto;
+            background: transparent;
+            color: {{ @theme.colors("OS-BLACK") }};
+            ($ if @props.disabled $)
+                cursor: default;
+            ($ endif $)
+        }
+
+        ($ if !@props.disabled $)
+            [part="trigger"]:focus,
+            [part="trigger"]:focus-within {
+                outline-width: 1px;
+                outline-style: auto;
+                outline-color: {{ @theme.colors("OS-PRIME", 400) }};
+            }
+        ($ endif $)
+
+        [part="icon"] {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        ($ if !@props.disabled $)
+            :host(:focus) [part="icon"],
+            :host(:focus-within) [part="icon"] {
+                color: {{ @theme.colors("OS-PRIME", 400) }};
+            }
+        ($ endif $)
+    `;
+
+    const Template = /*html*/ `
+        <slot name="start" />
+        <button ref="trigger" part="trigger"
+            role="trigger" type="button" 
+            @click="{{ @rules.min }}" 
+            ($ if @props.disabled $)
+                disabled="{{ @props.disabled }}"
+            ($ endif $)
+        >
+            <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+               <path d="M11.275 26.55C10.0186 26.55 9 25.5314 9 24.275V24.275C9 23.0186 10.0186 22 11.275 22H36.875C38.1314 22 39.15 23.0186 39.15 24.275V24.275C39.15 25.5314 38.1314 26.55 36.875 26.55H11.275Z" />
+            </svg>
+        </button>
+        <div ref="wrapper" part="wrapper">
+            ($ set uid = "uid_" + @random() $)
+            ($ if @truty(@props.label, [""]) $)
+                <label ref="label" part="label" for="{{ uid }}">{{> @props.label }}</label>
+            ($ endif $)
+            <input ref="field" part="field" id="{{ uid }}" 
+                value="{{ @props.value }}"
+                type="number" 
+                ($ if @truty(@props.placeholder, [""]) $)
+                    placeholder="{{ @props.placeholder }}"
+                ($ else $)
+                    placeholder=" "
+                ($ endif $)
+                ($ if @props.disabled $)
+                    disabled="{{ @props.disabled }}"
+                ($ endif $)
+                readonly
+            />
+        </div>
+        <button ref="trigger" part="trigger"
+            role="trigger" type="button" 
+            @click="{{ @rules.max }}" 
+            ($ if @props.disabled $)
+                disabled="{{ @props.disabled }}"
+            ($ endif $)
+        >
+            <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
+                <path d="M21.8 27C21.8 26.6962 21.5538 26.45 21.25 26.45H21H11.45C10.0969 26.45 9 25.3531 9 24V24V24C9 22.8402 9.9402 21.9 11.1 21.9H21V21.9C21.4418 21.9 21.8 21.5418 21.8 21.1V21V11.275C21.8 10.0186 22.8186 9 24.075 9V9C25.3314 9 26.35 10.0186 26.35 11.275V21V21.25C26.35 21.609 26.641 21.9 27 21.9V21.9H36.875C38.1314 21.9 39.15 22.9186 39.15 24.175V24.175C39.15 25.4314 38.1314 26.45 36.875 26.45H27H26.9C26.5962 26.45 26.35 26.6962 26.35 27V27V36.925C26.35 38.1815 25.3314 39.2 24.075 39.2V39.2C22.8186 39.2 21.8 38.1814 21.8 36.925V27V27Z" />
+            </svg>
+        </button>
+        <slot name="end" />
+    `;
+
+    return OS.$Component({
+        tag: OS.$Selectors.Counter,
+        tpl: Template,
+        css: [Style],
+        ctl: true,
+    })({
+        attrs: ["label", "min", "max", "step", "disabled", "placeholder"],
+        props: {
+            min: null,
+            max: null,
+            step: 1,
+            label: "",
+            value: "",
+            disabled: false,
+            placeholder: "",
+        },
+        rules: {
+            min() {
+                if ((this.props.min && this.props.value > this.props.min) || !this.props.min)
+                    this.props.value = +(this.props.value - this.props.step);
+            },
+            max() {
+                if ((this.props.max && this.props.value < this.props.max) || !this.props.max)
+                    this.props.value = +(this.props.value + this.props.step);
+            },
+            focus() {
+                this.emit("focus", { data: this.props.value });
+            },
+            blur() {
+                this.emit("blur", { data: this.props.value });
+            },
+        },
+        setup: {
+            created() {
+                this.reset = function() {
+                    this.props.value = "";
+                    this.emit("reset");
+                }
+                this.focus = function() { this.refs.field.focus() }
+                this.blur = function() { this.refs.field.blur() }
+            },
+            mounted() {
+                if (this.hasAttribute("value")) {
+                    this.props.value = this.getAttribute("value");
+                    this.removeAttribute("value");
+                }
+
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
+            },
+            removed() {
+                this.ctl.form && this.ctl.form.addEventListener("reset", this.reset.bind(this));
+            },
+            updated(name, oldValue, newValue, type) {
+                if (type === "attrs")
+                    switch (name) {
+                        case "min":
+                        case "max":
+                            this.props[name] = +newValue;
+                            break;
+                        case "label":
+                        case "placeholder":
+                            this.props[name] = newValue;
+                            break;
+                        case "step":
+                            this.props.step = +newValue || 1;
+                            break;
+                        case "disabled":
+                            this.props.disabled = this.truty(newValue);
+                            break;
+                    }
+
+                if (type === "props") {
+                    this.setter(name, newValue, ["label", "min", "max", "step", "disabled", "placeholder"]);
+                    switch (name) {
+                        case "max":
+                        case "step":
+                        case "label":
+                        case "disabled":
+                        case "placeholder":
+                            this.emit("change:" + name, { data: newValue });
+                            break;
+                        case "min":
+                            if (newValue && this.props.value < newValue)
+                                this.props.value = newValue
+                            this.emit("change:" + name, { data: newValue });
+                            break;
+                        case "value":
+                            this.ctl.setFormValue(newValue ? newValue : null);
+                            break;
+                    }
+                }
+            },
         },
     });
 })();
@@ -7554,4 +7844,5 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Option.define() &&
     OS.$Component.Fillable.define() &&
     OS.$Component.ImageTransfer.define() &&
+    OS.$Component.Counter.define() &&
     OS.$Component.Button.define();
