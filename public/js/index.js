@@ -202,7 +202,7 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function run(dataVisual, Data) {
+function run(dataVisualizer, Data) {
     var timer;
     const Links = document.createElement("div");
     Links.innerHTML = `
@@ -224,9 +224,9 @@ function run(dataVisual, Data) {
 
     async function event(e) {
         e.preventDefault();
-        dataVisual.loading = true;
-        dataVisual.rows = await getData(e.target.href);
-        dataVisual.loading = false;
+        dataVisualizer.loading = true;
+        dataVisualizer.rows = await getData(e.target.href);
+        dataVisualizer.loading = false;
     }
 
     document.querySelector("#prev") && document.querySelector("#prev").addEventListener("click", event);
@@ -242,8 +242,8 @@ function run(dataVisual, Data) {
             else {
                 const _preva = Links.querySelector("#prev").cloneNode(true);
                 _preva.addEventListener("click", event);
-                if (nexta) dataVisual.insertBefore(_preva, nexta);
-                else dataVisual.appendChild(_preva);
+                if (nexta) dataVisualizer.insertBefore(_preva, nexta);
+                else dataVisualizer.appendChild(_preva);
                 _preva.title = Data.Prev;
                 _preva.href = href;
             }
@@ -259,7 +259,7 @@ function run(dataVisual, Data) {
             else {
                 const _nexta = Links.querySelector("#next").cloneNode(true);
                 _nexta.addEventListener("click", event);
-                dataVisual.appendChild(_nexta);
+                dataVisualizer.appendChild(_nexta);
                 _nexta.title = Data.Prev;
                 _nexta.href = href;
             }
@@ -279,14 +279,14 @@ function run(dataVisual, Data) {
     }
 
     (async function() {
-        dataVisual.rows = await getData(Data.Search + window.location.search);
+        dataVisualizer.rows = await getData(Data.Search + window.location.search);
     })();
 
-    dataVisual.addEventListener("search", async e => {
+    dataVisualizer.addEventListener("search", async e => {
         e.preventDefault();
         if (timer) clearTimeout(timer);
-        dataVisual.loading = true;
-        dataVisual.rows = await new Promise((resolver, rejecter) => {
+        dataVisualizer.loading = true;
+        dataVisualizer.rows = await new Promise((resolver, rejecter) => {
             timer = setTimeout(async() => {
                 const data = await getData(Data.Search + "?search=" +
                     encodeURIComponent(e.detail
@@ -294,6 +294,6 @@ function run(dataVisual, Data) {
                 resolver(data);
             }, 2000);
         });
-        dataVisual.loading = false;
+        dataVisualizer.loading = false;
     });
 }

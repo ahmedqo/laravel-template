@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="flex flex-col gap-2">
-        <os-data-visual print search filter download title="{{ __('Users List') }}">
+        <os-data-visualizer print search filter download title="{{ __('Users List') }}">
             <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
                 class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
@@ -12,22 +12,22 @@
                 </svg>
             </a>
             {{ $data->appends(request()->input())->links('shared.page.table') }}
-        </os-data-visual>
+        </os-data-visualizer>
     </div>
 @endsection
 
 @section('scripts')
     <script>
-        const dataVisual = document.querySelector("os-data-visual");
+        const dataVisualizer = document.querySelector("os-data-visualizer");
 
-        run(dataVisual, {
+        run(dataVisualizer, {
             Search: "{{ route('actions.users.search') }}",
             Prev: "{{ __('Prev') }}",
             Next: "{{ __('Next') }}",
         });
 
 
-        dataVisual.cols = [{
+        dataVisualizer.cols = [{
             name: "id",
             text: "{{ __('Id') }}",
             headRender: () => "<center>{{ __('Id') }}</center>",
@@ -119,6 +119,6 @@
             bodyCsvRender: () => "",
         }];
 
-        dataVisual.rows = {!! json_encode($data) !!}.data;
+        dataVisualizer.rows = {!! json_encode($data) !!}.data;
     </script>
 @endsection

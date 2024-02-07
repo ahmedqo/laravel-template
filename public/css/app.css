@@ -110,12 +110,12 @@ os-modal::part(content),
 os-select::part(content),
 os-filter::part(content),
 os-dropdown::part(content),
-os-data-visual::part(search),
-os-data-visual::part(content) {
+os-data-visualizer::part(search),
+os-data-visualizer::part(content) {
     border-radius: var(--r-thin);
 }
 
-os-data-visual::part(wrapper) {
+os-data-visualizer::part(wrapper) {
     border: unset;
     border-radius: var(--r-huge);
 }
@@ -126,9 +126,9 @@ os-select::part(content),
 os-filter::part(content),
 os-navbar::part(content),
 os-dropdown::part(content),
-os-data-visual::part(search),
-os-data-visual::part(content),
-os-data-visual::part(wrapper) {
+os-data-visualizer::part(search),
+os-data-visualizer::part(content),
+os-data-visualizer::part(wrapper) {
     box-shadow: var(--shadow);
 }
 
@@ -141,11 +141,11 @@ os-switch:not([checked])::part(ground) {
 }
 
 os-switch::part(toggle),
-os-data-visual::part(search) {
+os-data-visualizer::part(search) {
     background: rgb(var(--white));
 }
 
-os-data-visual::part(title) {
+os-data-visualizer::part(title) {
     font-size: 1.25rem;
     line-height: 1.75rem;
     font-weight: var(--w-thin);
@@ -173,7 +173,7 @@ os-data-visual::part(title) {
 }
 
 @media (min-width: 1024px) {
-    os-data-visual::part(title) {
+    os-data-visualizer::part(title) {
         font-size: 1.5rem;
         line-height: 2rem;
     }

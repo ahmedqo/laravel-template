@@ -3,8 +3,8 @@ const OS = {
     $Wrapper: null,
     $Toaster: null,
     $Selectors: {
+        DataVisualizer: "os-data-visualizer",
         ImageTransfer: "os-image-transfer",
-        DataVisual: "os-data-visual",
         Filterable: "os-filterable",
         Fillable: "os-fillable",
         Dropdown: "os-dropdown",
@@ -41,7 +41,7 @@ const OS = {
             Search: "بحث",
             Columns: "أعمدة",
             Download: "تحميل",
-            NoDataFound: "NO DATA FOUND",
+            NoDataFound: "لا توجد بيانات",
             Months: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
             Days: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
         },
@@ -50,8 +50,8 @@ const OS = {
             Search: "Recherche",
             Columns: "Colonnes",
             Download: "Telecharger",
-            NoDataFound: "NO DATA FOUND",
-            Months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            NoDataFound: "AUCUNE DONNEE DISPONIBLE",
+            Months: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
             Days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
         },
     },
@@ -1436,7 +1436,7 @@ OS.$Component.Wrapper = (function() {
         },
         rules: {
             toggle() {
-                const all_tags = [OS.$Selectors.DataVisual, OS.$Selectors.Sidebar, OS.$Selectors.Modal, OS.$Selectors.Select, OS.$Selectors.Date, OS.$Selectors.Time, OS.$Selectors.Dropdown],
+                const all_tags = [OS.$Selectors.DataVisualizer, OS.$Selectors.Sidebar, OS.$Selectors.Modal, OS.$Selectors.Select, OS.$Selectors.Date, OS.$Selectors.Time, OS.$Selectors.Dropdown],
                     unq_tags = [OS.$Selectors.Modal, OS.$Selectors.Sidebar],
                     elements = [];
 
@@ -2532,7 +2532,7 @@ OS.$Component.Sidebar = (function() {
     });
 })();
 
-OS.$Component.DataVisual = (function() {
+OS.$Component.DataVisualizer = (function() {
     const Style = /*css*/ `
         * {
             box-sizing: border-box;
@@ -3167,7 +3167,7 @@ OS.$Component.DataVisual = (function() {
     `;
 
     return OS.$Component({
-        tag: OS.$Selectors.DataVisual,
+        tag: OS.$Selectors.DataVisualizer,
         tpl: Template,
         css: [Style],
     })({
@@ -7851,7 +7851,7 @@ OS.$Component.Wrapper.define() &&
     OS.$Component.Topbar.define() &&
     OS.$Component.Modal.define() &&
     OS.$Component.Dropdown.define() &&
-    OS.$Component.DataVisual.define() &&
+    OS.$Component.DataVisualizer.define() &&
     OS.$Component.Filterable.define() &&
     OS.$Component.Switch.define() &&
     OS.$Component.Text.define() &&
