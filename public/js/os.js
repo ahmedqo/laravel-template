@@ -2963,7 +2963,7 @@ OS.$Component.DataVisual = (function() {
                             </button>         
                         ($ endif $)
                         ($ if @props.print $)
-                            <button title="{{ @state.locales[@props.locale].Print }}" ref="btn" part="btn" @click="{{ @rules.print }}">
+                            <button title="{{ @state.locales[@props.locale].Print }}" ref="btn" part="btn" @click="{{ @rules.print }}" disabled="{{ @state.print }}">
                                 <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">                      
                                     <path d="M37.05 13H11V5H37.05V13ZM36.2 24.8C36.8 24.8 37.2917 24.6198 37.675 24.2594C38.0583 23.899 38.25 23.4208 38.25 22.825C38.25 22.2417 38.0604 21.75 37.6813 21.35C37.3021 20.95 36.8167 20.75 36.225 20.75C35.6083 20.75 35.1167 20.951 34.75 21.3531C34.3833 21.7552 34.2 22.2375 34.2 22.8C34.2 23.4 34.3833 23.8833 34.75 24.25C35.1167 24.6167 35.6 24.8 36.2 24.8ZM32.45 39.4V32.45H15.55V39.4H32.45ZM37.05 43.7H11V34.05H3V20.85C3 19.0617 3.60695 17.5396 4.82085 16.2837C6.03472 15.0279 7.52777 14.4 9.3 14.4H38.7C40.5083 14.4 42.0188 15.0279 43.2313 16.2837C44.4438 17.5396 45.05 19.0617 45.05 20.85V34.05H37.05V43.7Z" />
                                 </svg>
@@ -3011,7 +3011,11 @@ OS.$Component.DataVisual = (function() {
                     <tr ref="tableheadrow" part="table-head-row">
                         ($ each col into @props.cols $)
                             ($ if col.visible !== false $)
-                                <td ref="tableheadcol" part="table-head-col">
+                                <td ref="tableheadcol" part="table-head-col"
+                                    ($ if col.width $)
+                                        style="width: {{ col.width }}px;"
+                                    ($ endif $)
+                                >
                                     ($ if col.headRender $)
                                         {{> col.headRender() }}
                                     ($ else $)
@@ -3023,7 +3027,7 @@ OS.$Component.DataVisual = (function() {
                     </tr>
                 </thead>
                 <tbody ref="tablebody" part="table-body">
-                     ($ if @props.loading $)
+                     ($ if @props.loading || @state.print $)
                         <tr ref="tableloadingrow" part="table-loading-row">
                             <td colspan="{{ @props.cols.length }}" ref="tableloadingcol" part="table-loading-col">
                                 <svg ref="loader" part="loader" stroke="currentColor" viewBox="0 0 24 24">
@@ -3036,7 +3040,11 @@ OS.$Component.DataVisual = (function() {
                             <tr ref="tablebodyrow" part="table-body-row">
                                 ($ each col into @props.cols $)
                                     ($ if col.visible !== false $)
-                                        <td ref="tablebodycol" part="table-body-col">
+                                        <td ref="tablebodycol" part="table-body-col"
+                                            ($ if col.width $)
+                                                style="width: {{ col.width }}px;"
+                                            ($ endif $)
+                                        >
                                             ($ if col.bodyRender $)
                                                 {{> col.bodyRender(row) }}
                                             ($ else $)
@@ -3094,7 +3102,11 @@ OS.$Component.DataVisual = (function() {
                                                     <tr id="table-head-row">
                                                         ($ each col into @props.cols $)
                                                             ($ if col.visible !== false $)
-                                                                <td class="table-head-col">
+                                                                <td class="table-head-col"
+                                                                    ($ if col.width $)
+                                                                        style="width: {{ col.width }}px;"
+                                                                    ($ endif $)
+                                                                >
                                                                     ($ if col.headPdfRender $)
                                                                         {{> col.headPdfRender() }}
                                                                     ($ else $)
@@ -3110,7 +3122,11 @@ OS.$Component.DataVisual = (function() {
                                                         <tr class="table-body-row">
                                                             ($ each col into @props.cols $)
                                                                 ($ if col.visible !== false $)
-                                                                    <td class="table-body-col">
+                                                                    <td class="table-body-col" 
+                                                                        ($ if col.width $)
+                                                                            style="width: {{ col.width }}px;"
+                                                                        ($ endif $)
+                                                                    >
                                                                         ($ if col.bodyPdfRender $)
                                                                             {{> col.bodyPdfRender(row) }}
                                                                         ($ else $)
@@ -3170,6 +3186,7 @@ OS.$Component.DataVisual = (function() {
             locale: document.documentElement.lang,
         },
         state: {
+            print: false,
             locales: OS.$Locales,
             expand: false,
             show: false,
@@ -3180,6 +3197,7 @@ OS.$Component.DataVisual = (function() {
         },
         rules: {
             print() {
+                this.state.print = true;
                 const div = document.createElement("div");
                 div.innerHTML = this.refs.page.outerHTML;
                 div.querySelector("[name=styles]").insertAdjacentHTML("beforebegin", `
@@ -3202,7 +3220,7 @@ OS.$Component.DataVisual = (function() {
                 ["styles", "header", "main-start", "main-end", "footer"].map(e => {
                     const els = this.querySelectorAll(`[slot=${e}]`);
                     els.forEach(el => {
-                        div.querySelector(`[name=${e}]`).insertAdjacentHTML("beforebegin", el.innerHTML);
+                        div.querySelector(`[name=${e}]`).insertAdjacentHTML("beforebegin", el.outerHTML);
                     });
                     div.querySelector(`[name=${e}]`).remove();
                 });
@@ -3210,14 +3228,16 @@ OS.$Component.DataVisual = (function() {
                 this.state.iframe.write(div.innerHTML);
                 this.state.iframe.close();
                 const pos = window.scrollY;
-                this.refs.print.contentWindow.print();
+                setTimeout(() => {
+                    this.refs.print.contentWindow.print();
+                }, 500);
                 window.scroll(0, pos);
+                this.state.print = false;
                 this.emit("print");
             },
             search(event) {
                 const value = event.target.value.toUpperCase().trim().split(" ");
                 this.emit("search", { data: event.target.value }, () => {
-                    if (!this.refs.tablebodyrow) return;
                     this.state.rows = this.props.rows.filter(item => {
                         const score = [];
                         for (const niddle of value) {

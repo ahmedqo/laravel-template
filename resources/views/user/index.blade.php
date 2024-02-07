@@ -19,65 +19,13 @@
 @section('scripts')
     <script>
         const dataVisual = document.querySelector("os-data-visual");
-        var timer;
 
-        function createLinks(prev, next, str) {
-            const preva = document.querySelector("#prev");
-            const nexta = document.querySelector("#next");
-            const div = document.createElement("div");
-            const link = "{{ route('views.users.index') }}";
-            if (prev) {
-                if (preva) preva.href = `${link + `?search${str ? ("=" + str) : ""}&cursor=` + prev}`;
-                else {
-                    div.innerHTML = `
-                        <a id="prev" slot="end" title="{{ __('Prev') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + prev}"
-                            class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
-                            <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
-                                <path
-                                    d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" />
-                            </svg>
-                        </a>
-                    `;
-                    dataVisual.appendChild(div.querySelector("#prev"));
-                }
-            } else preva?.remove();
-            if (next) {
-                if (nexta) nexta.href = `${link + `?search${str ? ("=" + str) : ""}&cursor=` + next}`;
-                else {
-                    div.innerHTML = `
-                        <a id="next" slot="end" title="{{ __('Next') }}" href="${link + `?search${str ? ("=" + str) : ""}&cursor=` + next}"
-                            class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
-                            <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
-                                <path
-                                    d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" />
-                            </svg>
-                        </a>
-                    `;
-                    dataVisual.appendChild(div.querySelector("#next"));
-                }
-            } else nexta?.remove();
-        }
-
-        async function getUsers(str = "") {
-            const req = await fetch("{{ route('actions.users.search') }}?search=" +
-                encodeURIComponent(str));
-            const res = await req.json();
-            createLinks(res.prev_cursor, res.next_cursor, str);
-            return res.data;
-        }
-
-        dataVisual.addEventListener("search", async e => {
-            e.preventDefault();
-            if (timer) clearTimeout(timer);
-            dataVisual.loading = true;
-            dataVisual.rows = await new Promise((resolver, rejecter) => {
-                timer = setTimeout(async () => {
-                    const data = await getUsers(e.detail.data);
-                    resolver(data);
-                }, 2000);
-            });
-            dataVisual.loading = false;
+        run(dataVisual, {
+            Search: "{{ route('actions.users.search') }}",
+            Prev: "{{ __('Prev') }}",
+            Next: "{{ __('Next') }}",
         });
+
 
         dataVisual.cols = [{
             name: "id",

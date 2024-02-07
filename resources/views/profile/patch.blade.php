@@ -6,9 +6,9 @@
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit Profile') }}
         </h1>
-        <div class="bg-x-white rounded-x-huge shadow-x-core p-4 lg:p-6">
+        <div class="bg-x-white rounded-x-huge shadow-x-core p-4">
             <form action="{{ route('actions.profile.patch') }}" method="POST"
-                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
+                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-4">
                 @csrf
                 @method('patch')
                 <os-text label="{{ __('First Name') }}" name="first_name" value="{{ $data->first_name }}"

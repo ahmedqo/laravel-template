@@ -201,3 +201,99 @@ function capitalize(string) {
         return string;
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function run(dataVisual, Data) {
+    var timer;
+    const Links = document.createElement("div");
+    Links.innerHTML = `
+        <a id="prev" slot="end"
+            class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
+            <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                <path
+                    d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" />
+            </svg>
+        </a>
+        <a id="next" slot="end"
+            class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
+            <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                <path
+                    d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" />
+            </svg>
+        </a>
+    `;
+
+    async function event(e) {
+        e.preventDefault();
+        dataVisual.loading = true;
+        dataVisual.rows = await getData(e.target.href);
+        dataVisual.loading = false;
+    }
+
+    document.querySelector("#prev") && document.querySelector("#prev").addEventListener("click", event);
+    document.querySelector("#next") && document.querySelector("#next").addEventListener("click", event);
+
+    function createLinks(prev, next, str) {
+        const search = "?search" + (str ? ("=" + str) : "");
+        const preva = document.querySelector("#prev");
+        const nexta = document.querySelector("#next");
+        if (prev) {
+            const href = Data.Search + search + "&cursor=" + prev;
+            if (preva) preva.href = href
+            else {
+                const _preva = Links.querySelector("#prev").cloneNode(true);
+                _preva.addEventListener("click", event);
+                if (nexta) dataVisual.insertBefore(_preva, nexta);
+                else dataVisual.appendChild(_preva);
+                _preva.title = Data.Prev;
+                _preva.href = href;
+            }
+        } else {
+            if (preva) {
+                preva.removeEventListener("click", event);
+                preva.remove();
+            }
+        }
+        if (next) {
+            const href = Data.Search + search + "&cursor=" + next;
+            if (nexta) nexta.href = href
+            else {
+                const _nexta = Links.querySelector("#next").cloneNode(true);
+                _nexta.addEventListener("click", event);
+                dataVisual.appendChild(_nexta);
+                _nexta.title = Data.Prev;
+                _nexta.href = href;
+            }
+        } else {
+            if (nexta) {
+                nexta.removeEventListener("click", event);
+                nexta.remove();
+            }
+        }
+    }
+
+    async function getData(url) {
+        const req = await fetch(url);
+        const res = await req.json();
+        createLinks(res.prev_cursor, res.next_cursor, (new URL(url)).searchParams.get("search"));
+        return res.data;
+    }
+
+    (async function() {
+        dataVisual.rows = await getData(Data.Search + window.location.search);
+    })();
+
+    dataVisual.addEventListener("search", async e => {
+        e.preventDefault();
+        if (timer) clearTimeout(timer);
+        dataVisual.loading = true;
+        dataVisual.rows = await new Promise((resolver, rejecter) => {
+            timer = setTimeout(async() => {
+                const data = await getData(Data.Search + "?search=" +
+                    encodeURIComponent(e.detail
+                        .data));
+                resolver(data);
+            }, 2000);
+        });
+        dataVisual.loading = false;
+    });
+}
