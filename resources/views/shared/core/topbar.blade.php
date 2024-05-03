@@ -1,5 +1,5 @@
-<os-topbar fixed align="space-between" class="bg-gradient-to-br rtl:bg-gradient-to-bl bg-x-core no-action shadow-x-core">
-    <button id="trigger"
+<neo-topbar fixed align="space-between" class="bg-gradient-to-br rtl:bg-gradient-to-bl bg-x-core no-action shadow-x-core">
+    <button id="trigger" name="sidebar_trigger"
         class="block p-2 rounded-x-thin text-x-white outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
             <path
@@ -7,8 +7,8 @@
         </svg>
     </button>
     <div class="w-max flex flex-wrap gap-2">
-        <os-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
-            <button slot="trigger"
+        <neo-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
+            <button slot="trigger" name="language_trigger"
                 class="block p-2 rounded-x-thin text-x-white outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                 <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -19,7 +19,7 @@
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'en') }}"
                         class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('en') ? '!bg-x-black' : '' }}">
-                        <img src="{{ asset('lang/en.png') }}?v={{ env('APP_VERSION') }}"
+                        <img src="{{ asset('lang/en.png') }}?v={{ env('APP_VERSION') }}" alt="english flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">English</span>
                     </a>
@@ -27,7 +27,7 @@
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'fr') }}"
                         class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('fr') ? '!bg-x-black' : '' }}">
-                        <img src="{{ asset('lang/fr.png') }}?v={{ env('APP_VERSION') }}"
+                        <img src="{{ asset('lang/fr.png') }}?v={{ env('APP_VERSION') }}" alt="french flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">Francais</span>
                     </a>
@@ -35,15 +35,15 @@
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'ar') }}"
                         class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('ar') ? '!bg-x-black' : '' }}">
-                        <img src="{{ asset('lang/ar.png') }}?v={{ env('APP_VERSION') }}"
+                        <img src="{{ asset('lang/ar.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">العربية</span>
                     </a>
                 </li>
             </ul>
-        </os-dropdown>
-        <os-dropdown label="{{ __('Settings') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
-            <button slot="trigger"
+        </neo-dropdown>
+        <neo-dropdown label="{{ __('Settings') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
+            <button slot="trigger" name="setting_trigger"
                 class="block p-2 rounded-x-thin text-x-white outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                 <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -74,7 +74,7 @@
                 <li class="w-full">
                     <form action="{{ route('actions.close.index') }}" method="POST">
                         @csrf
-                        <button type="submit"
+                        <button type="submit" name="logout_trigger"
                             class="w-full flex flex-wrap gap-2 px-2 py-1 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                             <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                                 <path
@@ -85,6 +85,6 @@
                     </form>
                 </li>
             </ul>
-        </os-dropdown>
+        </neo-dropdown>
     </div>
-</os-topbar>
+</neo-topbar>

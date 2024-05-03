@@ -10,7 +10,11 @@
 </head>
 
 <body close>
-    <os-wrapper class="bg-x-black bg-opacity-[.08] flex flex-wrap">
+    <section id="neo-page-cover">
+        <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
+            class="block w-36" />
+    </section>
+    <neo-wrapper class="bg-x-black bg-opacity-[.08] flex flex-wrap">
         @include('shared.core.sidebar')
         <main class="w-full lg:w-0 lg:flex-1">
             @include('shared.core.topbar')
@@ -18,8 +22,8 @@
                 @yield('content')
             </div>
         </main>
-        <os-toaster horisontal="end" vertical="start"></os-toaster>
-    </os-wrapper>
+    </neo-wrapper>
+    <neo-toaster horisontal="end" vertical="start"></neo-toaster>
     @include('shared.base.scripts')
     @yield('scripts')
 </body>

@@ -11,17 +11,17 @@
                 class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-4">
                 @csrf
                 @method('patch')
-                <os-password label="{{ __('Old Password') }}" name="old_password" value="{{ old('old_password') }}"
-                    class="lg:col-span-4"></os-password>
-                <os-password label="{{ __('New Password') }}" name="new_password" value="{{ old('new_password') }}"
-                    class="lg:col-span-2"></os-password>
-                <os-password label="{{ __('Confirm Password') }}" name="confirm_password"
-                    value="{{ old('confirm_password') }}" class="lg:col-span-2"></os-password>
+                <neo-password label="{{ __('Old Password') }}" name="old_password" value="{{ old('old_password') }}"
+                    class="lg:col-span-4"></neo-password>
+                <neo-password label="{{ __('New Password') }}" name="new_password" value="{{ old('new_password') }}"
+                    class="lg:col-span-2"></neo-password>
+                <neo-password label="{{ __('Confirm Password') }}" name="confirm_password"
+                    value="{{ old('confirm_password') }}" class="lg:col-span-2"></neo-password>
                 <div class="w-full flex lg:col-span-4">
-                    <os-button
-                        class="w-full lg:w-max lg:px-20 lg:ms-auto rounded-x-thin px-4 py-2 text-base lg:text-lg font-x-huge text-x-white">
+                    <neo-button
+                        class="w-full lg:w-max lg:px-20 lg:ms-auto rounded-x-thin px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                         <span>{{ __('Save') }}</span>
-                    </os-button>
+                    </neo-button>
                 </div>
             </form>
         </div>

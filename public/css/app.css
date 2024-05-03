@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap');
 *,
 :root,
@@ -16,7 +17,7 @@
     --r-huge: 8px;
     --w-thin: 600;
     --w-huge: 700;
-    --shadow: 0px 10px 10px -12px rgb(var(--black) / .5);
+    --shadow: 0px 8px 8px -8px rgb(var(--black) / 20%);
     /** */
     --color-sys-0: #94A3B8;
     --color-sys-1: #78716C;
@@ -37,7 +38,7 @@
 *,
 *::after,
 *::before {
-    font-family: Montserrat, sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 html[lang="ar"] *,
@@ -64,91 +65,20 @@ input {
 body[close] {
     height: 100dvh;
     overflow: hidden;
-    visibility: hidden;
 }
 
-os-text,
-os-area,
-os-date,
-os-select,
-os-search,
-os-filter,
-os-password,
-os-select::part(search),
-os-switch::part(toggle) {
-    background: transparent;
-    border: 1px solid rgb(var(--black));
-}
-
-os-button:not([outlined]),
-os-topbar:not([transparent]) {
-    background-color: rgb(var(--prime));
-}
-
-os-button {
-    border: 1px solid rgb(var(--prime));
-}
-
-os-button:hover,
-os-button:focus,
-os-button:focus-within {
-    border-color: rgb(var(--prime) / .4);
-    background-color: rgb(var(--prime) / .4);
-}
-
-os-text,
-os-area,
-os-date,
-os-toast,
-os-select,
-os-search,
-os-filter,
-os-password,
-os-date::part(content),
-os-select::part(search),
-os-modal::part(content),
-os-select::part(content),
-os-filter::part(content),
-os-dropdown::part(content),
-os-data-visualizer::part(search),
-os-data-visualizer::part(content) {
-    border-radius: var(--r-thin);
-}
-
-os-data-visualizer::part(wrapper) {
-    border: unset;
-    border-radius: var(--r-huge);
-}
-
-os-date::part(content),
-os-modal::part(content),
-os-select::part(content),
-os-filter::part(content),
-os-navbar::part(content),
-os-dropdown::part(content),
-os-data-visualizer::part(search),
-os-data-visualizer::part(content),
-os-data-visualizer::part(wrapper) {
-    box-shadow: var(--shadow);
-}
-
-os-switch::part(ground) {
-    border: 1px solid rgb(var(--black));
-}
-
-os-switch:not([checked])::part(ground) {
-    background: transparent;
-}
-
-os-switch::part(toggle),
-os-data-visualizer::part(search) {
-    background: rgb(var(--white));
-}
-
-os-data-visualizer::part(title) {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-weight: var(--w-thin);
+body[close]>#neo-page-cover {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 900;
+    width: 100%;
+    height: 100dvh;
+    inset: 0;
+    z-index: 999999;
+    background: #ffffff;
 }
 
 .bg-x-core {
@@ -172,9 +102,10 @@ os-data-visualizer::part(title) {
     background-image: linear-gradient(to bottom left, rgb(var(--prime)), rgb(var(--acent)));
 }
 
-@media (min-width: 1024px) {
-    os-data-visualizer::part(title) {
-        font-size: 1.5rem;
-        line-height: 2rem;
-    }
+neo-datavisualizer::part(wrapper) {
+    box-shadow: var(--shadow);
+    -o-box-shadow: var(--shadow);
+    -ms-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    -webkit-box-shadow: var(--shadow);
 }
