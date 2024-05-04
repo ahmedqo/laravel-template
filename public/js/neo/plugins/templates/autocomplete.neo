@@ -98,9 +98,9 @@
     {$ if !@props.disable $}
         :host(:focus),
         :host(:focus-within) {
-            outline-width: 1px;
-            outline-offset: 0px;
-            outline-style: auto;
+            outline-width: 2px;
+            outline-offset: -2px;
+            outline-style: solid;
             outline-color: {{ @Theme.colors("PRIME", 400) }};
         }
     {$ endif $}

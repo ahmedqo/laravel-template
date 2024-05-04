@@ -104,9 +104,9 @@
     {$ if !@props.disable $}
         :host(:focus),
         :host(:focus-within) {
-            outline-width: 1px;
-            outline-offset: 0px;
-            outline-style: auto;
+            outline-width: 2px;
+            outline-offset: -2px;
+            outline-style: solid;
             outline-color: {{ @Theme.colors("PRIME", 400) }};
         }
     {$ endif $}
@@ -328,7 +328,7 @@
             <label ref="label" part="label" for="{{ @state.uid }}">{{ @props.label }}</label>
         {$ endif $}
         <input ref="field" part="field" id="{{ @state.uid }}" 
-            value="{{ @when(@truty(@props.value), () => @rules.print(@props.value, @props.format), '') }}"
+            value="{{ @when(@truty(@props.value), () => @Str.moment("1990-10-10 " + @props.value, @props.format), '') }}"
             placeholder="{{ @when(@truty(@props.placeholder), @props.placeholder, ' ') }}"
             {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             readonly
@@ -371,56 +371,21 @@
     export default {
         attrs: ["label", "format", "outline", "disable", "placeholder", "disable-hours", "disable-minutes"],
         dense: {
-            formats: {
-                __: {
-                    zeros: function(nbr, len) {
-                        for (var sign = nbr < 0 ? "-" : "", output = Math.abs(nbr).toString(); output.length < len;) output = "0" + output;
-                        return sign + output;
-                    },
-                    clean: function(input) {
-                        var matches = input.match(/^'([^]*?)'?$/);
-                        return matches ? matches[1].replace(/''/g, "'") : input;
-                    },
-                },
-                a: function(date, token) {
-                    var dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
-                    switch (token) {
-                        case "a":
-                        case "aa":
-                            return dayPeriodEnumValue.toUpperCase();
-                        case "aaa":
-                            return dayPeriodEnumValue;
-                        case "aaaaa":
-                            return dayPeriodEnumValue[0];
-                        case "aaaa":
-                        default:
-                            return "am" === dayPeriodEnumValue ? "a.m." : "p.m.";
-                    }
-                },
-                h: function(date, token, formats) {
-                    return formats.__.zeros(date.getHours() % 12 || 12, token.length);
-                },
-                H: function(date, token, formats) {
-                    return formats.__.zeros(date.getHours(), token.length);
-                },
-                m: function(date, token, formats) {
-                    return formats.__.zeros(date.getMinutes(), token.length);
-                },
-                s: function(date, token, formats) {
-                    return formats.__.zeros(date.getSeconds(), token.length);
-                },
-            }
+            zeros: function(nbr, len) {
+                for (var sign = nbr < 0 ? "-" : "", output = Math.abs(nbr).toString(); output.length < len;) output = "0" + output;
+                return sign + output;
+            },    
         },
         props: {
             label: "",
             value: "",
-            format: "HH:mm",
+            format: "HH:MM",
             expand: false,
             outline: false,
             disable: false,
             placeholder: "",
-            disableHours: [],
-            disableMinutes: [],
+            disableHours: false,
+            disableMinutes: false,
         },
         state: {
             uid: "uid_" + Neo.Helper.random(),
@@ -439,10 +404,10 @@
 
                 for (var i = 0; i < 24; i++) {
                     this.state.info.hours[i] = [
-                        this.constructor.formats.__.zeros(String(i), 2), i,
+                        this.constructor.zeros(String(i), 2), i,
                     ];
 
-                    if (this.props.disableHours.includes(i))
+                    if (this.props.disableHours && this.props.disableHours.includes(i))
                         this.state.info.hours[i][2] = "disabled";
                     else {
                         if (now.getHours() === i)
@@ -455,10 +420,10 @@
 
                 for (var j = 0; j < 60; j++) {
                     this.state.info.minutes[j] = [
-                        this.constructor.formats.__.zeros(String(j), 2), j,
+                        this.constructor.zeros(String(j), 2), j,
                     ];
 
-                    if (this.props.disableMinutes.includes(j))
+                    if (this.props.disableMinutes && this.props.disableMinutes.includes(j))
                         this.state.info.minutes[j][2] = "disabled";
                     else {
                         if (now.getMinutes() === j)
@@ -468,23 +433,6 @@
                             this.state.info.minutes[j][2] = "selected";
                     }
                 }
-            },
-            print (content, format) {
-                if(typeof content !== "string") return null;
-                var tokens = (format = format || "h:m").match(/(\w)\1*|''|'(''|[^'])+('|$)|./g);
-
-                content = new Date("1990-10-10 " + content);
-                return tokens ?
-                    tokens
-                        .map((substringing) => {
-                            if("''" === substringing) return "'";
-                            var firstCharacter = substringing[0];
-                            if("'" === firstCharacter) return this.constructor.formats.__.clean(substringing);
-                            var formatter = this.constructor.formats[firstCharacter];
-                            return formatter ? formatter(content, substringing, this.constructor.formats) : substringing;
-                        })
-                        .join("") :
-                    null;
             },
             format(date) {
                 var hour = ("0" + (date.getHours())).slice(-2);

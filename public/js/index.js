@@ -1,3 +1,33 @@
+Neo.Locales.fr = {
+    ...Neo.Locales.fr,
+    "Id": "Identifiant",
+    "Email": "E-mail",
+    "First Name": "Prénom",
+    "Last Name": "Nom de famille",
+    "Gender": "Genre",
+    "Birth Date": "Date de naissance",
+    "Phone": "Téléphone",
+    "Address": "Adresse",
+    "Male": "Homme",
+    "Female": "Femme",
+    "Actions": "Actions",
+}
+
+Neo.Locales.ar = {
+    ...Neo.Locales.ar,
+    "Id": "المعرف",
+    "Email": "البريد الإلكتروني",
+    "First Name": "الاسم الأول",
+    "Last Name": "الاسم الأخير",
+    "Gender": "الجنس",
+    "Birth Date": "تاريخ الميلاد",
+    "Phone": "الهاتف",
+    "Address": "العنوان",
+    "Male": "ذكر",
+    "Female": "أنثى",
+    "Actions": "الإجراءات",
+}
+
 const COLS = {
     users: ({
         Csrf,
@@ -26,7 +56,7 @@ const COLS = {
             background: "rgb(33 150 243)",
             color: "rgb(254 254 254)"
         },
-        bodyRender: (row) => capitalize(row.first_name),
+        bodyRender: (row) => Neo.Helper.Str.capitalize(row.first_name),
         bodyPdfRender: function(row) {
             return this.bodyRender(row);
         },
@@ -40,7 +70,7 @@ const COLS = {
             background: "rgb(33 150 243)",
             color: "rgb(254 254 254)"
         },
-        bodyRender: (row) => capitalize(row.last_name),
+        bodyRender: (row) => Neo.Helper.Str.capitalize(row.last_name),
         bodyPdfRender: function(row) {
             return this.bodyRender(row);
         },
@@ -55,7 +85,7 @@ const COLS = {
             background: "rgb(33 150 243)",
             color: "rgb(254 254 254)"
         },
-        bodyRender: (row) => row.gender ? capitalize(row.gender) : empty(),
+        bodyRender: (row) => row.gender ? Neo.Helper.Str.capitalize(Neo.Helper.trans(row.gender)) : empty(),
         bodyPdfRender: function(row) {
             return this.bodyRender(row);
         },
@@ -99,7 +129,7 @@ const COLS = {
             background: "rgb(33 150 243)",
             color: "rgb(254 254 254)"
         },
-        bodyRender: (row) => row.address ? capitalize(row.address) : empty(),
+        bodyRender: (row) => row.address ? Neo.Helper.Str.capitalize(row.address) : empty(),
         bodyPdfRender: function(row) {
             return this.bodyRender(row);
         },
@@ -198,12 +228,6 @@ Neo.load(function() {
         }
     }).define();
 })();
-
-function capitalize(string) {
-    if (typeof string !== 'string' || string.length === 0)
-        return string;
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 function empty() {
     return "__";

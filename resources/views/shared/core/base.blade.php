@@ -14,7 +14,7 @@
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
             class="block w-36" />
     </section>
-    <neo-wrapper class="bg-x-black bg-opacity-[.08] flex flex-wrap">
+    <neo-wrapper class="bg-[#e9edef] flex flex-wrap">
         @include('shared.core.sidebar')
         <main class="w-full lg:w-0 lg:flex-1">
             @include('shared.core.topbar')

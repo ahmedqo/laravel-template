@@ -104,9 +104,9 @@
     {$ if !@props.disable $}
         :host(:focus),
         :host(:focus-within) {
-            outline-width: 1px;
-            outline-offset: 0px;
-            outline-style: auto;
+            outline-width: 2px;
+            outline-offset: -2px;
+            outline-style: solid;
             outline-color: {{ @Theme.colors("PRIME", 400) }};
         }
     {$ endif $}
@@ -324,9 +324,9 @@
         [part="year"]:focus-within,
         [part="month"]:focus-within,
         [part="trigger"]:focus-within  {
-            outline-width: 1px;
-            outline-offset: 0px;
-            outline-style: auto;
+            outline-width: 2px;
+            outline-offset: -2px;
+            outline-style: solid;
             outline-color: {{ @Theme.colors("BLACK") }};
         }
 
@@ -384,7 +384,7 @@
             <label ref="label" part="label" for="{{ @state.uid }}">{{ @props.label }}</label>
         {$ endif $}
         <input ref="field" part="field" id="{{ @state.uid }}" 
-            value="{{ @when(@truty(@props.value), () => @rules.print(@props.value, @props.format), '') }}"
+            value="{{ @when(@truty(@props.value), () => @Str.moment(@props.value, @props.format), '') }}"
             placeholder="{{ @when(@truty(@props.placeholder), @props.placeholder, ' ') }}"
             {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             readonly
@@ -413,7 +413,7 @@
                         </button>
                         <div ref="display" part="display">
                             <button ref="month" part="month" @keydown:propagation="{{ () => {} }}" type="button" data-next="M"  @click="{{ @rules.view }}">
-                                {{ @rules.slice(@trans(@this.constructor.formats.__.months[@state.info.month]), @props.fullMonth) }}
+                                {{ @rules.slice(@trans(@this.constructor.months[@state.info.month]), @props.fullMonth) }}
                             </button>
                             <button ref="year" part="year" @keydown:propagation="{{ () => {} }}" type="button" data-next="Y"  @click="{{ @rules.view }}">
                                 {{ @state.info.year }}
@@ -429,7 +429,7 @@
                             </svg>
                         </button>
                         {$ each day into @range(0, 7) $}
-                            <div ref="day" part="day">{{ @rules.slice(@trans(@this.constructor.formats.__.days[day]), @props.fullDay) }}</div>
+                            <div ref="day" part="day">{{ @rules.slice(@trans(@this.constructor.days[day]), @props.fullDay) }}</div>
                         {$ endeach $}
                     </div>
                     {$ each day into @state.info.array $}
@@ -448,46 +448,8 @@
     export default {
         attrs: ["label", "format", "outline", "disable", "placeholder", "full-day", "full-month", "year-range", "disable-days", "disable-dates"],
         dense: {
-            formats: {
-                __: {
-                    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                    zeros: function(nbr, len) {
-                        for (var sign = nbr < 0 ? "-" : "", output = Math.abs(nbr).toString(); output.length < len;) output = "0" + output;
-                        return sign + output;
-                    },
-                    clean: function(input) {
-                        var matches = input.match(/^'([^]*?)'?$/);
-                        return matches ? matches[1].replace(/''/g, "'") : input;
-                    },
-                },
-                y: function(date, token, formats){
-                    var signedYear = date.getFullYear(),
-                        year = signedYear > 0 ? signedYear : 1 - signedYear;
-                    return formats.__.zeros("yy" === token ? year % 100 : year, token.length);
-                },
-                m: function(date, token, formats){
-                    var month = date.getMonth();
-                    switch (token) {
-                        case "mmm":
-                            return Neo.Helper.trans(formats.__.months[month]).slice(0, 3);
-                        case "mmmm":
-                            return Neo.Helper.trans(formats.__.months[month]);
-                        default:
-                            return formats.__.zeros(month + 1, token.length);
-                    }
-                },
-                d: function(date, token, formats){
-                    switch (token) {
-                        case "ddd":
-                            return Neo.Helper.trans(formats.__.days[date.getDay()]).slice(0, 3);
-                        case "dddd":
-                            return Neo.Helper.trans(formats.__.days[date.getDay()]);
-                        default:
-                            return formats.__.zeros(date.getDate(), token.length);
-                    }
-                },
-            }
+            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         },
         props: {
             label: "",
@@ -500,8 +462,8 @@
             fullDay: true,
             fullMonth: true,
             yearRange: [1950, 2150],
-            disableDates: [],
-            disableDays: [],
+            disableDates: false,
+            disableDays: false,
         },
         state: {
             uid: "uid_" + Neo.Helper.random(),
@@ -542,8 +504,8 @@
                     const currarr = ["" + (i < 10 ? "0" + i : i), this.rules.format(current)];
 
                     if (
-                        this.props.disableDates.includes(this.rules.format(current)) ||
-                        this.props.disableDays.includes(current.getDay() + 1)
+                        (this.props.disableDates && this.props.disableDates.includes(this.rules.format(current))) ||
+                        (this.props.disableDays && this.props.disableDays.includes(current.getDay() + 1))                   
                     ) {
                         currarr[2] = "disabled";
                     } else {
@@ -561,23 +523,6 @@
                 }
 
                 this.state.info = DATA;
-            },
-            print (content, format) { 
-                if(typeof content !== "string") return null;
-                var tokens = (format = format || "yyyy-mm-dd").match(/(\w)\1*|''|'(''|[^'])+('|$)|./g);
-
-                content = new Date(content);
-                return tokens ?
-                    tokens
-                        .map((substringing) => {
-                            if("''" === substringing) return "'";
-                            var firstCharacter = substringing[0];
-                            if("'" === firstCharacter) return this.constructor.formats.__.clean(substringing);
-                            var formatter = this.constructor.formats[firstCharacter];
-                            return formatter ? formatter(content, substringing, this.constructor.formats) : substringing;
-                        })
-                        .join("") :
-                    null;
             },
             slice(str, len) {
                 return /\d/.test(len) ? str.substring(0, len) : str;

@@ -291,14 +291,11 @@ const Neo = (function Neo() {
                         return "am" === dayPeriodEnumValue ? "a.m." : "p.m.";
                 }
             },
+            h: (date, token) => {
+                return NEO_MOMENT_OBJ.$.zeros(date.getHours() % 12 || 12, token.length);
+            },
             H: (date, token) => {
-                switch (token) {
-                    case "HH":
-                        return NEO_MOMENT_OBJ.$.zeros(date.getHours(), token.length);
-                    case "H":
-                    default:
-                        return NEO_MOMENT_OBJ.$.zeros(date.getHours() % 12 || 12, token.length);
-                }
+                return NEO_MOMENT_OBJ.$.zeros(date.getHours(), token.length);
             },
             M: (date, token) => {
                 return NEO_MOMENT_OBJ.$.zeros(date.getMinutes(), token.length);
@@ -660,6 +657,10 @@ const Neo = (function Neo() {
                         compactDisplay: 'short',
                         minimumFractionDigits: Math.max(zeros, (number.toString().split('.')[1] || '').length)
                     }).format(number);
+                }
+
+                static capitalize = function capitalize(string) {
+                    return (!string || typeof string !== 'string') ? '' : string.trim().charAt(0).toUpperCase() + string.slice(1);
                 }
             }
         }

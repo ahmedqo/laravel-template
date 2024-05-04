@@ -103,6 +103,7 @@ body[close]>#neo-page-cover {
 }
 
 neo-datavisualizer::part(wrapper) {
+    border: unset;
     box-shadow: var(--shadow);
     -o-box-shadow: var(--shadow);
     -ms-box-shadow: var(--shadow);
