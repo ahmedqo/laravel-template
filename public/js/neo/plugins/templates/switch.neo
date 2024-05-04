@@ -23,7 +23,7 @@
         [part="field"]:focus,
         [part="field"]:focus-within {
             outline-width: 2px;
-            outline-offset: -2px;
+            outline-offset: -1px;
             outline-style: solid;
             outline-color: {{ @Theme.colors("PRIME", 400) }};
         }
@@ -93,7 +93,7 @@
             change(event) {
                 this.state.init = false;
                 if ((event.type !== "click" && event.keyCode !== 13) || this.props.disable) return;
-                this.props.active = this.name.length && this.props.active ? true : !this.props.active;
+                this.props.active = (this.name && this.name.length && this.props.active) ? true : !this.props.active;
             },
         },
         cycle: {
@@ -132,7 +132,7 @@
                             });
                         },
                         "active": () => {
-                            if (next && this.name.length) {
+                            if (next && this.name && this.name.length) {
                                 document.querySelectorAll(this.tagName.toLowerCase() + "[name=" + this.name + "]").forEach((xswitch) => {
                                     this !== xswitch && (xswitch.state.init = false, xswitch.active = false);
                                 });

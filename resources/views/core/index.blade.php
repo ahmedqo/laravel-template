@@ -9,7 +9,7 @@
             </h1>
             <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-4">
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-0);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -21,7 +21,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-3);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -33,7 +33,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-4);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -45,7 +45,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-5);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path

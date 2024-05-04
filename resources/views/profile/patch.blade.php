@@ -6,7 +6,7 @@
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit Profile') }}
         </h1>
-        <div class="bg-x-white rounded-x-thin shadow-x-core p-4">
+        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4">
             <form action="{{ route('actions.profile.patch') }}" method="POST"
                 class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-4">
                 @csrf

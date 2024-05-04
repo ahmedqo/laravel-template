@@ -103,10 +103,20 @@ body[close]>#neo-page-cover {
 }
 
 neo-datavisualizer::part(wrapper) {
-    border: unset;
     box-shadow: var(--shadow);
     -o-box-shadow: var(--shadow);
     -ms-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     -webkit-box-shadow: var(--shadow);
+}
+
+neo-select,
+neo-textbox,
+neo-password,
+neo-textarea,
+neo-explorer,
+neo-datepicker,
+neo-timepicker,
+neo-autocomplete {
+    border: 1px solid rgb(var(--shade) / 1);
 }
