@@ -1,5 +1,5 @@
-<script src="{{ asset('js/neo/index.js') }}?v={{ env('APP_VERSION') }}"></script>
-<script src="{{ asset('js/neo/plugins/index.js') }}?v={{ env('APP_VERSION') }}"></script>
+<script src="{{ asset('js/neo/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
+<script src="{{ asset('js/neo/plugins/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 <script src="{{ asset('js/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @if (Session::has('message'))
     @php

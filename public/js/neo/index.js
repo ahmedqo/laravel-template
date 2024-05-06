@@ -1,1 +1,1452 @@
-const Neo=function Neo(){let NEO_SYMBOLS_MAP="`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm ,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?",NEO_BLUE_PRINTS=function e(){let t={};for(let r=0;r<NEO_SYMBOLS_MAP.length;r++){let i=NEO_SYMBOLS_MAP[r],s=NEO_SYMBOLS_MAP.slice(r),n=NEO_SYMBOLS_MAP.slice(0,r),a=s+n;t[i]=a}return t}(),NEO_TEXT_SYMBOL=Symbol.for("$NEOTEXTSYMBOL$"),NEO_LOAD_MAPS=[],NEO_NODE_MAPS={},NEO_THEME_MAP={COLORS:{BLACK:"0 0 0",WHITE:"255 255 255",RED:{50:"254 242 242",100:"254 226 226",200:"254 202 202",300:"252 165 165",400:"248 113 113",500:"239 68 68",600:"220 38 38",700:"185 28 28",800:"153 27 27",900:"127 29 29",950:"69 10 10"},GRAY:{50:"249 250 251",100:"243 244 246",200:"229 231 235",300:"209 213 219",400:"156 163 175",500:"107 114 128",600:"75 85 99",700:"55 65 81",800:"31 41 55",900:"17 24 39",950:"3 7 18"},BLUE:{50:"239 246 255",100:"219 234 254",200:"191 219 254",300:"147 197 253",400:"96 165 250",500:"59 130 246",600:"37 99 235",700:"29 78 216",800:"30 64 175",900:"30 58 138",950:"23 37 84"},GREEN:{50:"240 253 244",100:"220 252 231",200:"187 247 208",300:"134 239 172",400:"74 222 128",500:"34 197 94",600:"22 163 74",700:"21 128 61",800:"22 101 52",900:"20 83 45",950:"5 46 22"},YELLOW:{50:"254 252 232",100:"254 249 195",200:"254 240 138",300:"253 224 71",400:"250 204 21",500:"234 179 8",600:"202 138 4",700:"161 98 7",800:"133 77 14",900:"113 63 18",950:"66 32 6"},PURPLE:{50:"250 245 255",100:"243 232 255",200:"233 213 255",300:"216 180 254",400:"192 132 252",500:"168 85 247",600:"147 51 234",700:"126 34 206",800:"107 33 168",900:"88 28 135",950:"59 7 100"}},SIZES:{XSMALL:"0.75rem",SMALL:"0.875rem",BASE:"1rem",MEDIUM:"1.125rem",LARGE:"1.25rem",XLARGE:"1.5rem"},LINES:{THIN:"0.75rem",XSMALL:"1rem",SMALL:"1.25rem",BASE:"1.5rem",MEDIUM:"1.75rem",LARGE:"1.75rem",XLARGE:"2rem"}},NEO_SVG_NODES={svg:!0,animate:!0,animateMotion:!0,animateTransform:!0,circle:!0,clipPath:!0,defs:!0,desc:!0,discard:!0,ellipse:!0,feBlend:!0,feColorMatrix:!0,feFiberTransfer:!0,feComposite:!0,feConvolveMatrix:!0,feDiffuseLighting:!0,feDisplacementMap:!0,feDistantLight:!0,feDropShadow:!0,feFlood:!0,feFuncA:!0,feFuncB:!0,feFuncG:!0,feFuncR:!0,feGaussianBlur:!0,feImage:!0,feMerge:!0,feMergeNode:!0,feMorphology:!0,feOffset:!0,fePointLight:!0,feSpecularLighting:!0,feSpotLight:!0,feTile:!0,feTurbulence:!0,filter:!0,foreignObject:!0,g:!0,hatch:!0,hatchpath:!0,image:!0,line:!0,linearGradient:!0,marker:!0,mask:!0,metadata:!0,mpath:!0,path:!0,pattern:!0,polygon:!0,polyline:!0,radialGradient:!0,rect:!0,script:!0,set:!0,stop:!0,style:!0,switch:!0,symbol:!0,text:!0,textPath:!0,title:!0,tspan:!0,use:!0,compiler:!0,animateColor:!0,"missing-glyph":!0,font:!0,"font-face":!0,"font-face-format":!0,"font-face-name":!0,"font-face-src":!0,"font-face-uri":!0,hkern:!0,vkern:!0,solidcolor:!0,altGlyph:!0,altGlyphDef:!0,altGlyphItem:!0,glyph:!0,glyphRef:!0,tref:!0,cursor:!0},NEO_CSS_PROPS={"animation-iteration-count":!0,"border-image-slice":!0,"border-image-width":!0,"column-count":!0,"counter-increment":!0,"counter-reset":!0,flex:!0,"flex-grow":!0,"flex-shrink":!0,"font-size-adjust":!0,"font-weight":!0,"line-height":!0,"nav-index":!0,opacity:!0,order:!0,orphans:!0,"tab-size":!0,widows:!0,"z-index":!0,"pitch-range":!0,richness:!0,"speech-rate":!0,stress:!0,volume:!0,"lood-opacity":!0,"mask-box-outset":!0,"mask-border-outset":!0,"mask-box-width":!0,"mask-border-width":!0,"shape-image-threshold":!0},NEO_MOMENT_OBJ={$:{props:[["January","February","March","April","May","June","July","August","September","October","November","December"],["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],],zeros:function(e,t){for(var r=e<0?"-":"",i=Math.abs(e).toString();i.length<t;)i="0"+i;return r+i},clean:function(e){var t=e.match(/^'([^]*?)'?$/);return t?t[1].replace(/''/g,"'"):e}},y(e,t){var r=e.getFullYear(),i=r>0?r:1-r;return NEO_MOMENT_OBJ.$.zeros("yy"===t?i%100:i,t.length)},m(e,t){var r=e.getMonth();switch(t){case"mmm":return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[0][r]).slice(0,3);case"mmmm":return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[0][r]);default:return NEO_MOMENT_OBJ.$.zeros(r+1,t.length)}},d(e,t){switch(t){case"ddd":return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[1][e.getDay()]).slice(0,3);case"dddd":return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[1][e.getDay()]);default:return NEO_MOMENT_OBJ.$.zeros(e.getDate(),t.length)}},A(e,t){var r=e.getHours()/12>=1?"pm":"am";switch(t){case"A":case"AA":return r.toUpperCase();case"AAA":return r;case"AAAAA":return r[0];default:return"am"===r?"a.m.":"p.m."}},h:(e,t)=>NEO_MOMENT_OBJ.$.zeros(e.getHours()%12||12,t.length),H:(e,t)=>NEO_MOMENT_OBJ.$.zeros(e.getHours(),t.length),M:(e,t)=>NEO_MOMENT_OBJ.$.zeros(e.getMinutes(),t.length),S:(e,t)=>NEO_MOMENT_OBJ.$.zeros(e.getSeconds(),t.length)};class Instance{constructor(e,t,r){this.dom=e,this.fiber=t,this.children=r}}class Fiber{constructor(e=null,t={}){this.type=e,this.props=t,this.props.children=this.props.children||[]}}class Parser{static{this.join=RegExp("\\$JOIN\\$\\d+\\$"),this.nbr=RegExp("\\d+"),this.compose=function e(t,r){return t.reduce((e,t,i)=>e+t+(i<r.length?["string","number","boolean"].includes(typeof r[i])?r[i]:"$JOIN$"+i+"$":""),"").trim()},this.parse=function e(t){let r=document.createElement("template");return r.innerHTML=t,r.content}}constructor(e,...t){this.source=e,this.props=t}attrs(e,t){if(e.attributes&&e.attributes.length)for(let r=0;r<e.attributes.length;r++){let i=Parser.join.test(e.attributes[r].nodeValue)?this.props[+e.attributes[r].nodeValue.match(Parser.nbr)]:e.attributes[r].nodeValue;t.props[e.attributes[r].nodeName]=i}}nodes(e,t){if(e&&e.length)for(let r=0;r<e.length;r++)3===e[r].nodeType?e[r].nodeValue.trim()&&t.props.children.push(new Fiber(NEO_TEXT_SYMBOL,{nodeValue:e[r].nodeValue.replace(/\s\s+|\n|\r\n/g,"")})):(t.props.children.push(new Fiber),this.tree(e[r],t.props.children[t.props.children.length-1]))}tree(e,t){t.type=e.nodeName.toLowerCase(),this.nodes(e.childNodes,t),this.attrs(e,t)}exec(){let e=Parser.compose(this.source,this.props),t=new Fiber;return this.tree(Parser.parse(e),t),t.props.children}}class Neo{static Wrapper=null;static Toaster=null;static Locales={fr:{January:"Janvier",February:"Fevrier",March:"Mars",April:"Avril",May:"Mai",June:"Juin",July:"Juillet",August:"Ao\xfbt",September:"Septembre",October:"Octobre",November:"Novembre",December:"Decembre",Sunday:"Dimanche",Monday:"Lundi",Tuesday:"Mardi",Wednesday:"Mercredi",Thursday:"Jeudi",Friday:"Vendredi",Saturday:"Samedi",Print:"Imprimer",Search:"Recherche",Columns:"Colonnes",Download:"Telecharger","No Data Found":"Aucune Donnee Disponible"},ar:{January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر",Sunday:"الأحد",Monday:"الاثنين",Tuesday:"الثلاثاء",Wednesday:"الأربعاء",Thursday:"الخميس",Friday:"الجمعة",Saturday:"السبت",Print:"طباعة",Search:"بحث",Columns:"أعمدة",Download:"تحميل","No Data Found":"لا توجد بيانات"}};static load=function e(t){"function"==typeof t&&NEO_LOAD_MAPS.push(t)};static upgrade=function e(){Object.keys(NEO_NODE_MAPS).forEach(e=>{Array.from(document.querySelectorAll(e),e=>e.paint())})};static get NODES(){return NEO_NODE_MAPS}}return Neo.Helper=function e(){let t=function e(t,r){let i="";for(let s=0,n=0;s<t.length;s++)NEO_SYMBOLS_MAP.includes(t[s])?(i+=r[n%r.length],n++):i+=t[s];return i};class e{static secure=function t(r,i){return e.truty(r)?r:i};static random=function e(t=10){for(var r="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",i=r.length,s="",n=0;n<t;n++)s+=r.charAt(Math.floor(Math.random()*i));return s};static option=function e(t,r){if(t&&r){for(let[i,s]of Object.entries(t))if(i.split(",").map(e=>e.trim()).includes(r))return s()}};static choice=function e(t,r=1){let i=t.slice().sort(()=>Math.random()-.5),s=i.slice(0,Math.min(r,t.length));return r>1?s:s[0]};static falsy=function e(t){return["false","null","undefined","0",""].includes(String(t).trim())};static truty=function t(r){return!e.falsy(r)};static trans=function e(t,r={}){var i=Neo.Locales[r["#locale"]||document.documentElement.lang||"en"];return(i&&i[t]||t).replace(/#([\w\d._-]+)/g,(e,t)=>r[t]||e)};static range=function e(t,r,i=1){let s=void 0===r?0:t,n=[];r=r||t;for(let a=s;i>0?a<r:r<a;a+=i)n.push(a);return n};static style=function t(r){let i=[];for(let s in r){let n=e.Str.kebab(s);var a=r[s];e.truty(a)&&("number"!=typeof a||n in NEO_CSS_PROPS||(a+="px"),i.push(n+":"+a+";"))}return i.join("")};static when=function t(r,i,s){return e.truty(r)?"function"==typeof i?i(r):i:"function"==typeof s?s(r):s};static Theme=class e{static MEDIA=["","-o-","-ms-","-moz-","-webkit-"];static assign=function e(t,r,i){Object.keys(NEO_THEME_MAP).includes(t.toUpperCase())&&(NEO_THEME_MAP[t.toUpperCase()][r.toUpperCase()]=i)};static colors=function e(t,r,i){t=t.toUpperCase();let s="object"==typeof NEO_THEME_MAP.COLORS[t];return"rgb("+((s?NEO_THEME_MAP.COLORS[t][r]:NEO_THEME_MAP.COLORS[t])||NEO_THEME_MAP.COLORS.BLACK)+" / "+((s?i:r)||100)/100+")"};static sizes=function e(t){return NEO_THEME_MAP.SIZES[t.toUpperCase()]};static lines=function e(t){return NEO_THEME_MAP.LINES[t.toUpperCase()]};static layer=function e(){return Math.max(...[...document.querySelectorAll("body *")].reduce((e,t)=>("root"in t&&e.push(...t.root.querySelectorAll("*")),e.push(t),e),[]).map(e=>parseFloat(window.getComputedStyle(e).zIndex)).filter(e=>!Number.isNaN(e)),0)+1}};static Cipher=class e{static encrypt=function e(r,i){for(let s=0;s<i.length;s++){let n=t(r,i),a="";for(let o=0;o<n.length;o++)a+=NEO_SYMBOLS_MAP.includes(r[o])?NEO_BLUE_PRINTS[n[o]][NEO_SYMBOLS_MAP.indexOf(r[o])]:r[o];r=a}return r};static decrypt=function e(r,i){for(let s=0;s<i.length;s++){let n=t(r,i),a="";for(let o=0;o<n.length;o++)a+=NEO_SYMBOLS_MAP.includes(r[o])?NEO_SYMBOLS_MAP[NEO_BLUE_PRINTS[n[o]].indexOf(r[o])]:r[o];r=a}return r}};static Str=class e{static moment=function e(t,r="yyyy-mm-dd"){if("string"!=typeof t)return null;let i=r.match(/(\w)\1*|''|'(''|[^'])+('|$)|./g);return t=new Date(t),i?i.map(function(e){if("''"===e)return"'";var r=e[0];if("'"===r)return NEO_MOMENT_OBJ.$.clean(e);var i=NEO_MOMENT_OBJ[r];return i?i(t,e):e}).join(""):null};static kebab=function e(t){return t.replace(/([a-z])([A-Z])/g,"$1-$2").split(/[-_.\\\/\s]/g).join("-").toLowerCase()};static snake=function e(t){return t.replace(/[-_.\\\/\s](\w+)/g,(e,t)=>t[0].toUpperCase()+t.slice(1).toLowerCase())};static money=function e(t,r=2){return t.toLocaleString("en-US",{minimumFractionDigits:Math.max(r,(t.toString().split(".")[1]||"").length)})};static compact=function e(t=0,r=0){return new Intl.NumberFormat("en-US",{notation:"compact",compactDisplay:"short",minimumFractionDigits:Math.max(r,(t.toString().split(".")[1]||"").length)}).format(t)};static capitalize=function e(t){return t&&"string"==typeof t?t.trim().charAt(0).toUpperCase()+t.slice(1):""}}}return e}(),Neo.Sketch=function e(){class e{constructor(e,t,r={}){this.source=e.replace(/\n.*?(\(\$)-/g,"$1").replace(/-(\$\)).*?\n/g,"$1").replace(/\n.*?(\{\{)-/g,"$1").replace(/-(}\}).*?\n/g,"$1"),this.helpers={...r,...Neo.Helper},this.context=t}build(e){return Function("",e)()(this.context,this.helpers,function e(t,r){if(null===t)return t;let i=0;for(let s in t)r(s,t[s],{index:i,round:i+1,odd:i%2>0,even:i%2==0,first:0===i,last:i+1===Object.keys(t).length}),i++},function e(t){try{return Object.keys(t).length}catch(r){return null}},function e(t){let r={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"};return t.replace(/[&<>"']/g,e=>r[e]||e)},Error)}str(){let t=this.build(e.test(this.source)?this.source:e.compile(this.source));return t.shift().reduce((e,r,i)=>e+r+(["string","number","boolean"].includes(typeof t[i])?t[i]:""),"").trim()}exec(){return new Parser(...this.build(e.test(this.source)?this.source:e.compile(this.source))).exec()}}return e.delemiters=[/\{\$/,/\$\}/],e.variables=[/\{\{/,/\}\}/],e.helpers=RegExp("(?<![\"'`])@+(\\w+)(?![\"'`])","g"),e.chained=RegExp("([.]+[\\w\\d-_]+)(?=(?:[^'\"`]|[\"'`][^'\"`]*[\"'`])*$)","g"),e.parseed=RegExp("("+e.delemiters[0].source+".*?"+e.delemiters[1].source+"|"+e.variables[0].source+".*?"+e.variables[1].source+"|"+e.variables[0].source+"|"+e.delemiters[0].source+")"),e.isLogic=RegExp("^"+e.delemiters[0].source),e.isVariable=RegExp("^"+e.variables[0].source),e.fullToken=RegExp("^"+e.delemiters[0].source+"\\s*(\\w+)\\s*(.*)?"+e.delemiters[1].source+"$"),e.contentOfVariable=RegExp("^"+e.variables[0].source+"(.*)"+e.variables[1].source+"$"),e.loop=function e(t){var r=/\[(.*),(.*)\]/g.exec(t[0]),i=t[1].trim(),s=t[0].trim(),n="_";return[i,r?r[1].trim():n,r?r[2].trim():s]},e.logic=function t(r){return({make:e=>"var "+e+";",code:e=>e+";",until:e=>"while(!("+e+")){",enduntil:()=>"}",while:e=>"while("+e+"){",endwhile:()=>"}",unless:e=>"if(!("+e+")){",endunless:()=>"}",each(t){var[r,i,s]=e.loop(t.split(/into|INTO/));return"$EACH$("+r+",function("+i+","+s+",$LOOP$){"},endeach:()=>"});",forelse(t){var[r,i,s]=e.loop(t.split(/into|INTO/));return"if($SIZE$("+r+")){$EACH$("+r+",function("+i+","+s+",$LOOP$){"},empty:()=>"})}else{",endforelse:()=>"}",if:e=>"if("+e+"){",elif:e=>"}else if("+e+"){",else:()=>"}else{",endif:()=>"}",try:()=>"try{",catch:e=>"}catch("+e+"){",finally:()=>"}finally{",endtry:()=>"}",info:e=>"console['trace']("+e+");",warn:e=>"console['warn']("+e+");",error:e=>"console['error']("+e+");"})[r.toLowerCase()]},e.regex=function t(r){return r.replace(e.helpers,(e,t)=>"loop"===t?"$LOOP$":"$HELPER$."+t).replace(e.chained,e=>'["'+e.substring(1)+'"]')},e.tokens=function t(r){if(0===(r=String(r)).length)return[];let t=r.split(e.parseed).filter(e=>e.length>0),i=1,s=1;return t.map(e=>{let t={value:e,col:s,line:i},r=e.lastIndexOf("\n");if(r<0)s+=e.length;else{let n=e.split("\n").length-1;i+=n,s=e.length-r}return t})},e.parse=function t(r){if(0===r.length)return"";let i={macro:!1};return r.reduce((t,r)=>{try{return t+"$LINE$="+r.line+";$COL$="+r.col+";"+e.token(r,i)}catch(s){throw e.error(s,r)}},"")},e.token=function t(t,r){if(e.isLogic.test(t.value)){let i=e.fullToken.exec(t.value);return["macro","endmacro"].includes(i[1].toLowerCase())?(r.macro="macro"===i[1].toLowerCase(),""):e.logic(i[1].toLowerCase())(i[2]&&e.regex(i[2].trim()))}if(e.isVariable.test(t.value)){let s=e.contentOfVariable.exec(t.value),n=null!=s?s[1]:void 0;return"$ADDJSX$("+(">"===n[0]?"$ESCAPE$("+e.regex(n.substring(1).trim())+")":e.regex(n.trim()))+");"}if(0!==t.value.length)return r.macro?t.value.replace(/(\n\r+|\n\s+|\r+|\n+)/g," "):'$ADDTXT$("'+t.value.replace(/(`|'|")/g,"\\$1")+'");'},e.compile=function t(r){return r=e.tokens(r),"return function($CONTEXT$,$HELPER$,$EACH$,$SIZE$,$ESCAPE$,$ERROR$){var $TXT$=[],$JSX$=[],$INDEX$=0,$LINE$=0,$COL$=0;function $ADDTXT$($LINE$){if(!$TXT$[$INDEX$]){$TXT$[$INDEX$]=''}$TXT$[$INDEX$]=($TXT$[$INDEX$]+$LINE$).replace(/\\n(:?\\s*\\n)+/g,'\\n')}function $ADDJSX$($LINE$){$JSX$[$INDEX$]=$LINE$,$INDEX$++}with($CONTEXT$||{}){try{"+(r=(r=e.parse(r)).replace(/(\n|\n\s+)/g,"\\n"))+"}catch(e){throw new $ERROR$([e.message,'\\n\\tat','Line:','\"'+$LINE$+'\"','Col:','\"'+$COL$+'\"'].join(' '))}}return [$TXT$,...$JSX$]}"},e.test=function e(t){return t.startsWith("return function($CONTEXT$,$HELPER$,$EACH$,$SIZE$,$ESCAPE$,$ERROR$){var $TXT$=[],$JSX$=[],$INDEX$=0,$LINE$=0,$COL$=0;function $ADDTXT$($LINE$){if(!$TXT$[$INDEX$]){$TXT$[$INDEX$]=''}$TXT$[$INDEX$]=($TXT$[$INDEX$]+$LINE$).replace(/\\n(:?\\s*\\n)+/g,'\\n')}function $ADDJSX$($LINE$){$JSX$[$INDEX$]=$LINE$,$INDEX$++}")},e.error=function e(t,r){t.message=t.message+"\n    at "+r.value+" ("+r.line+":"+r.col+")",t.location||(t.location={col:r.col,line:r.line})},e}(),Neo.Driver=function Driver(){class Driver{constructor(e,t,r={}){this.container=e,this.instance=null,this.refs=r,this.tree=t}create(e){let{type:t,props:r}=e,i=t===NEO_TEXT_SYMBOL?document.createTextNode(""):t in NEO_SVG_NODES?document.createElementNS("http://www.w3.org/2000/svg",t):document.createElement(t),s=this.children({dom:i},e);return Driver.properties(i,{},r,this.refs),new Instance(i,e,s)}reconcile(e,t,r){var i;return null==t?(Array.isArray(r)?(i=r.map(e=>this.create(e))).forEach(t=>{e.appendChild(t.dom)}):Array.isArray((i=this.create(r)).dom)?Driver.flatten(i.dom).forEach(t=>{e.appendChild(t)}):i.dom&&e.appendChild(i.dom),i):null==r?(Array.isArray(t)?t.forEach(t=>{e.removeChild(t.dom)}):t.dom&&e.removeChild(t.dom),null):Array.isArray(t)&&Array.isArray(r)?this.children({dom:e,children:t},{props:{children:r}}):(t.fiber||{}).type!==r.type?(i=this.create(r),(t.dom||t[0].dom)&&e.replaceChild(i.dom,t.dom||t[0].dom),i):"string"==typeof r.type||r.type===NEO_TEXT_SYMBOL?(t.children=this.children(t,r),Driver.properties(t.dom,t.fiber.props,r.props,this.refs),t.fiber=r,t):void 0}children(e,t){let r=(e.children||[]).filter(e=>null!=e),i=(t.props.children||[]).filter(e=>null!=e),s=Math.max(r.length,i.length),n=[];for(var a=0;a<s;a++){let o=this.reconcile(e.dom,r[a],i[a]);n.push(o)}return n}exec(e){for(let t in this.tree=e||this.tree,this.refs)delete this.refs[t];this.instance=this.reconcile(this.container,this.instance,this.tree)}}return Driver.flatten=function e(t){return t.reduce((e,t)=>[...e,...Array.isArray(t)?Driver.flatten(t):[t]],[])},Driver.properties=function e(t,r,i,s){Driver.properties.clear(t,r,i),Driver.properties.apply(t,i,s)},Driver.object=function e(t,r,i){let s=r.split("."),n=s.pop(),e=s.reduce((e,t)=>e[t],t);e[n]=i},Driver.reference=function e(t,r,i){i[r]?Array.isArray(i[r])?i[r].push(t):i[r]=[i[r],t]:i[r]=t},Driver.properties.clear=function e(t,r,i){for(var s in Driver.listeners.clear(t,i),r)if(!(s in i)){let n=t&&t.tagName&&t.tagName.toLowerCase(),a=s.split(".").length>1,o=n in NEO_SVG_NODES,c=s in t;c&&!o?t[s]="":a?this.applyObject(t,{[s]:""},s):t.removeAttribute(s)}},Driver.properties.apply=function apply(node,next,refs){for(var prop in next){if("children"===prop)continue;let tag=node&&node.tagName&&node.tagName.toLowerCase(),isObj=prop.split(".").length>1,isSvg=tag in NEO_SVG_NODES,isEvent=prop.startsWith("@"),isRef="ref"===prop,isProp=prop in node;isEvent?Driver.listeners.apply(node,prop,next[prop]):isProp&&!isSvg?node[prop]=["false","true"].includes(next[prop])?eval(next[prop]):next[prop]:isObj?Driver.object(node,prop,next[prop]):isRef?Driver.reference(node,next[prop],refs):node.setAttribute(prop,next[prop])}},Driver.listeners=function e(){},Driver.listeners.clear=function e(t,r){for(let i in t.listeners)if(!(i in r)){let s=i.split(":"),n=s[0].substring(1);t["on"+n]=null,delete t.listeners[i]}},Driver.listeners.apply=function e(t,r,i){let s=r.split(":"),n=s.shift().substring(1);t.listeners=t.listeners||{},(!t.listeners[r]||t.listeners[r]&&t.listeners[r].toString()!==i.toString())&&(t.listeners[r]=i,t["on"+n]=e=>{(s[0]||"").split("|").forEach(t=>{switch(t){case"prevent":e.preventDefault();case"propagation":e.stopPropagation();case"immediate":e.stopImmediatePropagation()}}),i(e)})},Driver}(),Neo.Segment=function e(){class e{constructor(e,t,r={}){this.sketch=new Neo.Sketch(t,r,{this:this}),this.driver=new Neo.Driver(e,[]),this.upgrade()}setContext(e){var t={...this.sketch.context},r=!1;Object.entries(e).forEach(([e,i])=>{t[e]!==i&&(t[e]=i,r=!0)}),r&&(this.sketch.context=t,this.upgrade())}upgrade(){e.build(this.driver,this.sketch)}get context(){return this.sketch.context}}return e.build=function e(t,r){t.exec(r.exec())},e}(),Neo.Component=function e(){function e(e){let t=e.tag||"",r=e.ctl||!1,i=Neo.Sketch.test(e.tpl||"")?e.tpl:Neo.Sketch.compile(e.tpl||""),s=Neo.Sketch.test(e.css||"")?e.css:Neo.Sketch.compile("<style>"+(e.css||"")+"</style>");return function(e){let{attrs:n=[],dense:a={},props:o={},rules:c={},state:l={},cycle:u={}}=e;return class extends HTMLElement{static{Object.entries(a).forEach(([e,t])=>{this[e]=t}),r&&(this.formAssociated=!0),this.observedAttributes=n,this.selector=t,this.define=function e(t){return t=t||this.selector,customElements.get(t)||(NEO_NODE_MAPS[t]=this,customElements.define(t,this)),this}}cache={drive:null,props:{},state:{}};cycle={created(){},mounted(){},adopted(){},updated(){},removed(){},painted(){}};props={};state={};rules={};refs={};constructor(){super(),this.root=this.attachShadow({mode:"open"}),r&&(this.ctl=this.attachInternals(),Object.defineProperties(this,{form:{get:()=>this.ctl.form},name:{get:()=>this.getAttribute("name")},validity:{get:()=>this.ctl.validity},willValidate:{get:()=>this.ctl.willValidate},validationMessage:{get:()=>this.ctl.validationMessage}}),this.checkValidity=()=>this.ctl.checkValidity(),this.reportValidity=()=>this.ctl.reportValidity()),this.launch(),this.paint(),this.cycle.created(),this.emit("created")}attributeChangedCallback(e,t,r){this.cycle.updated(e,t,r,"attrs")}connectedCallback(){Object.keys(o).forEach(e=>{let t=Neo.Helper.Str.kebab(e),r=this.cache.props[e]!==o[e]?this.cache.props[e]:o[e];n.includes(t)&&(r?this.getAttribute(t)!==String(r)&&this.setAttribute(t,r):this.removeAttribute(t))}),this.cycle.mounted(),this.emit("mounted")}disconnectedCallback(){this.cycle.removed(),this.emit("removed")}adoptedCallback(){this.cycle.adopted(),this.emit("adopted")}launch(){let e=(e,t)=>{let r=this.cache.props[e];if(r===t)return;this.cache.props[e]=t;let i=Neo.Helper.Str.kebab(e);n.includes(i)&&(t?this.getAttribute(i)!==String(t)&&this.setAttribute(i,t):this.removeAttribute(i)),this.paint(),this.cycle.updated(e,r,t,"props"),this.emit("updated",{name:e,type:"props",prev:r,next:t})};Object.keys(o).forEach(t=>{this.cache.props[t]=o[t],Object.defineProperty(this.props,t,{set(r){e(t,r)},get:()=>this.cache.props[t]}),Object.defineProperty(this,t,{set(r){e(t,r)},get:()=>this.cache.props[t]})}),Object.keys(l).forEach(e=>{this.cache.state[e]=l[e],Object.defineProperty(this.state,e,{set:t=>{let r=this.cache.state[e];r!==t&&(this.cache.state[e]=t,this.paint(),this.cycle.updated(e,r,t,"state"),this.emit("updated",{name:e,type:"state",prev:r,next:t}))},get:()=>this.cache.state[e]})}),Object.keys(c).forEach(e=>{"function"==typeof c[e]&&(this.rules[e]=c[e].bind(this))}),Object.keys(u).forEach(e=>{"function"==typeof u[e]&&(this.cycle[e]=u[e].bind(this))})}paint(){let e={props:this.cache.props,state:this.cache.state,rules:this.rules,refs:this.refs,this:this},t=new Neo.Sketch(s,e,e),r=new Neo.Sketch(i,e,e),n=[...t.exec(),...r.exec()];this.cache.drive||(this.cache.drive=new Neo.Driver(this.root,[],this.refs)),this.cache.drive.exec(n),this.cycle.painted(),this.emit("painted")}emit(e,t,r){let i=new CustomEvent(e,{bubbles:!0,cancelable:!0,composed:!0,isTrusted:!0,detail:t});this.dispatchEvent(i),!i.defaultPrevented&&r&&r.bind(this)(i)}setProps(e={}){var t=!1,r={};Object.entries(e).forEach(([e,i])=>{if(this.cache.props[e]===i)return;r[e]=this.cache.props[e],this.cache.props[e]=i;let s=Neo.Helper.Str.kebab(e);n.includes(s)&&(i?this.getAttribute(s)!==String(i)&&this.setAttribute(s,i):this.removeAttribute(s)),t=!0}),t&&(this.paint(),Object.keys(r).forEach(t=>{this.cycle.updated(t,r[t],e[t],"props")}))}setState(e={}){var t=!1,r={};Object.entries(e).forEach(([e,i])=>{this.cache.state[e]!==i&&(r[e]=this.cache.state[e],this.cache.state[e]=i,t=!0)}),t&&(this.paint(),Object.keys(r).forEach(t=>{this.cycle.updated(t,r[t],e[t],"state")}))}}}}return e}(),document.addEventListener("DOMContentLoaded",e=>{NEO_LOAD_MAPS.forEach(t=>t(e))}),Neo}();Neo.Helper.Theme.assign("colors","WHITE","254 254 254"),Neo.Helper.Theme.assign("colors","LIGHT","245 245 245"),Neo.Helper.Theme.assign("colors","SHADE","209 209 209"),Neo.Helper.Theme.assign("colors","PRIME","33 150 243"),Neo.Helper.Theme.assign("colors","BLACK","29 29 29");
+const Neo = (function Neo() {
+    const
+        NEO_SYMBOLS_MAP = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm ,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?",
+        NEO_BLUE_PRINTS = (function blueprint() {
+            const repository = {};
+
+            for (let i = 0; i < NEO_SYMBOLS_MAP.length; i++) {
+                const key = NEO_SYMBOLS_MAP[i];
+                const firstPart = NEO_SYMBOLS_MAP.slice(i);
+                const secondPart = NEO_SYMBOLS_MAP.slice(0, i);
+                const value = firstPart + secondPart;
+                repository[key] = value;
+            }
+
+            return repository;
+        })(),
+        NEO_TEXT_SYMBOL = Symbol.for("$NEOTEXTSYMBOL$"),
+        NEO_LOAD_MAPS = [],
+        NEO_NODE_MAPS = {},
+        NEO_THEME_MAP = {
+            COLORS: {
+                WHITE: "254 254 254",
+                LIGHT: "245 245 245",
+                SHADE: "209 209 209",
+                PRIME: "33 150 243",
+                BLACK: "29 29 29",
+                RED: {
+                    50: "254 242 242",
+                    100: "254 226 226",
+                    200: "254 202 202",
+                    300: "252 165 165",
+                    400: "248 113 113",
+                    500: "239 68 68",
+                    600: "220 38 38",
+                    700: "185 28 28",
+                    800: "153 27 27",
+                    900: "127 29 29",
+                    950: "69 10 10",
+                },
+                GRAY: {
+                    50: "249 250 251",
+                    100: "243 244 246",
+                    200: "229 231 235",
+                    300: "209 213 219",
+                    400: "156 163 175",
+                    500: "107 114 128",
+                    600: "75 85 99",
+                    700: "55 65 81",
+                    800: "31 41 55",
+                    900: "17 24 39",
+                    950: "3 7 18",
+                },
+                BLUE: {
+                    50: "239 246 255",
+                    100: "219 234 254",
+                    200: "191 219 254",
+                    300: "147 197 253",
+                    400: "96 165 250",
+                    500: "59 130 246",
+                    600: "37 99 235",
+                    700: "29 78 216",
+                    800: "30 64 175",
+                    900: "30 58 138",
+                    950: "23 37 84",
+                },
+                GREEN: {
+                    50: "240 253 244",
+                    100: "220 252 231",
+                    200: "187 247 208",
+                    300: "134 239 172",
+                    400: "74 222 128",
+                    500: "34 197 94",
+                    600: "22 163 74",
+                    700: "21 128 61",
+                    800: "22 101 52",
+                    900: "20 83 45",
+                    950: "5 46 22",
+                },
+                YELLOW: {
+                    50: "254 252 232",
+                    100: "254 249 195",
+                    200: "254 240 138",
+                    300: "253 224 71",
+                    400: "250 204 21",
+                    500: "234 179 8",
+                    600: "202 138 4",
+                    700: "161 98 7",
+                    800: "133 77 14",
+                    900: "113 63 18",
+                    950: "66 32 6",
+                },
+                PURPLE: {
+                    50: "250 245 255",
+                    100: "243 232 255",
+                    200: "233 213 255",
+                    300: "216 180 254",
+                    400: "192 132 252",
+                    500: "168 85 247",
+                    600: "147 51 234",
+                    700: "126 34 206",
+                    800: "107 33 168",
+                    900: "88 28 135",
+                    950: "59 7 100",
+                },
+            },
+            SIZES: {
+                XSMALL: "0.75rem",
+                SMALL: "0.875rem",
+                BASE: "1rem",
+                MEDIUM: "1.125rem",
+                LARGE: "1.25rem",
+                XLARGE: "1.5rem",
+            },
+            LINES: {
+                THIN: "0.75rem",
+                XSMALL: "1rem",
+                SMALL: "1.25rem",
+                BASE: "1.5rem",
+                MEDIUM: "1.75rem",
+                LARGE: "1.75rem",
+                XLARGE: "2rem",
+            },
+        },
+        NEO_SVG_NODES = {
+            svg: true,
+            animate: true,
+            animateMotion: true,
+            animateTransform: true,
+            circle: true,
+            clipPath: true,
+            defs: true,
+            desc: true,
+            discard: true,
+            ellipse: true,
+            feBlend: true,
+            feColorMatrix: true,
+            feFiberTransfer: true,
+            feComposite: true,
+            feConvolveMatrix: true,
+            feDiffuseLighting: true,
+            feDisplacementMap: true,
+            feDistantLight: true,
+            feDropShadow: true,
+            feFlood: true,
+            feFuncA: true,
+            feFuncB: true,
+            feFuncG: true,
+            feFuncR: true,
+            feGaussianBlur: true,
+            feImage: true,
+            feMerge: true,
+            feMergeNode: true,
+            feMorphology: true,
+            feOffset: true,
+            fePointLight: true,
+            feSpecularLighting: true,
+            feSpotLight: true,
+            feTile: true,
+            feTurbulence: true,
+            filter: true,
+            foreignObject: true,
+            g: true,
+            hatch: true,
+            hatchpath: true,
+            image: true,
+            line: true,
+            linearGradient: true,
+            marker: true,
+            mask: true,
+            metadata: true,
+            mpath: true,
+            path: true,
+            pattern: true,
+            polygon: true,
+            polyline: true,
+            radialGradient: true,
+            rect: true,
+            script: true,
+            set: true,
+            stop: true,
+            style: true,
+            switch: true,
+            symbol: true,
+            text: true,
+            textPath: true,
+            title: true,
+            tspan: true,
+            use: true,
+            compiler: true,
+            animateColor: true,
+            "missing-glyph": true,
+            font: true,
+            "font-face": true,
+            "font-face-format": true,
+            "font-face-name": true,
+            "font-face-src": true,
+            "font-face-uri": true,
+            hkern: true,
+            vkern: true,
+            solidcolor: true,
+            altGlyph: true,
+            altGlyphDef: true,
+            altGlyphItem: true,
+            glyph: true,
+            glyphRef: true,
+            tref: true,
+            cursor: true,
+        },
+        NEO_CSS_PROPS = {
+            "animation-iteration-count": true,
+            "border-image-slice": true,
+            "border-image-width": true,
+            "column-count": true,
+            "counter-increment": true,
+            "counter-reset": true,
+            flex: true,
+            "flex-grow": true,
+            "flex-shrink": true,
+            "font-size-adjust": true,
+            "font-weight": true,
+            "line-height": true,
+            "nav-index": true,
+            opacity: true,
+            order: true,
+            orphans: true,
+            "tab-size": true,
+            widows: true,
+            "z-index": true,
+            "pitch-range": true,
+            richness: true,
+            "speech-rate": true,
+            stress: true,
+            volume: true,
+            "lood-opacity": true,
+            "mask-box-outset": true,
+            "mask-border-outset": true,
+            "mask-box-width": true,
+            "mask-border-width": true,
+            "shape-image-threshold": true,
+        },
+        NEO_MOMENT_OBJ = {
+            $: {
+                props: [
+                    ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                ],
+                zeros: function(nbr, len) {
+                    for (var sign = nbr < 0 ? "-" : "", output = Math.abs(nbr).toString(); output.length < len;) output = "0" + output;
+                    return sign + output;
+                },
+                clean: function(input) {
+                    var matches = input.match(/^'([^]*?)'?$/);
+                    return matches ? matches[1].replace(/''/g, "'") : input;
+                },
+            },
+            y: (date, token) => {
+                var signedYear = date.getFullYear(),
+                    year = signedYear > 0 ? signedYear : 1 - signedYear;
+                return NEO_MOMENT_OBJ.$.zeros("yy" === token ? year % 100 : year, token.length);
+            },
+            m: (date, token) => {
+                var month = date.getMonth();
+                switch (token) {
+                    case "mmm":
+                        return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[0][month]).slice(0, 3);
+                    case "mmmm":
+                        return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[0][month]);
+                    default:
+                        return NEO_MOMENT_OBJ.$.zeros(month + 1, token.length);
+                }
+            },
+            d: (date, token) => {
+                switch (token) {
+                    case "ddd":
+                        return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[1][date.getDay()]).slice(0, 3);
+                    case "dddd":
+                        return Neo.Helper.trans(NEO_MOMENT_OBJ.$.props[1][date.getDay()]);
+                    default:
+                        return NEO_MOMENT_OBJ.$.zeros(date.getDate(), token.length);
+                }
+            },
+            A: (date, token) => {
+                var dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
+                switch (token) {
+                    case "A":
+                    case "AA":
+                        return dayPeriodEnumValue.toUpperCase();
+                    case "AAA":
+                        return dayPeriodEnumValue;
+                    case "AAAAA":
+                        return dayPeriodEnumValue[0];
+                    case "AAAA":
+                    default:
+                        return "am" === dayPeriodEnumValue ? "a.m." : "p.m.";
+                }
+            },
+            h: (date, token) => {
+                return NEO_MOMENT_OBJ.$.zeros(date.getHours() % 12 || 12, token.length);
+            },
+            H: (date, token) => {
+                return NEO_MOMENT_OBJ.$.zeros(date.getHours(), token.length);
+            },
+            M: (date, token) => {
+                return NEO_MOMENT_OBJ.$.zeros(date.getMinutes(), token.length);
+            },
+            S: (date, token) => {
+                return NEO_MOMENT_OBJ.$.zeros(date.getSeconds(), token.length);
+            },
+        };
+
+    class Instance {
+        constructor(dom, fiber, children) {
+            this.dom = dom;
+            this.fiber = fiber;
+            this.children = children;
+        }
+    }
+
+    class Fiber {
+        constructor(type = null, props = {}) {
+            this.type = type;
+            this.props = props;
+            this.props.children = this.props.children || [];
+        }
+    }
+
+    class Parser {
+        static {
+            this.join = new RegExp("\\$JOIN\\$\\d+\\$");
+            this.nbr = new RegExp("\\d+");
+
+            this.compose = function compose(source, props) {
+                return source.reduce((acc, part, i) => {
+                    return acc + part + (i < props.length ? (["string", "number", "boolean"].includes(typeof props[i]) ? props[i] : "$JOIN$" + i + "$") : "")
+                }, "").trim();
+            }
+
+            this.parse = function parse(source) {
+                const template = document.createElement("template");
+                template.innerHTML = source;
+                return template.content;
+            }
+        }
+
+        constructor(source, ...props) {
+            this.source = source;
+            this.props = props;
+        }
+
+        attrs(target, fiber) {
+            if (target.attributes && target.attributes.length) {
+                for (let i = 0; i < target.attributes.length; i++) {
+                    const value = Parser.join.test(target.attributes[i].nodeValue) ? this.props[+target.attributes[i].nodeValue.match(Parser.nbr)] : target.attributes[i].nodeValue;
+                    fiber.props[target.attributes[i].nodeName] = value;
+                }
+            }
+        }
+
+        nodes(target, fiber) {
+            if (target && target.length) {
+                for (let i = 0; i < target.length; i++) {
+                    if (target[i].nodeType === 3) {
+                        target[i].nodeValue.trim() && fiber.props.children.push(new Fiber(NEO_TEXT_SYMBOL, { nodeValue: target[i].nodeValue.replace(/\s\s+|\n|\r\n/g, '') }));
+                    } else {
+                        fiber.props.children.push(new Fiber());
+                        this.tree(target[i], fiber.props.children[fiber.props.children.length - 1]);
+                    }
+                }
+            }
+        }
+
+        tree(target, fiber) {
+            fiber.type = target.nodeName.toLowerCase();
+            this.nodes(target.childNodes, fiber);
+            this.attrs(target, fiber);
+        }
+
+        exec() {
+            const source = Parser.compose(this.source, this.props),
+                fiber = new Fiber();
+
+            this.tree(Parser.parse(source), fiber);
+            return fiber.props.children;
+        }
+    }
+
+    class Neo {
+        static Wrapper = null;
+        static Toaster = null;
+        static Locales = {
+            fr: {
+                /** months */
+                "January": "Janvier",
+                "February": "Fevrier",
+                "March": "Mars",
+                "April": "Avril",
+                "May": "Mai",
+                "June": "Juin",
+                "July": "Juillet",
+                "August": "Août",
+                "September": "Septembre",
+                "October": "Octobre",
+                "November": "Novembre",
+                "December": "Decembre",
+                /** days */
+                "Sunday": "Dimanche",
+                "Monday": "Lundi",
+                "Tuesday": "Mardi",
+                "Wednesday": "Mercredi",
+                "Thursday": "Jeudi",
+                "Friday": "Vendredi",
+                "Saturday": "Samedi",
+                /** components */
+                "Print": "Imprimer",
+                "Search": "Recherche",
+                "Columns": "Colonnes",
+                "Download": "Telecharger",
+                "No Data Found": "Aucune Donnee Disponible",
+            },
+            ar: {
+                /** months */
+                "January": "يناير",
+                "February": "فبراير",
+                "March": "مارس",
+                "April": "أبريل",
+                "May": "مايو",
+                "June": "يونيو",
+                "July": "يوليو",
+                "August": "أغسطس",
+                "September": "سبتمبر",
+                "October": "أكتوبر",
+                "November": "نوفمبر",
+                "December": "ديسمبر",
+                /** days */
+                "Sunday": "الأحد",
+                "Monday": "الاثنين",
+                "Tuesday": "الثلاثاء",
+                "Wednesday": "الأربعاء",
+                "Thursday": "الخميس",
+                "Friday": "الجمعة",
+                "Saturday": "السبت",
+                /** components */
+                "Print": "طباعة",
+                "Search": "بحث",
+                "Columns": "أعمدة",
+                "Download": "تحميل",
+                "No Data Found": "لا توجد بيانات",
+            }
+        }
+
+        static load = function load(callable) {
+            typeof callable === "function" && NEO_LOAD_MAPS.push(callable);
+        };
+
+        static upgrade = function upgrade() {
+            Object.keys(NEO_NODE_MAPS).forEach(selector => {
+                Array.from(document.querySelectorAll(selector), (el) => el.paint());
+            });
+        }
+
+        static get NODES() {
+            return NEO_NODE_MAPS;
+        }
+    }
+
+    Neo.Helper = (function Helper() {
+        const blend = function blend(content, key) {
+            let code = "";
+
+            for (let i = 0, j = 0; i < content.length; i++) {
+                if (NEO_SYMBOLS_MAP.includes(content[i])) {
+                    code += key[j % key.length];
+                    j++;
+                } else {
+                    code += content[i];
+                }
+            }
+
+            return code;
+        }
+
+        class Helper {
+            static secure = function secure(original, alternative) {
+                return Helper.truty(original) ? original : alternative;
+            }
+
+            static random = function random(length = 10) {
+                var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                var charLength = chars.length;
+                var result = "";
+                for (var i = 0; i < length; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * charLength));
+                }
+                return result;
+            }
+
+            static option = function option(cases, target) {
+                if (!cases || !target) return;
+                for (const [key, value] of Object.entries(cases))
+                    if (key.split(",").map(str => str.trim()).includes(target)) return value();
+            }
+
+            static choice = function choice(items, length = 1) {
+                const random = items.slice().sort(() => Math.random() - 0.5); // Shuffle the items
+                const result = random.slice(0, Math.min(length, items.length));
+                return length > 1 ? result : result[0];
+            }
+
+            static falsy = function falsy(data) {
+                return [
+                    "false", "null", "undefined", "0", ""
+                ].includes(String(data).trim());
+            }
+
+            static truty = function truty(data) {
+                return !Helper.falsy(data);
+            }
+
+            static trans = function trans(text, context = {}) {
+                var dict = Neo.Locales[context["#locale"] || document.documentElement.lang || "en"];
+                return ((dict && dict[text]) || text).replace(/#([\w\d._-]+)/g, (full, key) => context[key] || full);
+            }
+
+            static range = function range(startOrEnd, end, step = 1) {
+                const start = end === undefined ? 0 : startOrEnd,
+                    arr = [];
+                end = end || startOrEnd;
+                for (let i = start; step > 0 ? i < end : end < i; i += step) {
+                    arr.push(i);
+                }
+
+                return arr;
+            }
+
+            static style = function style(cssObj) {
+                const rules = [];
+
+                for (const key in cssObj) {
+                    const rule = Helper.Str.kebab(key);
+                    var value = cssObj[key];
+
+                    if (Helper.truty(value)) {
+                        if (typeof value === "number" && !(rule in NEO_CSS_PROPS)) value += "px";
+                        rules.push(rule + ":" + value + ";")
+                    }
+                }
+
+                return rules.join("");
+            }
+
+            static when = function when(condition, truecase, falsecase) {
+                return Helper.truty(condition) ?
+                    (typeof truecase === "function" ? truecase(condition) : truecase) :
+                    (typeof falsecase === "function" ? falsecase(condition) : falsecase);
+            }
+
+            static Theme = class Theme {
+                static MEDIA = ["", "-o-", "-ms-", "-moz-", "-webkit-"];
+
+                static assign = function assign(type, name, value) {
+                    if (Object.keys(NEO_THEME_MAP).includes(type.toUpperCase()))
+                        NEO_THEME_MAP[type.toUpperCase()][name.toUpperCase()] = value;
+                }
+
+                static colors = function colors(name, shade, opacity) {
+                    name = name.toUpperCase();
+                    const isobj = typeof NEO_THEME_MAP.COLORS[name] === "object";
+                    return "rgb(" + ((isobj ? NEO_THEME_MAP.COLORS[name][shade] : NEO_THEME_MAP.COLORS[name]) || NEO_THEME_MAP.COLORS.BLACK) + " / " + (((isobj ? opacity : shade) || 100) / 100) + ")";
+                }
+
+                static sizes = function sizes(name) {
+                    return NEO_THEME_MAP.SIZES[name.toUpperCase()];
+                }
+
+                static lines = function lines(name) {
+                    return NEO_THEME_MAP.LINES[name.toUpperCase()];
+                }
+
+                static layer = function layer() {
+                    return Math.max(
+                        ...[...document.querySelectorAll("body *")].reduce((a, c) => {
+                            if ("root" in c) {
+                                a.push(...c.root.querySelectorAll("*"));
+                            }
+                            a.push(c);
+                            return a;
+                        }, []).map(el => parseFloat(window.getComputedStyle(el).zIndex)).filter(
+                            zIndex => !Number.isNaN(zIndex)
+                        ), 0
+                    ) + 1;
+                }
+            }
+
+            static Cipher = class Cipher {
+                static encrypt = function encrypt(content, key) {
+                    for (let x = 0; x < key.length; x++) {
+                        const blendstr = blend(content, key);
+                        let code = "";
+
+                        for (let i = 0; i < blendstr.length; i++) {
+                            code += NEO_SYMBOLS_MAP.includes(content[i]) ? NEO_BLUE_PRINTS[blendstr[i]][NEO_SYMBOLS_MAP.indexOf(content[i])] : content[i];
+                        }
+                        content = code;
+                    }
+
+                    return content;
+                }
+
+                static decrypt = function decrypt(content, key) {
+                    for (let x = 0; x < key.length; x++) {
+                        const blendstr = blend(content, key);
+                        let code = "";
+
+                        for (let i = 0; i < blendstr.length; i++) {
+                            code += NEO_SYMBOLS_MAP.includes(content[i]) ? NEO_SYMBOLS_MAP[NEO_BLUE_PRINTS[blendstr[i]].indexOf(content[i])] : content[i];
+                        }
+                        content = code;
+                    }
+
+                    return content;
+                }
+            }
+
+            static Str = class Str {
+                static moment = function moment(date, format = "yyyy-mm-dd") {
+                    if (typeof date !== "string") return null;
+                    const tokens = (format).match(/(\w)\1*|''|'(''|[^'])+('|$)|./g);
+                    date = new Date(date);
+
+                    return tokens ?
+                        tokens
+                        .map(function(substringing) {
+                            if ("''" === substringing) return "'";
+                            var firstCharacter = substringing[0];
+                            if ("'" === firstCharacter) return NEO_MOMENT_OBJ.$.clean(substringing);
+                            var formatter = NEO_MOMENT_OBJ[firstCharacter];
+                            return formatter ? formatter(date, substringing) : substringing;
+                        })
+                        .join("") :
+                        null;
+                }
+
+                static kebab = function kebab(string) {
+                    return string.replace(/([a-z])([A-Z])/g, "$1-$2").split(/[-_.\\\/\s]/g).join("-").toLowerCase();
+                }
+
+                static snake = function snake(string) {
+                    return string.replace(/[-_.\\\/\s](\w+)/g, (_, w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
+                }
+
+                static money = function money(number, zeros = 2) {
+                    return number.toLocaleString('en-US', {
+                        minimumFractionDigits: Math.max(zeros, (number.toString().split('.')[1] || '').length)
+                    });
+                }
+
+                static compact = function compact(number = 0, zeros = 0) {
+                    return new Intl.NumberFormat('en-US', {
+                        notation: 'compact',
+                        compactDisplay: 'short',
+                        minimumFractionDigits: Math.max(zeros, (number.toString().split('.')[1] || '').length)
+                    }).format(number);
+                }
+
+                static capitalize = function capitalize(string) {
+                    return (!string || typeof string !== 'string') ? '' : string.trim().charAt(0).toUpperCase() + string.slice(1);
+                }
+            }
+        }
+
+        return Helper;
+    })();
+
+    Neo.Sketch = (function Sketch() {
+        class Sketch {
+            constructor(source, context, helpers = {}) {
+                this.source = source
+                    .replace(/\n.*?(\(\$)-/g, '$1') // tag starting with {\$-
+                    .replace(/-(\$\)).*?\n/g, '$1') // tag ending with -\$}
+                    .replace(/\n.*?(\{\{)-/g, '$1') // tag starting with {{-
+                    .replace(/-(}\}).*?\n/g, '$1');
+                this.helpers = {...helpers, ...Neo.Helper };
+                this.context = context;
+            }
+
+            build(source) {
+                return new Function("", source)()(
+                    this.context,
+                    this.helpers,
+                    function $EACH$(iterable, callback) {
+                        if (iterable === null) return iterable;
+                        let index = 0;
+                        for (const key in iterable) {
+                            callback(key, iterable[key], {
+                                index: index,
+                                round: index + 1,
+                                odd: index % 2 > 0,
+                                even: index % 2 === 0,
+                                first: index === 0,
+                                last: index + 1 === Object.keys(iterable).length,
+                            });
+                            index++;
+                        }
+                    },
+                    function $SIZE$(iterable) {
+                        try { return Object.keys(iterable).length } catch (e) { return null }
+                    },
+                    function $ESCAPE$(string) {
+                        const escapeMap = {
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&apos;",
+                        };
+
+                        return string.replace(/[&<>"']/g, (char) => escapeMap[char] || char);
+                    },
+                    Error
+                );
+            }
+
+            str() {
+                const source = this.build(Sketch.test(this.source) ? this.source : Sketch.compile(this.source));
+                return source
+                    .shift()
+                    .reduce((acc, part, i) => acc + part + (["string", "number", "boolean"].includes(typeof source[i]) ? source[i] : ""), "")
+                    .trim();
+            }
+
+            exec() {
+                return new Parser(...this.build(Sketch.test(this.source) ? this.source : Sketch.compile(this.source))).exec();
+            }
+        }
+
+        Sketch.delemiters = [/\{\$/, /\$\}/];
+        Sketch.variables = [/\{\{/, /\}\}/];
+        Sketch.helpers = new RegExp("(?<![\"'`])@+(\\w+)(?![\"'`])", "g");
+        Sketch.chained = new RegExp("([.]+[\\w\\d-_]+)(?=(?:[^'\"`]|[\"'`][^'\"`]*[\"'`])*$)", "g");
+        Sketch.parseed = RegExp(
+            '(' + Sketch.delemiters[0].source + '.*?' + Sketch.delemiters[1].source +
+            '|' + Sketch.variables[0].source + '.*?' + Sketch.variables[1].source +
+            '|' + Sketch.variables[0].source + '|' + Sketch.delemiters[0].source + ')'
+        );
+        Sketch.isLogic = RegExp('^' + Sketch.delemiters[0].source);
+        Sketch.isVariable = RegExp('^' + Sketch.variables[0].source);
+        Sketch.fullToken = RegExp('^' + Sketch.delemiters[0].source + '\\s*(\\w+)\\s*(.*)?' + Sketch.delemiters[1].source + '$');
+        Sketch.contentOfVariable = RegExp('^' + Sketch.variables[0].source + '(.*)' + Sketch.variables[1].source + '$');
+
+        Sketch.loop = function loop(args) {
+            var mth = /\[(.*),(.*)\]/g.exec(args[0]),
+                arr = args[1].trim(),
+                val = args[0].trim(),
+                key = "_";
+            return [arr, mth ? mth[1].trim() : key, mth ? mth[2].trim() : val];
+        }
+
+        Sketch.logic = function logic(name) {
+            return {
+                //  ($ make name = "ahmed" $)
+                make: (line) => "var " + line + ";",
+
+                //  ($ code name = "ahmed" $)
+                code: (line) => line + ";",
+
+                //  ($ until age > 10 $)
+                until: (line) => "while(!(" + line + ")){",
+                //  ($ enduntil $)
+                enduntil: () => "}",
+
+                //  ($ until age < 10 $)
+                while: (line) => "while(" + line + "){",
+                //  ($ endwhile $)
+                endwhile: () => "}",
+
+                //  ($ unless age < 10 $)
+                unless: (line) => "if(!(" + line + ")){",
+                //  ($ endunless $)
+                endunless: () => "}",
+
+                //  ($ each name into names $)
+                each: (line) => {
+                    var [arr, key, val] = Sketch.loop(line.split(/into|INTO/));
+                    return "$EACH$(" + arr + ",function(" + key + "," + val + ",$LOOP$){";
+                },
+                //  ($ endeach $)
+                endeach: () => "});",
+
+                //  ($ forelse name into names $)
+                forelse: (line) => {
+                    var [arr, key, val] = Sketch.loop(line.split(/into|INTO/));
+                    return "if($SIZE$(" + arr + ")){$EACH$(" + arr + ",function(" + key + "," + val + ",$LOOP$){";
+                },
+                //  ($ empty $)
+                empty: () => "})}else{",
+                //  ($ endforelse $)
+                endforelse: () => "}",
+
+                //  ($ if age > 10 $)
+                if: (line) => "if(" + line + "){",
+                //  ($ elif age === 18 $)
+                elif: (line) => "}else if(" + line + "){",
+                //  ($ else $)
+                else: () => "}else{",
+                //  ($ endif $)
+                endif: () => "}",
+
+                //  ($ try $)
+                try: () => "try{",
+                //  ($ catch error $)
+                catch: (line) => "}catch(" + line + "){",
+                //  ($ finally $)
+                finally: () => "}finally{",
+                //  ($ endtry $)
+                endtry: () => "}",
+
+                //  ($ info name, age $)
+                info: (line) => "console['trace'](" + line + ");",
+                //  ($ warn name, age $)
+                warn: (line) => "console['warn'](" + line + ");",
+                //  ($ error name, age $)
+                error: (line) => "console['error'](" + line + ");",
+            }[name.toLowerCase()];
+        }
+
+        Sketch.regex = function regex(line) {
+            return line.replace(Sketch.helpers, (_, name) => name === "loop" ? "$LOOP$" : ("$HELPER$." + name))
+                .replace(Sketch.chained, (obj) => "[\"" + obj.substring(1) + "\"]");
+        }
+
+        Sketch.tokens = function tokens(source) {
+            source = String(source);
+            if (source.length === 0) return [];
+
+            const tokens = source
+                .split(Sketch.parseed)
+                .filter(token => token.length > 0)
+
+            let line = 1
+            let col = 1
+
+            return tokens.map(value => {
+                const result = { value, col, line }
+                const lastIndex = value.lastIndexOf('\n')
+
+                if (lastIndex < 0) {
+                    col += value.length
+                } else {
+                    const linebreaks = value.split('\n').length - 1
+                    line += linebreaks
+                    col = value.length - lastIndex
+                }
+
+                return result
+            })
+        }
+
+        Sketch.parse = function parse(tokens) {
+            if (tokens.length === 0) return "";
+            const options = { macro: false };
+            return tokens.reduce((carry, token) => {
+                try {
+                    return carry + "$LINE$=" + token.line + ";$COL$=" + token.col + ";" + Sketch.token(token, options);
+                } catch (err) {
+                    throw Sketch.error(err, token);
+                }
+            }, "");
+        }
+
+        Sketch.token = function token(token, options) {
+            if (Sketch.isLogic.test(token.value)) {
+                const match = Sketch.fullToken.exec(token.value);
+                return ["macro", "endmacro"].includes(match[1].toLowerCase()) ?
+                    (options.macro = match[1].toLowerCase() === "macro", "") :
+                    Sketch.logic(match[1].toLowerCase())(match[2] && Sketch.regex(match[2].trim()));
+            } else if (Sketch.isVariable.test(token.value)) {
+                const ref = Sketch.contentOfVariable.exec(token.value);
+                const match = ref != null ? ref[1] : void 0;
+                return "$ADDJSX$(" + (match[0] === ">" ? "$ESCAPE$(" + Sketch.regex(match.substring(1).trim()) + ")" : Sketch.regex(match.trim())) + ");";
+            } else if (token.value.length !== 0) {
+                return options.macro ?
+                    token.value.replace(/(\n\r+|\n\s+|\r+|\n+)/g, " ") :
+                    "$ADDTXT$(\"" + token.value.replace(/(`|'|")/g, "\\$1") + "\");";
+            }
+        }
+
+        Sketch.compile = function compile(source) {
+            source = Sketch.tokens(source);
+            source = Sketch.parse(source);
+            source = source.replace(/(\n|\n\s+)/g, "\\n");
+
+            return "return function($CONTEXT$,$HELPER$,$EACH$,$SIZE$,$ESCAPE$,$ERROR$){var $TXT$=[],$JSX$=[],$INDEX$=0,$LINE$=0,$COL$=0;function $ADDTXT$($LINE$){if(!$TXT$[$INDEX$]){$TXT$[$INDEX$]=''}$TXT$[$INDEX$]=($TXT$[$INDEX$]+$LINE$).replace(/\\n(:?\\s*\\n)+/g,'\\n')}function $ADDJSX$($LINE$){$JSX$[$INDEX$]=$LINE$,$INDEX$++}with($CONTEXT$||{}){try{" +
+                source + "}catch(e){throw new $ERROR$([e.message,'\\n\\tat','Line:','\"'+$LINE$+'\"','Col:','\"'+$COL$+'\"'].join(' '))}}return [$TXT$,...$JSX$]}"
+        }
+
+        Sketch.test = function test(source) {
+            return source.startsWith("return function($CONTEXT$,$HELPER$,$EACH$,$SIZE$,$ESCAPE$,$ERROR$){var $TXT$=[],$JSX$=[],$INDEX$=0,$LINE$=0,$COL$=0;function $ADDTXT$($LINE$){if(!$TXT$[$INDEX$]){$TXT$[$INDEX$]=''}$TXT$[$INDEX$]=($TXT$[$INDEX$]+$LINE$).replace(/\\n(:?\\s*\\n)+/g,'\\n')}function $ADDJSX$($LINE$){$JSX$[$INDEX$]=$LINE$,$INDEX$++}");
+        }
+
+        Sketch.error = function error(err, token) {
+            err.message = err.message + '\n    at ' + token.value + ' (' + token.line + ':' + token.col + ')'
+            if (!err.location) {
+                err.location = {
+                    col: token.col,
+                    line: token.line,
+                }
+            }
+        }
+
+        return Sketch;
+    })();
+
+    Neo.Driver = (function Driver() {
+        class Driver {
+            constructor(container, tree, refs = {}) {
+                this.container = container;
+                this.instance = null;
+                this.refs = refs;
+                this.tree = tree;
+            }
+
+            create(fiber) {
+                const { type, props } = fiber;
+                const dom =
+                    type === NEO_TEXT_SYMBOL ?
+                    document.createTextNode("") :
+                    type in NEO_SVG_NODES ?
+                    document.createElementNS("http://www.w3.org/2000/svg", type) :
+                    document.createElement(type);
+                const children = this.children({ dom }, fiber);
+                Driver.properties(dom, {}, props, this.refs);
+                return new Instance(dom, fiber, children);
+            }
+
+            reconcile(parentDom, oldNode, fiber) {
+                var node;
+                if (null == oldNode) {
+                    if (Array.isArray(fiber)) {
+                        node = fiber.map((e) => this.create(e));
+                        node.forEach((e) => {
+                            parentDom.appendChild(e.dom);
+                        });
+                    } else {
+                        node = this.create(fiber);
+                        if (Array.isArray(node.dom)) {
+                            Driver.flatten(node.dom).forEach((e) => {
+                                parentDom.appendChild(e);
+                            });
+                        } else {
+                            node.dom && parentDom.appendChild(node.dom);
+                        }
+                    }
+                    return node;
+                }
+
+                if (null == fiber) {
+                    if (Array.isArray(oldNode)) {
+                        oldNode.forEach((e) => {
+                            parentDom.removeChild(e.dom);
+                        });
+                    } else {
+                        oldNode.dom && parentDom.removeChild(oldNode.dom);
+                    }
+                    return null;
+                }
+
+                if (Array.isArray(oldNode) && Array.isArray(fiber)) {
+                    return this.children({ dom: parentDom, children: oldNode }, { props: { children: fiber } });
+                }
+
+                if ((oldNode.fiber || {}).type !== fiber.type) {
+                    node = this.create(fiber);
+                    if (oldNode.dom || oldNode[0].dom) {
+                        parentDom.replaceChild(node.dom, oldNode.dom || oldNode[0].dom);
+                    }
+                    return node;
+                }
+
+                if (typeof fiber.type === "string" || fiber.type === NEO_TEXT_SYMBOL) {
+                    oldNode.children = this.children(oldNode, fiber);
+                    Driver.properties(oldNode.dom, oldNode.fiber.props, fiber.props, this.refs);
+                    oldNode.fiber = fiber;
+                    return oldNode;
+                }
+
+                return undefined;
+            }
+
+            children(oldNode, fiber) {
+                const oldChildNodes = (oldNode.children || []).filter((node) => null != node),
+                    childElements = (fiber.props.children || []).filter((node) => null != node),
+                    length = Math.max(oldChildNodes.length, childElements.length),
+                    children = [];
+
+                for (var i = 0; i < length; i++) {
+                    const childNode = this.reconcile(oldNode.dom, oldChildNodes[i], childElements[i]);
+                    children.push(childNode);
+                }
+
+                return children;
+            }
+
+            exec(tree) {
+                this.tree = tree || this.tree;
+                for (let prop in this.refs) delete this.refs[prop];
+                this.instance = this.reconcile(this.container, this.instance, this.tree);
+            }
+        }
+
+        Driver.flatten = function flatten(array) {
+            return array.reduce((flat, toFlatten) => [...flat, ...(Array.isArray(toFlatten) ? Driver.flatten(toFlatten) : [toFlatten])], []);
+        }
+
+        Driver.properties = function properties(node, prev, next, refs) {
+            Driver.properties.clear(node, prev, next);
+            Driver.properties.apply(node, next, refs);
+        }
+
+        Driver.object = function object(node, prop, value) {
+            const props = prop.split("."),
+                target = props.pop(),
+                object = props.reduce((carry, curr) => carry[curr], node);
+            object[target] = value;
+        }
+
+        Driver.reference = function reference(node, prop, refs) {
+            if (refs[prop])
+                Array.isArray(refs[prop]) ?
+                refs[prop].push(node) :
+                (refs[prop] = [refs[prop], node]);
+            else refs[prop] = node;
+        }
+
+        Driver.properties.clear = function clear(node, prev, next) {
+            Driver.listeners.clear(node, next);
+            for (var prop in prev) {
+                if (!(prop in next)) {
+                    const tag = node && node.tagName && node.tagName.toLowerCase(),
+                        isObj = prop.split(".").length > 1,
+                        isSvg = tag in NEO_SVG_NODES,
+                        isProp = prop in node;
+
+                    if (isProp && !isSvg) node[prop] = "";
+                    else if (isObj)
+                        this.applyObject(
+                            node, {
+                                [prop]: "",
+                            },
+                            prop
+                        );
+                    else node.removeAttribute(prop);
+                }
+            }
+        }
+
+        Driver.properties.apply = function apply(node, next, refs) {
+            for (var prop in next) {
+                if (prop === "children") continue;
+
+                const tag = node && node.tagName && node.tagName.toLowerCase(),
+                    isObj = prop.split(".").length > 1,
+                    isSvg = tag in NEO_SVG_NODES,
+                    isEvent = prop.startsWith("@"),
+                    isRef = prop === "ref",
+                    isProp = prop in node;
+
+                if (isEvent) Driver.listeners.apply(node, prop, next[prop]);
+                else if (isProp && !isSvg) {
+                    node[prop] = ["false", "true"].includes(next[prop]) ? eval(next[prop]) : next[prop];
+                } else if (isObj) Driver.object(node, prop, next[prop]);
+                else if (isRef) Driver.reference(node, next[prop], refs);
+                else node.setAttribute(prop, next[prop]);
+            }
+        }
+
+        Driver.listeners = function listeners() {}
+
+        Driver.listeners.clear = function clear(node, next) {
+            for (const event in node.listeners) {
+                if (!(event in next)) {
+                    const eventString = event.split(":"),
+                        eventName = eventString[0].substring(1);
+
+                    node["on" + eventName] = null;
+                    delete node.listeners[event];
+                }
+            }
+        }
+
+        Driver.listeners.apply = function apply(node, name, callable) {
+            const eventString = name.split(":"),
+                eventName = eventString.shift().substring(1);
+
+            node.listeners = node.listeners || {};
+            if (!node.listeners[name] ||
+                (node.listeners[name] && node.listeners[name].toString() !== callable.toString())
+            ) {
+                node.listeners[name] = callable;
+                node["on" + eventName] = (event) => {
+                    (eventString[0] || "").split("|").forEach((type) => {
+                        switch (type) {
+                            case "prevent":
+                                event.preventDefault();
+                            case "propagation":
+                                event.stopPropagation();
+                            case "immediate":
+                                event.stopImmediatePropagation();
+                        }
+                    });
+                    callable(event);
+                }
+            }
+        }
+
+        return Driver;
+    })();
+
+    Neo.Segment = (function Segment() {
+        class Segment {
+            constructor(root, sketch, context = {}) {
+                this.sketch = new Neo.Sketch(sketch, context, {
+                    this: this
+                });
+                this.driver = new Neo.Driver(root, []);
+                this.upgrade();
+            }
+
+            setContext(props) {
+                var prev = {...this.sketch.context },
+                    upgrade = false;
+
+                Object.entries(props).forEach(([key, val]) => {
+                    if (prev[key] === val) return;
+
+                    prev[key] = val;
+                    upgrade = true;
+                });
+
+                if (!upgrade) return;
+
+                this.sketch.context = prev;
+                this.upgrade();
+            }
+
+            upgrade() {
+                Segment.build(this.driver, this.sketch);
+            }
+
+            get context() {
+                return this.sketch.context;
+            }
+        }
+
+        Segment.build = function build(driver, sketch) {
+            driver.exec(sketch.exec());
+        }
+
+        return Segment;
+    })();
+
+    Neo.Component = (function Component() {
+        function Component(options) {
+            const selector = options.tag || "",
+                controls = options.ctl || false,
+                template = Neo.Sketch.test(options.tpl || "") ? options.tpl : Neo.Sketch.compile(options.tpl || ""),
+                style = Neo.Sketch.test(options.css || "") ? options.css : Neo.Sketch.compile("<style>" + (options.css || "") + "</style>");
+
+            return function(options) {
+                const { attrs = [], dense = {}, props = {}, rules = {}, state = {}, cycle = {} } = options;
+
+                return class extends HTMLElement {
+                    static {
+                        Object.entries(dense).forEach(([key, val]) => {
+                            this[key] = val;
+                        });
+
+                        if (controls) this.formAssociated = true;
+                        this.observedAttributes = attrs;
+                        this.selector = selector;
+
+                        this.define = function define(name) {
+                            name = name || this.selector;
+
+                            if (!customElements.get(name)) {
+                                NEO_NODE_MAPS[name] = this;
+                                customElements.define(name, this);
+                            }
+
+                            return this;
+                        }
+                    }
+
+                    cache = {
+                        drive: null,
+                        props: {},
+                        state: {},
+                    };
+
+                    cycle = {
+                        created() {},
+                        mounted() {},
+                        adopted() {},
+                        updated() {},
+                        removed() {},
+                        painted() {},
+                    };
+
+                    props = {};
+                    state = {};
+                    rules = {};
+                    refs = {};
+
+                    constructor() {
+                        super();
+
+                        this.root = this.attachShadow({ mode: "open" });
+
+                        if (controls) {
+                            this.ctl = this.attachInternals();
+
+                            Object.defineProperties(this, {
+                                form: {
+                                    get: () => this.ctl.form,
+                                },
+                                name: {
+                                    get: () => this.getAttribute("name"),
+                                },
+                                validity: {
+                                    get: () => this.ctl.validity,
+                                },
+                                willValidate: {
+                                    get: () => this.ctl.willValidate,
+                                },
+                                validationMessage: {
+                                    get: () => this.ctl.validationMessage,
+                                },
+                            });
+
+                            this.checkValidity = () => this.ctl.checkValidity();
+                            this.reportValidity = () => this.ctl.reportValidity();
+                        }
+
+                        this.launch();
+                        this.paint();
+
+                        this.cycle.created();
+                        this.emit("created");
+                    }
+
+                    attributeChangedCallback(name, prev, next) {
+                        this.cycle.updated(name, prev, next, "attrs");
+                    }
+
+                    connectedCallback() {
+                        Object.keys(props).forEach((property) => {
+                            const attr = Neo.Helper.Str.kebab(property);
+                            const prop = this.cache.props[property] !== props[property] ?
+                                this.cache.props[property] : props[property];
+                            if (attrs.includes(attr)) {
+                                if (!prop) this.removeAttribute(attr);
+                                else {
+                                    this.getAttribute(attr) !== String(prop) && this.setAttribute(attr, prop);
+                                }
+                            }
+                        });
+                        this.cycle.mounted();
+                        this.emit("mounted");
+                    }
+
+                    disconnectedCallback() {
+                        this.cycle.removed();
+                        this.emit("removed");
+                    }
+
+                    adoptedCallback() {
+                        this.cycle.adopted();
+                        this.emit("adopted");
+                    }
+
+                    launch() {
+                        const update = (property, next) => {
+                            const prev = this.cache.props[property];
+                            if (prev === next) return;
+
+                            this.cache.props[property] = next;
+                            const attr = Neo.Helper.Str.kebab(property);
+                            if (attrs.includes(attr)) {
+                                if (!next) this.removeAttribute(attr);
+                                else {
+                                    this.getAttribute(attr) !== String(next) && this.setAttribute(attr, next);
+                                }
+                            }
+
+                            this.paint();
+                            this.cycle.updated(property, prev, next, "props");
+                            this.emit("updated", {
+                                name: property,
+                                type: "props",
+                                prev: prev,
+                                next: next,
+                            });
+                        }
+
+                        Object.keys(props).forEach((property) => {
+                            this.cache.props[property] = props[property];
+
+                            Object.defineProperty(this.props, property, {
+                                set: (next) => {
+                                    update(property, next);
+                                },
+                                get: () => {
+                                    return this.cache.props[property];
+                                },
+                            });
+
+                            Object.defineProperty(this, property, {
+                                set: (next) => {
+                                    update(property, next);
+                                },
+                                get: () => {
+                                    return this.cache.props[property];
+                                },
+                            });
+                        });
+
+                        Object.keys(state).forEach((current) => {
+                            this.cache.state[current] = state[current];
+
+                            Object.defineProperty(this.state, current, {
+                                set: (next) => {
+                                    const prev = this.cache.state[current];
+                                    if (prev === next) return;
+                                    this.cache.state[current] = next;
+
+                                    this.paint();
+                                    this.cycle.updated(current, prev, next, "state");
+                                    this.emit("updated", {
+                                        name: current,
+                                        type: "state",
+                                        prev: prev,
+                                        next: next,
+                                    });
+                                },
+                                get: () => {
+                                    return this.cache.state[current];
+                                },
+                            });
+                        });
+
+                        Object.keys(rules).forEach((callable) => {
+                            if (typeof rules[callable] === "function")
+                                this.rules[callable] = rules[callable].bind(this);
+                        });
+
+                        Object.keys(cycle).forEach((callable) => {
+                            if (typeof cycle[callable] === "function")
+                                this.cycle[callable] = cycle[callable].bind(this);
+                        });
+                    }
+
+                    paint() {
+                        const context = {
+                            props: this.cache.props,
+                            state: this.cache.state,
+                            rules: this.rules,
+                            refs: this.refs,
+                            this: this,
+                        };
+
+                        const CSS = new Neo.Sketch(style, context, context),
+                            TPL = new Neo.Sketch(template, context, context),
+                            TREE = [...CSS.exec(), ...TPL.exec()];
+
+                        if (!this.cache.drive)
+                            this.cache.drive = new Neo.Driver(this.root, [], this.refs);
+
+                        this.cache.drive.exec(TREE);
+                        this.cycle.painted();
+                        this.emit("painted");
+                    }
+
+                    emit(name, data, callable) {
+                        const ev = new CustomEvent(name, {
+                            bubbles: true,
+                            cancelable: true,
+                            composed: true,
+                            isTrusted: true,
+                            detail: data,
+                        });
+                        this.dispatchEvent(ev);
+                        if (!ev.defaultPrevented && callable) {
+                            callable.bind(this)(ev);
+                        }
+                    }
+
+                    setProps(props = {}) {
+                        var upgrade = false,
+                            prev = {};
+
+                        Object.entries(props).forEach(([key, val]) => {
+                            if (this.cache.props[key] === val) return;
+                            prev[key] = this.cache.props[key];
+                            this.cache.props[key] = val;
+                            const attr = Neo.Helper.Str.kebab(key);
+                            if (attrs.includes(attr)) {
+                                if (!val) this.removeAttribute(attr);
+                                else {
+                                    this.getAttribute(attr) !== String(val) && this.setAttribute(attr, val);
+                                }
+                            }
+                            upgrade = true;
+                        });
+
+                        if (!upgrade) return;
+
+                        this.paint();
+                        Object.keys(prev).forEach(property => {
+                            this.cycle.updated(property, prev[property], props[property], "props");
+                        });
+                    }
+
+                    setState(state = {}) {
+                        var upgrade = false,
+                            prev = {};
+
+                        Object.entries(state).forEach(([key, val]) => {
+                            if (this.cache.state[key] === val) return;
+                            prev[key] = this.cache.state[key];
+                            this.cache.state[key] = val;
+                            upgrade = true;
+                        });
+
+                        if (!upgrade) return;
+
+                        this.paint();
+                        Object.keys(prev).forEach(property => {
+                            this.cycle.updated(property, prev[property], state[property], "state");
+                        });
+                    }
+                }
+            }
+        }
+
+        return Component;
+    })();
+
+    document.addEventListener("DOMContentLoaded", (e) => {
+        NEO_LOAD_MAPS.forEach((callable) => callable(e));
+    });
+
+    return Neo;
+})();
