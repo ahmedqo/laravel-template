@@ -23,7 +23,7 @@
             </div>
         </main>
     </neo-wrapper>
-    <neo-toaster horisontal="end" vertical="start"></neo-toaster>
+    <neo-toaster horisontal="end" vertical="start" class="full-size"></neo-toaster>
     @include('shared.base.scripts')
     @yield('scripts')
 </body>

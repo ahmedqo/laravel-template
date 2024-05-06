@@ -120,3 +120,9 @@ neo-timepicker,
 neo-autocomplete {
     border: 1px solid rgb(var(--shade) / 1);
 }
+
+@media (min-width: 1024px) {
+    .full-size::part(wrapper) {
+        max-width: 100%;
+    }
+}
