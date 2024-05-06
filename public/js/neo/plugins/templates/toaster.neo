@@ -88,7 +88,7 @@
                 Neo.Toaster = this;
                 this.toast = (content, theme, timer) => {
                     const toast = document.createElement("neo-toast");
-                    toast.setProps({ timer: timer, theme: theme });
+                    toast.setProps({ timer: timer || 5000, theme: theme });
                     toast.innerHTML = content;
                     this.appendChild(toast);
                 };
