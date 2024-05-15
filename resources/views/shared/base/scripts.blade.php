@@ -13,3 +13,10 @@
         });
     </script>
 @endif
+<script>
+    Neo.load(function() {
+        Neo.getComponent("neo-datavisualizer").globals = [
+            "{{ asset('css/print.min.css') }}?v={{ env('APP_VERSION') }}"
+        ];
+    });
+</script>

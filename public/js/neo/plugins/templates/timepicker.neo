@@ -348,7 +348,7 @@
                     <div ref="hours" part="hours">
                         {$ each hour into @state.info.hours $}
                             {$ make [text, time, attr] = hour $}
-                            <button ref="time" part="time" role="hour-button" type="button" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" data-value="{{ time }}" {{ @when(attr, attr + "=true", '') }}>
+                            <button aria-label="time" ref="time" part="time" role="hour-button" type="button" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" data-value="{{ time }}" {{ @when(attr, attr + "=true", '') }}>
                                 {{ text }}
                             </button>
                         {$ endeach $}
@@ -356,7 +356,7 @@
                     <div ref="minutes" part="minutes">
                         {$ each minute into @state.info.minutes $}
                             {$ make [text, time, attr] = minute $}
-                            <button ref="time" part="time" role="minute-button" type="button" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" data-value="{{ time }}" {{ @when(attr, attr + "=true", '') }}>
+                            <button aria-label="time" ref="time" part="time" role="minute-button" type="button" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" data-value="{{ time }}" {{ @when(attr, attr + "=true", '') }}>
                                 {{ text }}
                             </button>
                         {$ endeach $}

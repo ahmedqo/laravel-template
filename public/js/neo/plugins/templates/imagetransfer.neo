@@ -167,7 +167,7 @@
         {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}    
     />
     {$ if @props.multiple || (@falsy(@props.value) && @falsy(@props.default)) $}
-        <button ref="upload" part="upload" 
+        <button aria-label="upload_trigger" ref="upload" part="upload" 
             @click="{{ () => @rules.click() }}"
             {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
         >
@@ -178,7 +178,7 @@
     {$ endif $}
     {$ if @truty(@props.value) $}
         {$ each file into @state.files.slice().reverse() $}
-            <button ref="item" part="item"
+            <button aria-label="item" ref="item" part="item"
                 @click="{{ () => @rules.remove(@loop.round) }}"
                 {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             >
@@ -191,7 +191,7 @@
     {$ endif $}
     {$ if @truty(@props.default) $}
         {$ each file into @props.default.slice().reverse() $}
-            <button ref="item" part="item"
+            <button aria-label="item" ref="item" part="item"
                 @click="{{ () => @rules.remove(@loop.round, true) }}"
                 {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             >

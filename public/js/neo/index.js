@@ -458,8 +458,8 @@ const Neo = (function Neo() {
             });
         }
 
-        static get NODES() {
-            return NEO_NODE_MAPS;
+        static getComponent(name) {
+            return NEO_NODE_MAPS[name];
         }
     }
 
