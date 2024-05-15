@@ -5,7 +5,7 @@
                 <a href="{{ route('views.guest.home') }}" aria-label="home_page_link"
                     style="width: 160px; max-width: 100%; display: block; text-decoration: unset; margin: auto;">
                     <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}"
-                        style="width: 100%; display: block;" />
+                        style="width: 100%; display: block;" width="916" height="516" loading="lazy" />
                 </a>
                 <p style="color: #1d1d1d; text-align: center; font-size: 16px; margin: 20px 0 30px 0;">
                     {{ __('Did you forget your password?') }}<br />

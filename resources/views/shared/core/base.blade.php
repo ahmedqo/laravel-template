@@ -12,7 +12,7 @@
 <body close>
     <section id="neo-page-cover">
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
-            class="block w-36" />
+            class="block w-36" width="916" height="516" />
     </section>
     <neo-wrapper class="bg-[#e9edef] flex flex-wrap">
         @include('shared.core.sidebar')

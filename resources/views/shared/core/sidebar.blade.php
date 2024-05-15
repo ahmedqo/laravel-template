@@ -1,7 +1,7 @@
 <neo-sidebar id="sidebar">
     <neo-topbar transparent class="bg-x-white pointer-events-none">
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
-            class="block w-full mx-auto pointer-events-auto" />
+            class="block w-full mx-auto pointer-events-auto" width="916" height="516" loading="lazy" />
     </neo-topbar>
     <ul class="nav-colors w-full flex flex-col flex-1 gap-4">
         <li class="w-full">
