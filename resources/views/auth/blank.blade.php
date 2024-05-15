@@ -4,7 +4,7 @@
 @section('content')
     <div class="w-full flex justify-center items-center p-4 lg:w-1/2">
         <div class="w-full lg:w-2/3 flex flex-col gap-4">
-            <a href="{{ route('views.login.index') }}" class="block w-36 mx-auto">
+            <a href="{{ route('views.login.index') }}" class="block w-36 mx-auto" aria-label="login_page_link">
                 <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
                     class="block w-full" />
             </a>

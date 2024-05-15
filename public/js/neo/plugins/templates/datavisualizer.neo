@@ -598,7 +598,7 @@
                     {$ endif $}
                     {$ if @props.download $}
                         <button aria-label="download_trigger" title="{{ @trans('Download') }}" ref="btn" part="btn" @click="{{ @rules.download }}">
-                            <a ref="download" part="download" download="{{ @Str.kebab(@props.title) }}.csv"></a>
+                            <a aria-label="download_link" ref="download" part="download" download="{{ @Str.kebab(@props.title) }}.csv"></a>
                             <svg ref="icon" part="icon" fill="currentColor" viewBox="0 0 48 48">
                                 <path d="M12.6 41.05C9.43333 41.05 6.70833 39.925 4.425 37.675C2.14167 35.425 1 32.6833 1 29.45C1 26.7167 1.85 24.25 3.55 22.05C5.25 19.85 7.45 18.5333 10.15 18.1C10.9167 15.1 12.4 12.6 14.6 10.6C16.8 8.6 19.3667 7.4 22.3 7V25.6L18.4 21.6L15.95 24.05L24 32.2L32.05 24.05L29.65 21.6L25.75 25.6V7C29.1833 7.43333 32.0833 8.95 34.45 11.55C36.8167 14.15 38.1 17.2667 38.3 20.9V22.1C40.8 22.3667 42.8583 23.375 44.475 25.125C46.0917 26.875 46.9 29.0333 46.9 31.6C46.9 34.2333 45.9833 36.4667 44.15 38.3C42.3167 40.1333 40.0833 41.05 37.45 41.05H12.6Z" />
                             </svg>

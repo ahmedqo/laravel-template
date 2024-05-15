@@ -9,7 +9,7 @@
     </div>
     <div class="w-full flex justify-center items-center p-4 lg:w-1/2">
         <div class="w-full lg:w-2/3 flex flex-col gap-4">
-            <a href="{{ route('views.login.index') }}" class="block w-36 mx-auto">
+            <a href="{{ route('views.login.index') }}" class="block w-36 mx-auto" aria-label="login_page_link">
                 <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
                     class="block w-full" />
             </a>
@@ -23,7 +23,7 @@
                     class="rounded-x-thin w-full px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                     <span>{{ __('Login') }}</span>
                 </neo-button>
-                <a href="{{ route('views.blank.index') }}"
+                <a href="{{ route('views.blank.index') }}" aria-label="forgot_page_link"
                     class="block -mt-2 w-max mx-auto outline-none text-x-acent font-x-huge text-sm hover:text-x-prime focus:text-x-prime focus-within:text-x-prime">
                     {{ __('Forgot your password?') }}
                 </a>

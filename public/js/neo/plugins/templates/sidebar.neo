@@ -159,7 +159,7 @@
 <template name="neo-sidebar">
     {$ if @state.show $}
         <div ref="content" part="content" @click:propagation="{{ () => {} }}">
-            <a href="#" ref="target" part="target"></a>
+            <a aria-label="anchor_link" href="#" ref="target" part="target"></a>
             <slot></slot>
         </div>
     {$ endif $}

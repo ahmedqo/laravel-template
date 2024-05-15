@@ -17,7 +17,7 @@
     <neo-wrapper class="flex flex-wrap">
         <main class="w-full p-4 container mx-auto flex flex-col gap-4 h-[100dvh]">
             <header class="w-full flex justify-center">
-                <a href="{{ url('/') }}" class="block w-36 mx-auto">
+                <a href="{{ url('/') }}" class="block w-36 mx-auto" aria-label="home_page_link">
                     <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}"
                         alt="{{ env('APP_NAME') }} logo image" class="block w-full" />
                 </a>

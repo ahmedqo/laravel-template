@@ -4,7 +4,7 @@
 @section('content')
     <div class="flex flex-col gap-2">
         <neo-datavisualizer print search filter download title="{{ __('Users List') }}">
-            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
+            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}" aria-label="create_page_link"
                 class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path

@@ -2,6 +2,7 @@
     <nav class="w-full container mx-auto p-4 flex items-center justify-center gap-4">
         @if (!$paginator->onFirstPage())
             <a id="prev" slot="end" title="{{ __('Prev') }}" href="{{ $paginator->previousPageUrl() }}"
+                aria-label="prev_page_link"
                 class="block p-2 rounded-x-thin text-x-black outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -12,6 +13,7 @@
 
         @if ($paginator->hasMorePages())
             <a id="next" slot="end" title="{{ __('Next') }}" href="{{ $paginator->nextPageUrl() }}"
+                aria-label="next_page_link"
                 class="block p-2 rounded-x-thin text-x-black outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
