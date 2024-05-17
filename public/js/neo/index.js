@@ -522,14 +522,10 @@ const Neo = (function Neo() {
             }
 
             static range = function range(startOrEnd, end, step = 1) {
-                const start = end === undefined ? 0 : startOrEnd,
-                    arr = [];
-                end = end || startOrEnd;
-                for (let i = start; step > 0 ? i < end : end < i; i += step) {
-                    arr.push(i);
-                }
-
-                return arr;
+                const start = end === undefined ? 0 : +startOrEnd;
+                end = end === undefined ? +startOrEnd : +end;
+                const length = Math.ceil((end - start) / step);
+                return Array.from({ length }, (_, index) => start + index * step);
             }
 
             static style = function style(cssObj) {

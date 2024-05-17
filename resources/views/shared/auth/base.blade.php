@@ -18,7 +18,7 @@
         <neo-topbar transparent align="end" class="fixed top-0 left-0 right-0 w-full pointer-events-none z-[1]">
             <neo-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}"
                 class="pointer-events-auto">
-                <button slot="trigger" name="language_trigger" aria-label="language_trigger"
+                <button slot="trigger" aria-label="language_trigger"
                     class="flex items-center justify-center w-6 h-6 text-x-white {{ !Core::matchRoute('admin/forgot') ? 'lg:text-x-black' : '' }} outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                     <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                         <path

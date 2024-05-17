@@ -239,15 +239,17 @@
             overflow: overlay;
             align-items: flex-start;
             grid-template-rows: 1fr;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat({{ @when(@state.view === "date", 7, 3) }}, 1fr);
         }
         
         [part="control"] {
+            top: 0;
             width: 100%;
             display: grid;
             row-gap: .5rem;
+            position: sticky;
             grid-template-rows: 1fr;
-            grid-column: span 7 / span 7;
+            grid-column: span {{ @when(@state.view === "date", 7, 3) }} / span {{ @when(@state.view === "date", 7, 3) }};
             grid-template-columns: repeat(7, 1fr);
             background: {{ @Theme.colors("PRIME") }};
             border: 1px solid {{ @Theme.colors("BLACK", 20) }};
@@ -259,6 +261,8 @@
             pointer-events: none;
         }
 
+        [part="month-text"],
+        [part="year-text"], 
         [part="display"] {
             gap: .25rem;
             width: 100%;
@@ -267,11 +271,13 @@
             grid-column: span 5 / span 5;
         }
 
+        [part="month-text"],
+        [part="year-text"],
         [part="month"], 
         [part="year"] {
             border: unset;
             font-weight: 600;
-            padding: 0 .25rem;
+            padding: .25rem;
             background: transparent;
             text-transform: capitalize;
             font-size: {{ @Theme.sizes("MEDIUM") }};
@@ -287,6 +293,8 @@
             line-height: {{ @Theme.lines("XSMALL") }};
         }
 
+        [part="month-text"],
+        [part="year-text"],
         [part="trigger"],
         [part="month"], 
         [part="year"],
@@ -400,44 +408,72 @@
                 {$ if @truty(@props.label) $}
                     <label ref="contentLabel" part="content-label">{{ @props.label }}</label>
                 {$ endif $}
-                    <div ref="items" part="items">
+                <div ref="items" part="items">
                     <div ref="control" part="control">
-                        <button aria-label="prev_trigger" ref="trigger_prev" part="trigger" type="button" @click="{{ @rules.prev }}" @keydown:propagation="{{ () => {} }}">
-                            <svg ref="icon_prev" part="content-icon" fill="currentColor" viewBox="0 0 48 48">
-                                {$ if document.documentElement.lang === "ar" $} 
-                                    <path d="M27 24.45L13.15 10.55C12.3833 9.81667 12 8.91667 12 7.85C12 6.78333 12.3667 5.86667 13.1 5.1C13.8667 4.36667 14.7917 4 15.875 4C16.9583 4 17.8667 4.36667 18.6 5.1L33.2 19.65C33.8667 20.3167 34.3583 21.0583 34.675 21.875C34.9917 22.6917 35.15 23.55 35.15 24.45C35.15 25.3167 34.9917 26.1583 34.675 26.975C34.3583 27.7917 33.8667 28.55 33.2 29.25L18.6 43.8C17.8667 44.5333 16.9667 44.8917 15.9 44.875C14.8333 44.8583 13.9167 44.4833 13.15 43.75C12.4167 43.0167 12.05 42.1083 12.05 41.025C12.05 39.9417 12.4167 39.0333 13.15 38.3L27 24.45Z" />
-                                {$ else $}    
-                                    <path d="M20.15 24.426L34 38.326C34.7667 39.0593 35.15 39.9593 35.15 41.026C35.15 42.0926 34.7834 43.0093 34.05 43.776C33.2834 44.5093 32.3584 44.876 31.275 44.876C30.1917 44.876 29.2834 44.5093 28.55 43.776L13.95 29.226C13.2834 28.5593 12.7917 27.8176 12.475 27.001C12.1584 26.1843 12 25.326 12 24.426C12 23.5593 12.1584 22.7176 12.475 21.901C12.7917 21.0843 13.2834 20.326 13.95 19.626L28.55 5.07598C29.2834 4.34264 30.1834 3.98431 31.25 4.00098C32.3167 4.01764 33.2334 4.39264 34 5.12598C34.7334 5.85931 35.1 6.76764 35.1 7.85098C35.1 8.93431 34.7334 9.84264 34 10.576L20.15 24.426Z" />
-                                {$ endif $}
-                            </svg>
-                        </button>
-                        <div ref="display" part="display">
-                            <button aria-label="month" ref="month" part="month" @keydown:propagation="{{ () => {} }}" type="button" data-next="M"  @click="{{ @rules.view }}">
-                                {{ @rules.slice(@trans(@this.constructor.months[@state.info.month]), @props.fullMonth) }}
+                        {$ if @state.view === "date" $}
+                            <button aria-label="prev_trigger" ref="trigger_prev" part="trigger" type="button" @click="{{ @rules.prev }}" @keydown:propagation="{{ () => {} }}">
+                                <svg ref="icon_prev" part="content-icon" fill="currentColor" viewBox="0 0 48 48">
+                                    {$ if document.documentElement.lang === "ar" $} 
+                                        <path d="M27 24.45L13.15 10.55C12.3833 9.81667 12 8.91667 12 7.85C12 6.78333 12.3667 5.86667 13.1 5.1C13.8667 4.36667 14.7917 4 15.875 4C16.9583 4 17.8667 4.36667 18.6 5.1L33.2 19.65C33.8667 20.3167 34.3583 21.0583 34.675 21.875C34.9917 22.6917 35.15 23.55 35.15 24.45C35.15 25.3167 34.9917 26.1583 34.675 26.975C34.3583 27.7917 33.8667 28.55 33.2 29.25L18.6 43.8C17.8667 44.5333 16.9667 44.8917 15.9 44.875C14.8333 44.8583 13.9167 44.4833 13.15 43.75C12.4167 43.0167 12.05 42.1083 12.05 41.025C12.05 39.9417 12.4167 39.0333 13.15 38.3L27 24.45Z" />
+                                    {$ else $}    
+                                        <path d="M20.15 24.426L34 38.326C34.7667 39.0593 35.15 39.9593 35.15 41.026C35.15 42.0926 34.7834 43.0093 34.05 43.776C33.2834 44.5093 32.3584 44.876 31.275 44.876C30.1917 44.876 29.2834 44.5093 28.55 43.776L13.95 29.226C13.2834 28.5593 12.7917 27.8176 12.475 27.001C12.1584 26.1843 12 25.326 12 24.426C12 23.5593 12.1584 22.7176 12.475 21.901C12.7917 21.0843 13.2834 20.326 13.95 19.626L28.55 5.07598C29.2834 4.34264 30.1834 3.98431 31.25 4.00098C32.3167 4.01764 33.2334 4.39264 34 5.12598C34.7334 5.85931 35.1 6.76764 35.1 7.85098C35.1 8.93431 34.7334 9.84264 34 10.576L20.15 24.426Z" />
+                                    {$ endif $}
+                                </svg>
                             </button>
-                            <button aria-label="year" ref="year" part="year" @keydown:propagation="{{ () => {} }}" type="button" data-next="Y"  @click="{{ @rules.view }}">
-                                {{ @state.info.year }}
+                            <div ref="display" part="display">
+                                <button aria-label="month" ref="month" part="month" type="button" @keydown:propagation="{{ () => {} }}" @click="{{ () => (@this.state.view = 'month') }}">
+                                    {{ @rules.slice(@trans(@this.constructor.months[@state.info.month]), @props.fullMonth) }}
+                                </button>
+                                <button aria-label="year" ref="year" part="year" type="button" @keydown:propagation="{{ () => {} }}" @click="{{ () => (@this.state.view = 'year') }}">
+                                    {{ @state.info.year }}
+                                </button>
+                            </div>
+                            <button aria-label="next_trigger" ref="trigger_next" part="trigger" type="button" @click="{{ @rules.next }}" @keydown:propagation="{{ () => {} }}">
+                                <svg ref="icon_next" part="content-icon" fill="currentColor" viewBox="0 0 48 48">
+                                    {$ if document.documentElement.lang === "ar" $}    
+                                        <path d="M20.15 24.426L34 38.326C34.7667 39.0593 35.15 39.9593 35.15 41.026C35.15 42.0926 34.7834 43.0093 34.05 43.776C33.2834 44.5093 32.3584 44.876 31.275 44.876C30.1917 44.876 29.2834 44.5093 28.55 43.776L13.95 29.226C13.2834 28.5593 12.7917 27.8176 12.475 27.001C12.1584 26.1843 12 25.326 12 24.426C12 23.5593 12.1584 22.7176 12.475 21.901C12.7917 21.0843 13.2834 20.326 13.95 19.626L28.55 5.07598C29.2834 4.34264 30.1834 3.98431 31.25 4.00098C32.3167 4.01764 33.2334 4.39264 34 5.12598C34.7334 5.85931 35.1 6.76764 35.1 7.85098C35.1 8.93431 34.7334 9.84264 34 10.576L20.15 24.426Z" />
+                                    {$ else $}
+                                        <path d="M27 24.45L13.15 10.55C12.3833 9.81667 12 8.91667 12 7.85C12 6.78333 12.3667 5.86667 13.1 5.1C13.8667 4.36667 14.7917 4 15.875 4C16.9583 4 17.8667 4.36667 18.6 5.1L33.2 19.65C33.8667 20.3167 34.3583 21.0583 34.675 21.875C34.9917 22.6917 35.15 23.55 35.15 24.45C35.15 25.3167 34.9917 26.1583 34.675 26.975C34.3583 27.7917 33.8667 28.55 33.2 29.25L18.6 43.8C17.8667 44.5333 16.9667 44.8917 15.9 44.875C14.8333 44.8583 13.9167 44.4833 13.15 43.75C12.4167 43.0167 12.05 42.1083 12.05 41.025C12.05 39.9417 12.4167 39.0333 13.15 38.3L27 24.45Z" />
+                                    {$ endif $}
+                                </svg>
                             </button>
-                        </div>
-                        <button aria-label="next_trigger" ref="trigger_next" part="trigger" type="button" @click="{{ @rules.next }}" @keydown:propagation="{{ () => {} }}">
-                            <svg ref="icon_next" part="content-icon" fill="currentColor" viewBox="0 0 48 48">
-                                {$ if document.documentElement.lang === "ar" $}    
-                                    <path d="M20.15 24.426L34 38.326C34.7667 39.0593 35.15 39.9593 35.15 41.026C35.15 42.0926 34.7834 43.0093 34.05 43.776C33.2834 44.5093 32.3584 44.876 31.275 44.876C30.1917 44.876 29.2834 44.5093 28.55 43.776L13.95 29.226C13.2834 28.5593 12.7917 27.8176 12.475 27.001C12.1584 26.1843 12 25.326 12 24.426C12 23.5593 12.1584 22.7176 12.475 21.901C12.7917 21.0843 13.2834 20.326 13.95 19.626L28.55 5.07598C29.2834 4.34264 30.1834 3.98431 31.25 4.00098C32.3167 4.01764 33.2334 4.39264 34 5.12598C34.7334 5.85931 35.1 6.76764 35.1 7.85098C35.1 8.93431 34.7334 9.84264 34 10.576L20.15 24.426Z" />
-                                {$ else $}
-                                    <path d="M27 24.45L13.15 10.55C12.3833 9.81667 12 8.91667 12 7.85C12 6.78333 12.3667 5.86667 13.1 5.1C13.8667 4.36667 14.7917 4 15.875 4C16.9583 4 17.8667 4.36667 18.6 5.1L33.2 19.65C33.8667 20.3167 34.3583 21.0583 34.675 21.875C34.9917 22.6917 35.15 23.55 35.15 24.45C35.15 25.3167 34.9917 26.1583 34.675 26.975C34.3583 27.7917 33.8667 28.55 33.2 29.25L18.6 43.8C17.8667 44.5333 16.9667 44.8917 15.9 44.875C14.8333 44.8583 13.9167 44.4833 13.15 43.75C12.4167 43.0167 12.05 42.1083 12.05 41.025C12.05 39.9417 12.4167 39.0333 13.15 38.3L27 24.45Z" />
-                                {$ endif $}
-                            </svg>
-                        </button>
-                        {$ each day into @range(0, 7) $}
-                            <div ref="day" part="day">{{ @rules.slice(@trans(@this.constructor.days[day]), @props.fullDay) }}</div>
-                        {$ endeach $}
+                            {$ each day into @range(0, 7) $}
+                                <div ref="day" part="day">{{ @rules.slice(@trans(@this.constructor.days[day]), @props.fullDay) }}</div>
+                            {$ endeach $}
+                        {$ else $}
+                            <button aria-label="prev_trigger" ref="trigger_prev" part="trigger" type="button" @keydown:propagation="{{ () => {} }}" @click="{{ () => (@this.state.view = 'date') }}">
+                                <svg ref="icon_prev" part="content-icon" fill="currentColor" viewBox="0 0 48 48">
+                                    {$ if document.documentElement.lang === "ar" $} 
+                                        <path d="M30.5496 10L44.5996 24L30.5496 38L25.7996 33.25L31.6496 27.4L3.99961 27.4V20.6L31.6496 20.6L25.7996 14.75L30.5496 10Z" />
+                                    {$ else $}    
+                                        <path d="M18.05 38L4 24L18.05 10L22.8 14.75L16.95 20.6H44.6V27.4H16.95L22.8 33.25L18.05 38Z" />
+                                    {$ endif $}
+                                </svg>
+                            </button>
+                            <div ref="yearText" part="year-text">
+                                {{ @when(@state.view === "year", @state.info.year, @trans(@this.constructor.months[@state.info.month])) }}
+                            </div>
+                        {$ endif $}
                     </div>
-                    {$ each day into @state.info.array $}
-                        {$ make [text, date, attr] = day $}
-                        <button aria-label="date" ref="date" part="date" type="button" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" data-date="{{ date }}" {{ @when(attr, attr + "=true", '') }}>
-                            {{ text }}
-                        </button>
-                    {$ endeach $}
+                    {$ if @state.view === "date" $}
+                        {$ each day into @state.info.array $}
+                            {$ make [text, date, attr] = day $}
+                            <button aria-label="date" ref="date" part="date" type="button" data-value="{{ date }}" @click="{{ @rules.change }}" @keydown:propagation="{{ () => {} }}" {{ @when(attr, attr + "=true", '') }}>
+                                {{ text }}
+                            </button>
+                        {$ endeach $}
+                    {$ else $}
+                        {$ make arr = @state.view === "year" ? @props.yearRange : [0, 11] $}
+                        {$ each value into @range(arr[0], arr[1] + 1) $}
+                            <button aria-label="date" ref="date" part="date" type="button" data-value="{{ value }}" @click="{{ (event) => @rules.update(event, @state.view) }}" @keydown:propagation="{{ () => {} }}"
+                                {$ if @state.info.month === value || @state.info.year === value $}
+                                    selected="true"
+                                {$ endif $}    
+                            >
+                                {{ @state.view === "year" ? value : @trans(@this.constructor.months[value]) }}
+                            </button>
+                        {$ endeach $}
+                    {$ endif $}
                 </div>
             </div>
         </div>
@@ -469,6 +505,7 @@
             uid: "uid_" + Neo.Helper.random(),
             show: false,
             pos: false,
+            view: "date",
             date: new Date(),
             info: {
                 array: [],
@@ -534,12 +571,12 @@
                 return year + "-" + month + "-" + day;
             },
             change(event) {
-                const date = event.target.dataset.date.split("-");
+                const date = event.target.dataset.value.split("-");
                 this.state.date.setMonth(Number(date[1]) - 1);
                 this.state.date.setFullYear(Number(date[0]));
                 this.state.date.setDate(Number(date[2]));
                 this.setProps({
-                    value: event.target.dataset.date,
+                    value: event.target.dataset.value,
                     expand: false,
                 });
                 this.rules.init();
@@ -567,6 +604,20 @@
             },
             pos() {
                 this.state.show && (this.state.pos = window.innerHeight - this.getBoundingClientRect().top < this.refs.modal.clientHeight);
+            },
+            update(event, view) {
+                if (view === "year") {
+                    this.state.date.setFullYear(event.target.dataset.value);
+                    this.emit("year:change");
+                }
+                if (view === "month") {
+                    this.state.date.setMonth(event.target.dataset.value);
+                    this.emit("month:change");
+                }
+                
+                this.state.view = "date";
+                this.rules.init();
+                this.paint();
             },
         },
         cycle: {
@@ -622,8 +673,8 @@
                         "year-range": () => {
                             var range = (next || "")
                                 .split(",")
-                                .map((e) => e.trim())
-                                .filter((e) => !Number.isNaN(+e) && +e);
+                                .map((e) => +e.trim())
+                                .filter((e) => !Number.isNaN(+e));
                             this.props.yearRange = range.length === 2 ? range : [1950, 2150];
                         },
                         "label,placeholder": () => {
@@ -646,11 +697,16 @@
                             this.focus(), Neo.Wrapper && Neo.Wrapper.rules[next ? "smonly" : "opened"]();
                             setTimeout(() => {
                                 window[(next ? "add" : "remove") + "EventListener"]("click", this.rules.blur);
+                                !next && (this.state.view = "date");
                             }, 0);
                             this.emit("change:expand", { 
                                 data: next 
                             });
                         },
+                        "view": () => {
+                            const selected = this.refs.items && this.refs.items.querySelector("[selected]");
+                            selected && this.refs.items.scroll(0, selected.offsetTop - this.refs.items.clientHeight / 2);
+                        }
                     },
                     props: {
                         "label,format,outline,placeholder,fullMonth,fullDay,yearRange,disableDates,disableDays": () => {

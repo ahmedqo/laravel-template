@@ -1,5 +1,5 @@
 <neo-topbar align="space-between" class="bg-gradient-to-br rtl:bg-gradient-to-bl bg-x-core no-action shadow-x-core py-1">
-    <button id="trigger" name="sidebar_trigger" aria-label="sidebar_trigger"
+    <button id="trigger" aria-label="sidebar_trigger"
         class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
             <path
@@ -8,7 +8,7 @@
     </button>
     <div class="w-max flex flex-wrap gap-4">
         <neo-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
-            <button slot="trigger" name="language_trigger" aria-label="language_trigger"
+            <button slot="trigger" aria-label="language_trigger"
                 class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                 <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -43,7 +43,7 @@
             </ul>
         </neo-dropdown>
         <neo-dropdown label="{{ __('Settings') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
-            <button slot="trigger" name="setting_trigger" aria-label="setting_trigger"
+            <button slot="trigger" aria-label="setting_trigger"
                 class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                 <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -74,7 +74,7 @@
                 <li class="w-full">
                     <form action="{{ route('actions.close.index') }}" method="POST">
                         @csrf
-                        <button type="submit" name="logout_trigger"
+                        <button type="submit" aria-label="logout_trigger"
                             class="w-full flex flex-wrap gap-2 px-2 py-1 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                             <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                                 <path

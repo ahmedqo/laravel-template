@@ -653,9 +653,6 @@
                                     {$ if col.headStyle $}
                                         style="{{ @style(typeof col.headStyle === 'function' ? col.headStyle(col) : col.headStyle) }}"
                                     {$ endif $}
-                                    {$ if col.headSpan $}
-                                        colspan="{{ col.headSpan }}"
-                                    {$ endif $}
                                 >
                                     {{ @when(col.headRender, col.headRender, col.text || col.name) }}
                                 </td>
@@ -671,9 +668,6 @@
                                     <td ref="tablebodycol" part="table-body-col"
                                         {$ if col.bodyStyle $}
                                             style="{{ @style(typeof col.bodyStyle === 'function' ? col.bodyStyle(row, col) : col.bodyStyle) }}"
-                                        {$ endif $}
-                                        {$ if col.bodySpan $}
-                                            colspan="{{ col.bodySpan }}"
                                         {$ endif $}
                                     >
                                         {{ @when(col.bodyRender, () => col.bodyRender(row, @loop), row[col.name]) }}
@@ -725,9 +719,6 @@
                                                             {$ if col.headPdfStyle $}
                                                                 style="{{ @style(typeof col.headPdfStyle === 'function' ? col.headPdfStyle(col) : col.headPdfStyle) }}"
                                                             {$ endif $}
-                                                            {$ if col.headPdfSpan $}
-                                                                colspan="{{ col.headPdfSpan }}"
-                                                            {$ endif $}
                                                         >
                                                             {{ @when(col.headPdfRender, col.headPdfRender, col.text || col.name) }}
                                                         </td>
@@ -743,9 +734,6 @@
                                                             <td class="table-body-col"
                                                                 {$ if col.bodyPdfStyle $}
                                                                     style="{{ @style(typeof col.bodyPdfStyle === 'function' ? col.bodyPdfStyle(col) : col.bodyStyle) }}"
-                                                                {$ endif $}
-                                                                {$ if col.bodyPdfSpan $}
-                                                                    colspan="{{ col.bodyPdfSpan }}"
                                                                 {$ endif $}
                                                             >
                                                                 {{ @when(col.bodyPdfRender, () => col.bodyPdfRender(row, @loop), row[col.name]) }}
