@@ -144,6 +144,7 @@
         {$ if @props.value $}
             [part="label"] {
                 padding: 0;
+                overflow: visible;
                 color: {{ @Theme.colors("BLACK", 80) }};
                 font-size: {{ @Theme.sizes("XSMALL") }};
                 line-height: {{ @Theme.lines("THIN") }};

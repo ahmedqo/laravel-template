@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @include('shared.base.styles')
+    @include('shared.base.styles', ['type' => 'guest'])
+    @yield('styles')
     <title>@yield('title')</title>
 </head>
 
@@ -28,8 +29,8 @@
             </section>
         </main>
     </neo-wrapper>
-    <neo-toaster horisontal="end" vertical="start" class="full-size"></neo-toaster>
-    @include('shared.base.scripts')
+    <neo-toaster horisontal="center" vertical="end"></neo-toaster>
+    @include('shared.base.scripts', ['type' => 'guest'])
     @yield('scripts')
 </body>
 

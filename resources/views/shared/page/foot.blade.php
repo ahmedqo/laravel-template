@@ -6,7 +6,7 @@
     </div>
     <div id="content">
         <h3>
-            {{ Core::secure(request()->getHost()) }}
+            {{ url(request()->getHost(), [], true) }}
         </h3>
     </div>
 </div>

@@ -3,7 +3,8 @@ const path = require('path');
 const min = require("uglify-js");
 const ENTER = process.argv[2];
 const LEAVE = process.argv[3];
-const MIXED = process.argv[4];
+const TYPES = process.argv[4];
+const FILES = (process.argv[5] || "").split(',').map(e => e.trim());
 const MDATA = [];
 var ATTRS = {}
 
@@ -220,25 +221,25 @@ function create(enter, leave) {
         const DATA = min.minify(`//? Component: ${ATTRS.name}\nNeo.Component({\n\tctl: ${"ctl" in ATTRS},\n\ttag: "${ATTRS.name}",\n\ttpl: ${JSON.stringify(TEMPLATE)},\n\tcss: ${JSON.stringify(STYLES)}\n})(${SCRIPT}).define();`, { mangle: true, compress: true, rename: true });
 
         if (DATA.error) console.log(DATA.error);
-
-        if (MIXED === "--mix") MDATA.push(DATA.code);
+        if (TYPES === "--mix" || TYPES === "--use") MDATA.push(DATA.code);
         else fs.writeFileSync(leave.replace(/.neo/, ".js"), DATA.code, 'utf8');
         console.log("compiled: " + path.basename(leave.replace(/.neo/, ".js")));
     } else if (stats.isDirectory()) {
         leave = leave || enter;
-        if (!fs.existsSync(leave) && MIXED !== "--mix") {
+        if (!fs.existsSync(leave) && TYPES !== "--mix" && TYPES !== "--use") {
             fs.mkdirSync(leave, { recursive: true });
         }
 
         const files = fs.readdirSync(enter);
         files.forEach(file => {
+            if (TYPES === "--use" && !FILES.includes(path.basename(file).split(".")[0])) return
             const enterFilePath = path.join(enter, file);
             const leaveFilePath = path.join(leave, file);
             console.log("compiling: " + path.basename(file));
             create(enterFilePath, leaveFilePath);
         });
 
-        if (MIXED === "--mix") {
+        if (TYPES === "--mix" || TYPES === "--use") {
             fs.writeFileSync(leave, MDATA.join(''), 'utf8');
         }
     }

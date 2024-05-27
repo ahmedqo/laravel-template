@@ -182,6 +182,7 @@
         [part="search-label"]:has(+ [part="search"]:not(:placeholder-shown)),
         [part="search-label"]:has(+ [part="search"]:focus) {
             padding: 0;
+            overflow: visible;
             color: {{ @Theme.colors("BLACK", 80) }};
             font-size: {{ @Theme.sizes("XSMALL") }};
             line-height: {{ @Theme.lines("THIN") }};

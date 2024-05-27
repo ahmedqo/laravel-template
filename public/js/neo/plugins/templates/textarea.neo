@@ -102,6 +102,7 @@
         [part="label"]:has(+ [part="field"]:not(:placeholder-shown)),
         [part="label"]:has(+ [part="field"]:focus) {
             padding: 0;
+            overflow: visible;
             color: {{ @Theme.colors("BLACK", 80) }};
             font-size: {{ @Theme.sizes("XSMALL") }};
             line-height: {{ @Theme.lines("THIN") }};

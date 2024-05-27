@@ -189,7 +189,7 @@
             </button>
         {$ endeach $}
     {$ endif $}
-    {$ if @truty(@props.default) $}
+    {$ if @props.multiple || (@falsy(@props.value) && @truty(@props.default)) $}
         {$ each file into @props.default.slice().reverse() $}
             <button aria-label="item" ref="item" part="item"
                 @click="{{ () => @rules.remove(@loop.round, true) }}"

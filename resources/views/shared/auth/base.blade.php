@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @include('shared.base.styles')
+    @include('shared.base.styles', ['type' => 'admin'])
+    @yield('styles')
     <title>@yield('title')</title>
 </head>
 
@@ -58,7 +59,7 @@
         </main>
     </neo-wrapper>
     <neo-toaster horisontal="end" vertical="start"></neo-toaster>
-    @include('shared.base.scripts')
+    @include('shared.base.scripts', ['type' => 'admin'])
     @yield('scripts')
 </body>
 

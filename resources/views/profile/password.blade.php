@@ -19,7 +19,7 @@
                     value="{{ old('confirm_password') }}" class="lg:col-span-2"></neo-password>
                 <div class="w-full flex lg:col-span-4">
                     <neo-button
-                        class="w-full lg:w-max lg:px-20 lg:ms-auto rounded-x-thin px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                         <span>{{ __('Save') }}</span>
                     </neo-button>
                 </div>

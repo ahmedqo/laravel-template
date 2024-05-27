@@ -1,5 +1,5 @@
 <neo-topbar align="space-between" class="bg-gradient-to-br rtl:bg-gradient-to-bl bg-x-core no-action shadow-x-core py-1">
-    <button id="trigger" aria-label="sidebar_trigger"
+    <button id="trigger" onclick="sidebar.toggle()" aria-label="sidebar_trigger"
         class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
             <path
