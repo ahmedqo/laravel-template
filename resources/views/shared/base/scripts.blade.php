@@ -20,7 +20,12 @@
     Neo.load(function() {
         document.body.removeAttribute("close");
         document.body.querySelector("#neo-page-cover").remove();
-        Neo.Helper.Theme.assign("colors", "PRIME", "33 150 243");
+        Neo.Helper.Theme.assign(
+            "colors",
+            "PRIME",
+            getComputedStyle(document.documentElement)
+            .getPropertyValue("--prime")
+        );
         Neo.upgrade();
     });
 </script>
