@@ -13,14 +13,9 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function index_view(Request $Request)
+    public function index_view()
     {
-        $data = User::orderBy('id', 'DESC');
-        if ($Request->search) {
-            $data = $data->search($Request->search);
-        }
-        $data = $data->cursorPaginate(50);
-        return view('user.index', compact('data'));
+        return view('user.index');
     }
 
     public function store_view()

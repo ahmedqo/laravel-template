@@ -221,37 +221,31 @@
             display: flex;
             margin: 0 auto;
             max-width: 100%;
+            flex-wrap: wrap;
             width: max-content;
             align-items: center;
+            justify-content: center;
         }
 
         [part="btn"] {
             padding: 0;
+            width: 2rem;
+            height: 2rem;
             outline: none;
             border: unset;
-            width: 1.5rem;
-            display: block;
-            height: 1.5rem;
+            display: flex;
             cursor: pointer;
             position: relative;
             isolation: isolate;
-            background: transparent;
-        }
-
-        [part="btn"]::before {
-            content: "";
-            z-index: -1; 
-            inset: -15%;
-            width: 130%;
-            height: 130%;
-            display: block;
-            position: absolute;
+            align-items: center;
             border-radius: .25rem;
+            background: transparent;
+            justify-content: center;
         }
 
-        [part="btn"]:hover::before,
-        [part="btn"]:focus::before,
-        [part="btn"]:focus-within::before {
+        [part="btn"]:hover,
+        [part="btn"]:focus,
+        [part="btn"]:focus-within {
             background: {{ @Theme.colors("BLACK", 5) }};
         }
 

@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="w-full flex flex-col gap-16">
-        <div class="p-6 bg-x-white rounded-x-huge shadow-x-core">
+        <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
             <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                 <li
                     class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
@@ -55,7 +55,7 @@
                 </li>
             </ul>
         </div>
-        <div class="p-6 bg-x-white rounded-x-huge shadow-x-core">
+        <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
             <div class="rounded-x-thin border border-x-shade p-4 aspect-video">
             </div>
         </div>

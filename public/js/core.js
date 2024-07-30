@@ -76,7 +76,7 @@ function TableVisualizer(dataVisualizer, Type) {
 
     var timer;
     const Links = document.createElement("div");
-    Links.innerHTML = `<a id="prev" slot="end" aria-label="prev_page_link" class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" /></svg></a><a id="next" slot="end" aria-label="next_page_link" class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" /></svg></a>`;
+    Links.innerHTML = `<a id="prev" slot="end" aria-label="prev_page_link" class="flex w-8 h-8 items-center justify-center text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" /></svg></a><a id="next" slot="end" aria-label="next_page_link" class="flex w-8 h-8 items-center justify-center text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" /></svg></a>`;
 
     async function event(e) {
         e.preventDefault();
@@ -95,9 +95,9 @@ function TableVisualizer(dataVisualizer, Type) {
             else {
                 const _preva = Links.querySelector("#prev").cloneNode(true);
                 _preva.addEventListener("click", event);
-                if (nexta) dataVisualizer.insertBefore(_preva, nexta);
-                else dataVisualizer.appendChild(_preva);
-                _preva.title = Neo.Helper.trans("Prev");
+                if (nexta) nexta.insertAdjacentElement('beforebegin', _preva);
+                else dataVisualizer.insertAdjacentElement("afterbegin", _preva);
+                _preva.title = $trans("Prev");
                 _preva.href = href;
             }
         } else {
@@ -112,8 +112,9 @@ function TableVisualizer(dataVisualizer, Type) {
             else {
                 const _nexta = Links.querySelector("#next").cloneNode(true);
                 _nexta.addEventListener("click", event);
-                dataVisualizer.appendChild(_nexta);
-                _nexta.title = Neo.Helper.trans("Next");
+                if (preva) preva.insertAdjacentElement('afterend', _nexta);
+                else dataVisualizer.insertAdjacentElement("afterbegin", _nexta);
+                _nexta.title = $trans("Next");
                 _nexta.href = href;
             }
         } else {
@@ -153,3 +154,21 @@ const COLS = {},
     $query = (selector) => document.querySelector(selector),
     $capitalize = Neo.Helper.Str.capitalize,
     $trans = Neo.Helper.trans;
+
+
+
+$queryAll("form[require]").forEach(form => {
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        const errors = [],
+            fields = form.querySelectorAll("[require]");
+
+        fields.forEach(f => {
+            if (String(f.value).trim()) f.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            else f.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            errors.push(String(f.value).trim() ? true : false);
+        });
+
+        if (!errors.includes(false)) form.submit();
+    });
+});
