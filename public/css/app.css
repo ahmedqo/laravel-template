@@ -16,7 +16,7 @@
     --r-huge: 10px;
     --w-thin: 600;
     --w-huge: 800;
-    --shadow: 0px 8px 8px -8px rgb(var(--black) / 20%);
+    --shadow: 0px 5px 15px -10px rgb(var(--black) / 40%);
     /** */
     --color-sys-0: #94A3B8;
     --color-sys-1: #78716C;
@@ -77,7 +77,7 @@ body[close]>#neo-page-cover {
     height: 100dvh;
     inset: 0;
     z-index: 999999;
-    background: #ffffff;
+    background: rgb(var(--light));
 }
 
 .bg-x-core {
@@ -101,14 +101,6 @@ body[close]>#neo-page-cover {
     background-image: linear-gradient(to bottom left, rgb(var(--prime)), rgb(var(--acent)));
 }
 
-neo-datavisualizer::part(wrapper) {
-    box-shadow: var(--shadow);
-    -o-box-shadow: var(--shadow);
-    -ms-box-shadow: var(--shadow);
-    -moz-box-shadow: var(--shadow);
-    -webkit-box-shadow: var(--shadow);
-}
-
 neo-select,
 neo-textbox,
 neo-password,
@@ -119,6 +111,10 @@ neo-timepicker,
 neo-autocomplete,
 neo-imagetransfer {
     border: 1px solid rgb(var(--shade) / 1);
+}
+
+neo-select-group {
+    border-bottom: 1px solid rgb(var(--shade) / 1);
 }
 
 neo-button,
@@ -134,6 +130,53 @@ neo-imagetransfer,
 neo-datavisualizer::part(wrapper),
 neo-datavisualizer::part(search-wrapper) {
     border-radius: var(--r-thin);
+}
+
+neo-select,
+neo-button,
+neo-textbox,
+neo-password,
+neo-textarea,
+neo-explorer,
+neo-datepicker,
+neo-timepicker,
+neo-select-item,
+neo-autocomplete,
+neo-imagetransfer,
+neo-autocomplete::part(item) {
+    padding: .5rem 1rem;
+}
+
+neo-button {
+    padding-block: .688rem;
+}
+
+neo-datavisualizer::part(topbar) {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+neo-datavisualizer::part(title) {
+    display: none;
+}
+
+neo-datavisualizer::part(tools) {
+    margin: auto;
+    order: 0;
+}
+
+neo-datavisualizer::part(search-wrapper) {
+    order: 1;
+    max-width: 100%;
+}
+
+neo-datavisualizer::part(table-body-col) {
+    padding-block: .75rem;
+}
+
+neo-topbar::part(content) {
+    height: 100%;
 }
 
 .richtexteditor,
@@ -185,5 +228,10 @@ neo-datavisualizer::part(search-wrapper) {
     }
     .ui-grid>* {
         scroll-snap-align: unset;
+    }
+    neo-sidebar,
+    neo-sidebar::part(content) {
+        border: unset;
+        background: transparent;
     }
 }

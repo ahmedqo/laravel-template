@@ -1,4 +1,5 @@
 <script src="{{ asset('js/neo/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
+<script src="{{ asset('js/trans.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 
 @if ($type == 'admin')
     <script src="{{ asset('js/neo/plugins/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>

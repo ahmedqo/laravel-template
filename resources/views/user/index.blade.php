@@ -1,10 +1,17 @@
 @extends('shared.core.base')
 @section('title', __('Users List'))
 
+@section('meta')
+    <meta name="search" content="{{ route('actions.users.search') }}" />
+    <meta name="patch" content="{{ route('views.users.patch', 'XXX') }}" />
+    <meta name="clear" content="{{ route('actions.users.clear', 'XXX') }}" />
+@endsection
+
 @section('content')
-    <div class="flex flex-col gap-2">
+    <div class="p-6 bg-x-white rounded-x-huge shadow-x-core">
         <neo-datavisualizer print search filter download title="{{ __('Users List') }}">
-            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}" aria-label="create_page_link"
+            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
+                aria-label="create_page_link"
                 class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path
@@ -17,12 +24,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        TableVisualizer(document.querySelector("neo-datavisualizer"), "users", {
-            Search: "{{ route('actions.users.search') }}",
-            Patch: "{{ route('views.users.patch', 'XXX') }}",
-            Clear: "{{ route('actions.users.clear', 'XXX') }}",
-            Csrf: "{{ csrf_token() }}",
-        });
-    </script>
+    <script src="{{ asset('js/users.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @endsection

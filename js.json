@@ -1,0 +1,12 @@
+{
+    "Id": "Id",
+    "Full Name": "Full Name",
+    "Email": "Email",
+    "Phone": "Phone",
+    "Birth Date": "Birth Date",
+    "Gender": "Gender",
+    "Address": "Address",
+    "Actions": "Actions",
+    "male": "male",
+    "female": "female"
+}

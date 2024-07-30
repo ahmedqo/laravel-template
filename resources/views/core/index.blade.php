@@ -2,14 +2,11 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    <div class="w-full flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
-            <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
-                {{ __('Statistics') }}
-            </h1>
-            <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="w-full flex flex-col gap-16">
+        <div class="p-6 bg-x-white rounded-x-huge shadow-x-core">
+            <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-0);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -21,7 +18,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-3);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -33,7 +30,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-4);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -45,7 +42,7 @@
                     </div>
                 </li>
                 <li
-                    class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-5);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -57,6 +54,10 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="p-6 bg-x-white rounded-x-huge shadow-x-core">
+            <div class="rounded-x-thin border border-x-shade p-4 aspect-video">
+            </div>
         </div>
     </div>
 @endsection

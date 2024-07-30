@@ -1,12 +1,12 @@
 <div slot="footer" id="footer-content">
-    <div id="separater">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div id="content">
-        <h3>
-            {{ url(request()->getHost(), [], true) }}
-        </h3>
-    </div>
+    <ul class="separater">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <ul id="content">
+        <li>
+            {{ url('/', secure: true) }}
+        </li>
+    </ul>
 </div>

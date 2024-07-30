@@ -85,7 +85,7 @@ class ProfileController extends Controller
         );
 
         return Redirect::back()->with([
-            'message' => __('Updated Successfully'),
+            'message' => __('Updated successfully'),
             'type' => 'success'
         ]);
     }

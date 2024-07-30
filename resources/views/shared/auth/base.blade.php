@@ -29,7 +29,7 @@
                 <ul class="w-full flex flex-col">
                     <li class="w-full">
                         <a href="{{ route('actions.language.index', 'en') }}"
-                            class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('en') ? '!bg-x-black' : '' }}">
+                            class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('en') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
                             <img src="{{ asset('lang/en.png') }}?v={{ env('APP_VERSION') }}" alt="english flag"
                                 class="block w-6 h-4 object-contain" />
                             <span class="block flex-1 text-base text-start">English</span>
@@ -37,7 +37,7 @@
                     </li>
                     <li class="w-full">
                         <a href="{{ route('actions.language.index', 'fr') }}"
-                            class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('fr') ? '!bg-x-black' : '' }}">
+                            class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('fr') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
                             <img src="{{ asset('lang/fr.png') }}?v={{ env('APP_VERSION') }}" alt="french flag"
                                 class="block w-6 h-4 object-contain" />
                             <span class="block flex-1 text-base text-start">Francais</span>
@@ -45,7 +45,7 @@
                     </li>
                     <li class="w-full">
                         <a href="{{ route('actions.language.index', 'ar') }}"
-                            class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('ar') ? '!bg-x-black' : '' }}">
+                            class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('ar') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
                             <img src="{{ asset('lang/ar.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
                                 class="block w-6 h-4 object-contain" />
                             <span class="block flex-1 text-base text-start">العربية</span>

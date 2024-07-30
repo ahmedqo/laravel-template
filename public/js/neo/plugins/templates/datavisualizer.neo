@@ -111,8 +111,8 @@
         [part="title"] {
             margin: 0 auto;
             font-weight: 700;
-            font-size: {{ @Theme.sizes("XLARGE") }};
-            line-height: {{ @Theme.lines("XLARGE") }};
+            font-size: {{ @Theme.sizes("LARGE") }};
+            line-height: {{ @Theme.lines("LARGE") }};
         }
     {$ endif $}
 
@@ -134,7 +134,7 @@
             border-style: solid;
             display: inline-flex;
             border-radius: .25rem;
-            padding: .375rem .75rem;
+            padding: .4rem .75rem;
             {$ if @props.outline $}
                 border-color: {{ @Theme.colors("BLACK") }};
             {$ else $}
@@ -482,8 +482,7 @@
         line-height: {{ @Theme.lines("MEDIUM") }};
     }
 
-    [part="table-body-row"],
-    [part="table-empty-row"] {
+    [part="table-body-row"] {
         border-top-width: 1px;
         border-top-style: solid;
         border-top-color: {{ @props.outline ? @Theme.colors("BLACK") : @Theme.colors("BLACK", 20) }};
@@ -507,6 +506,8 @@
         {$ if @truty(@props.title) $}
             [part="title"] {
                 margin: 0;
+                font-size: {{ @Theme.sizes("XLARGE") }};
+                line-height: {{ @Theme.lines("XLARGE") }};
             }
         {$ endif $}
 
@@ -646,21 +647,23 @@
             </div>
         {$ else $}
             <table ref="table" part="table">
-                <thead ref="tablehead" part="table-head">
-                    <tr ref="tableheadrow" part="table-head-row">
-                        {$ each col into @props.cols $}
-                            {$ if col.visible !== false $}
-                                <td ref="tableheadcol" part="table-head-col"
-                                    {$ if col.headStyle $}
-                                        style="{{ @style(typeof col.headStyle === 'function' ? col.headStyle(col) : col.headStyle) }}"
-                                    {$ endif $}
-                                >
-                                    {{ @when(col.headRender, col.headRender, col.text || col.name) }}
-                                </td>
-                            {$ endif $}
-                        {$ endeach $}
-                    </tr>
-                </thead>
+                {$ if  @state.rows.length $}
+                    <thead ref="tablehead" part="table-head">
+                        <tr ref="tableheadrow" part="table-head-row">
+                            {$ each col into @props.cols $}
+                                {$ if col.visible !== false $}
+                                    <td ref="tableheadcol" part="table-head-col"
+                                        {$ if col.headStyle $}
+                                            style="{{ @style(typeof col.headStyle === 'function' ? col.headStyle(col) : col.headStyle) }}"
+                                        {$ endif $}
+                                    >
+                                        {{ @when(col.headRender, col.headRender, col.text || col.name) }}
+                                    </td>
+                                {$ endif $}
+                            {$ endeach $}
+                        </tr>
+                    </thead>
+                {$ endif $}
                 <tbody ref="tablebody" part="table-body">
                     {$ forelse row into @state.rows $}
                         <tr ref="tablebodyrow" part="table-body-row">
@@ -689,7 +692,7 @@
     </div>
     {$ if @props.print $}
         <section ref="page" part="page">
-            <style> body { margin: 0; } #page { width: 100% } @page { size: {{ @props.size }}; margin: {{ @props.margin }}; } #title { font-weight: 700; text-align: center; margin: 0 0 1rem 0; font-size: {{ @Theme.sizes("XLARGE") }}; line-height: {{ @Theme.lines("XLARGE") }}; } #wrapper { width: 100%; overflow-x: auto; border-width: 1px; border-style: solid; border-radius: .25rem; {$ if @props.outline $} border-color: {{ @Theme.colors("BLACK") }}; {$ else $} background: {{ @Theme.colors("WHITE") }}; border-color: {{ @Theme.colors("BLACK", 20) }}; {$ endif $} } #table { min-width: 100%; width: max-content; border-collapse: collapse; } .table-head-col { font-weight: 700; padding: .5rem 1rem; color: {{ @Theme.colors("BLACK") }}; font-size: {{ @Theme.sizes("SMALL") }}; line-height: {{ @Theme.lines("SMALL") }}; {$ if !@props.outline $} background: {{ @Theme.colors("LIGHT") }}; {$ endif $} } .table-head-col:first-of-type, .table-body-col:first-of-type { padding-inline-start: 1.5rem; } .table-head-col:last-of-type, .table-body-col:last-of-type { padding-inline-end: 1.5rem; } .table-body-col { padding: 0.5rem 1rem; font-size: {{ @Theme.sizes("BASE") }}; line-height: {{ @Theme.lines("BASE") }}; } #table-empty-col { font-weight: 700; text-align: center; padding: 1rem 1.5rem; color: {{ @Theme.colors("BLACK") }}; font-size: {{ @Theme.sizes("MEDIUM") }}; line-height: {{ @Theme.lines("MEDIUM") }}; } .table-body-row, #table-empty-row { border-top-width: 1px; border-top-style: solid; border-top-color: {{ @props.outline ? @Theme.colors("BLACK") : @Theme.colors("BLACK", 20) }}; }
+            <style> body { margin: 0; } #page { width: 100% } @page { size: {{ @props.size }}; margin: {{ @props.margin }}; } #title { font-weight: 700; text-align: center; margin: 0 0 1rem 0; font-size: {{ @Theme.sizes("XLARGE") }}; line-height: {{ @Theme.lines("XLARGE") }}; } #wrapper { width: 100%; overflow-x: auto; border-width: 1px; border-style: solid; border-radius: .25rem; {$ if @props.outline $} border-color: {{ @Theme.colors("BLACK") }}; {$ else $} background: {{ @Theme.colors("WHITE") }}; border-color: {{ @Theme.colors("BLACK", 20) }}; {$ endif $} } #table { min-width: 100%; width: max-content; border-collapse: collapse; } .table-head-col { font-weight: 700; padding: .5rem 1rem; color: {{ @Theme.colors("BLACK") }}; font-size: {{ @Theme.sizes("SMALL") }}; line-height: {{ @Theme.lines("SMALL") }}; {$ if !@props.outline $} background: {{ @Theme.colors("LIGHT") }}; {$ endif $} } .table-head-col:first-of-type, .table-body-col:first-of-type { padding-inline-start: 1.5rem; } .table-head-col:last-of-type, .table-body-col:last-of-type { padding-inline-end: 1.5rem; } .table-body-col { padding: 0.5rem 1rem; font-size: {{ @Theme.sizes("BASE") }}; line-height: {{ @Theme.lines("BASE") }}; } #table-empty-col { font-weight: 700; text-align: center; padding: 1rem 1.5rem; color: {{ @Theme.colors("BLACK") }}; font-size: {{ @Theme.sizes("MEDIUM") }}; line-height: {{ @Theme.lines("MEDIUM") }}; } .table-body-row { border-top-width: 1px; border-top-style: solid; border-top-color: {{ @props.outline ? @Theme.colors("BLACK") : @Theme.colors("BLACK", 20) }}; }
             </style>
             <slot ref="printStyles" name="styles" part="styles"></slot>
             <table id="page">
@@ -712,21 +715,23 @@
                                 {$ endif $}
                                 <div id="wrapper">
                                     <table id="table">
-                                        <thead id="table-head">
-                                            <tr id="table-head-row">
-                                                {$ each col into @props.cols $}
-                                                    {$ if col.visible !== false $}
-                                                        <td class="table-head-col"
-                                                            {$ if col.headPdfStyle $}
-                                                                style="{{ @style(typeof col.headPdfStyle === 'function' ? col.headPdfStyle(col) : col.headPdfStyle) }}"
-                                                            {$ endif $}
-                                                        >
-                                                            {{ @when(col.headPdfRender, col.headPdfRender, col.text || col.name) }}
-                                                        </td>
-                                                    {$ endif $}
-                                                {$ endeach $}
-                                            </tr>
-                                        </thead>
+                                        {$ if  @state.rows.length $}
+                                            <thead id="table-head">
+                                                <tr id="table-head-row">
+                                                    {$ each col into @props.cols $}
+                                                        {$ if col.visible !== false $}
+                                                            <td class="table-head-col"
+                                                                {$ if col.headPdfStyle $}
+                                                                    style="{{ @style(typeof col.headPdfStyle === 'function' ? col.headPdfStyle(col) : col.headPdfStyle) }}"
+                                                                {$ endif $}
+                                                            >
+                                                                {{ @when(col.headPdfRender, col.headPdfRender, col.text || col.name) }}
+                                                            </td>
+                                                        {$ endif $}
+                                                    {$ endeach $}
+                                                </tr>
+                                            </thead>
+                                        {$ endif $}
                                         <tbody id="table-body">
                                             {$ forelse row into @state.rows $}
                                                 <tr class="table-body-row">
@@ -913,8 +918,7 @@
                 return frame;
             },
             insertStyles(page) {
-                const styles = [page.querySelector("style"), ...this.refs.printStyles.assignedNodes()];
-
+                const styles = [...this.refs.printStyles.assignedNodes()];
                 this.constructor.globals.forEach(link => {
                     const style = document.createElement("link");
                     style.rel = "stylesheet";
@@ -922,7 +926,6 @@
 
                     page.head.appendChild(style.cloneNode(true));
                 });
-
                 styles.forEach(style => {
                     if (style instanceof HTMLElement) {
                         page.head.appendChild(style.cloneNode(true));

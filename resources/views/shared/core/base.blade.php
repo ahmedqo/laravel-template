@@ -5,6 +5,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
+    @yield('meta')
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
@@ -15,11 +17,11 @@
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
             class="block w-36" width="916" height="516" />
     </section>
-    <neo-wrapper class="bg-[#e9edef] flex flex-wrap">
+    <neo-wrapper class="bg-x-light flex flex-wrap">
         @include('shared.core.sidebar')
         <main class="w-full lg:w-0 lg:flex-1">
             @include('shared.core.topbar')
-            <div class="p-4 container mx-auto">
+            <div class="p-4 py-8 md:pt-0 container mx-auto">
                 @yield('content')
             </div>
         </main>

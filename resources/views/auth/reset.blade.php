@@ -14,12 +14,12 @@
                     class="block w-full" width="916" height="516" loading="lazy" />
             </a>
             <form action="{{ route('actions.reset.index', $token) }}" method="POST"
-                class="w-full flex flex-col gap-4 lg:gap-6 p-4 lg:p-6 bg-x-white rounded-x-huge shadow-x-core">
+                class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-huge shadow-x-core">
                 @csrf
                 <neo-password label="{{ __('New Password') }}" name="new_password"></neo-password>
                 <neo-password label="{{ __('Confirm Password') }}" name="confirm_password"></neo-password>
                 <neo-button
-                    class="w-full px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                    class="w-full text-base lg:text-lg font-x-huge text-x-white bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">
                     <span>{{ __('Reset') }}</span>
                 </neo-button>
             </form>

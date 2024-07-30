@@ -92,7 +92,7 @@
         border-style: solid;
         display: inline-flex;
         border-radius: .25rem;
-        padding: .375rem .75rem;
+        padding: .4rem .75rem;
         {$ if @props.outline $}
             border-color: {{ @Theme.colors("BLACK") }};
         {$ else $}
@@ -152,7 +152,8 @@
         {$ endif $}
     {$ endif $}
 
-    [part="field"] {
+     [part="field"] {
+        padding: 0;
         width: 100%;
         outline: none;
         border: unset;
@@ -163,7 +164,7 @@
         font-size: {{ @Theme.sizes("BASE") }};
         line-height: {{ @Theme.lines("SMALL") }};
         caret-color: {{ @Theme.colors("PRIME", 400) }};
-        margin: {{ @truty(@props.label) ? ".75rem 0 0 0" : ".375rem 0" }};
+        margin: {{ @truty(@props.label) ? ".75rem 0 0 0" : "0" }};
     }
 
     [part="icon"] {
@@ -220,7 +221,7 @@
             {$ endeach $}
         }
 
-        {$ if @truty(@props.label) $}
+        {$ if @truty(@props.label) || @truty(@props.placeholder) $}
             [part="content-label"] {
                 width: 100%;
                 display: block;
@@ -377,7 +378,7 @@
                 max-height: 300px;
             }
             
-            {$ if @truty(@props.label) $}
+            {$ if @truty(@props.label) || @truty(@props.placeholder) $}
                 [part="content-label"] {
                     display: none;
                 }
@@ -406,8 +407,8 @@
     {$ if @state.show $}
         <div ref="modal" part="modal">
             <div ref="content" part="content" @click:propagation="{{ () => {} }}">
-                {$ if @truty(@props.label) $}
-                    <label ref="contentLabel" part="content-label">{{ @props.label }}</label>
+                {$ if @truty(@props.label) || @truty(@props.placeholder) $}
+                    <label ref="contentLabel" part="content-label">{{ @props.label || @props.placeholder }}</label>
                 {$ endif $}
                 <div ref="items" part="items">
                     <div ref="control" part="control">

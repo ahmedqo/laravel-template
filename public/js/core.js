@@ -52,175 +52,8 @@
     }).define();
 })();
 
-Neo.Locales.fr = {
-    ...Neo.Locales.fr,
-    "Id": "Identifiant",
-    "Email": "E-mail",
-    "First Name": "Prénom",
-    "Last Name": "Nom de famille",
-    "Gender": "Genre",
-    "Birth Date": "Date de naissance",
-    "Phone": "Téléphone",
-    "Address": "Adresse",
-    "Male": "Homme",
-    "Female": "Femme",
-    "Actions": "Actions",
-}
-
-Neo.Locales.ar = {
-    ...Neo.Locales.ar,
-    "Id": "المعرف",
-    "Email": "البريد الإلكتروني",
-    "First Name": "الاسم الأول",
-    "Last Name": "الاسم الأخير",
-    "Gender": "الجنس",
-    "Birth Date": "تاريخ الميلاد",
-    "Phone": "الهاتف",
-    "Address": "العنوان",
-    "Male": "ذكر",
-    "Female": "أنثى",
-    "Actions": "الإجراءات",
-}
-
-const COLS = {
-    users: ({
-        Csrf,
-        Patch,
-        Clear
-    }) => [{
-        name: "id",
-        text: Neo.Helper.trans("Id"),
-        headStyle: { width: 20, textAlign: "center" },
-        bodyStyle: { width: 20, textAlign: "center" },
-        headPdfStyle: function() {
-            return {...this.headStyle, background: "rgb(33 150 243)", color: "rgb(254 254 254)" };
-        },
-        bodyPdfStyle: function() {
-            return this.bodyStyle;
-        },
-        bodyRender: (row) =>
-            `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "first_name",
-        text: Neo.Helper.trans("First Name"),
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-        bodyRender: (row) => Neo.Helper.Str.capitalize(row.first_name),
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-        bodyCsvRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "last_name",
-        text: Neo.Helper.trans("Last Name"),
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-        bodyRender: (row) => Neo.Helper.Str.capitalize(row.last_name),
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-        bodyCsvRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "gender",
-        text: Neo.Helper.trans("Gender"),
-        visible: false,
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-        bodyRender: (row) => row.gender ? Neo.Helper.Str.capitalize(Neo.Helper.trans(row.gender)) : empty(),
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-        bodyCsvRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "birth_date",
-        text: Neo.Helper.trans("Birth Date"),
-        visible: false,
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-        bodyRender: (row) => row.birth_date ? row.birth_date : empty(),
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-        bodyCsvRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "email",
-        text: Neo.Helper.trans("Email"),
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-    }, {
-        name: "phone",
-        text: Neo.Helper.trans("Phone"),
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-    }, {
-        name: "address",
-        text: Neo.Helper.trans("Address"),
-        visible: false,
-        headPdfStyle: {
-            background: "rgb(33 150 243)",
-            color: "rgb(254 254 254)"
-        },
-        bodyRender: (row) => row.address ? Neo.Helper.Str.capitalize(row.address) : empty(),
-        bodyPdfRender: function(row) {
-            return this.bodyRender(row);
-        },
-        bodyCsvRender: function(row) {
-            return this.bodyRender(row);
-        },
-    }, {
-        name: "action",
-        text: Neo.Helper.trans("Actions"),
-        headStyle: { width: 20, textAlign: "center" },
-        bodyStyle: { width: 20, textAlign: "center" },
-        bodyRender: (row) => {
-            return `<action-tools target="${row.id}" csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
-        },
-        headPdfStyle: function() {
-            return {...this.headStyle, background: "rgb(33 150 243)", color: "rgb(254 254 254)" };
-        },
-        bodyPdfStyle: function() {
-            return this.bodyStyle;
-        },
-        bodyPdfRender: () => empty(),
-        bodyCsvRender: () => empty(),
-    }],
-}
-
-Neo.load(function() {
-    document.querySelectorAll(".nav-colors svg").forEach((svg, i) => {
-        if (i < 10) svg.style.color = "var(--color-" + i + ")";
-    });
-
-    document.querySelectorAll(".sys-colors svg").forEach((svg, i) => {
-        if (i < 10) svg.style.color = "var(--color-sys-" + i + ")";
-    });
-});
-
 function empty() {
-    return "__";
+    return "N/A";
 }
 
 async function getData(url, createLinks) {
@@ -230,7 +63,17 @@ async function getData(url, createLinks) {
     return res.data;
 }
 
-function TableVisualizer(dataVisualizer, Type, Data) {
+function TableVisualizer(dataVisualizer, Type) {
+    const __ = { content: null },
+        Data = {
+            Search: ($query("meta[name=search]") || __).content,
+            Scene: ($query("meta[name=scene]") || __).content,
+            Print: ($query("meta[name=print]") || __).content,
+            Patch: ($query("meta[name=patch]") || __).content,
+            Clear: ($query("meta[name=clear]") || __).content,
+            Csrf: ($query("meta[name=csrf_token]") || __).content,
+        }
+
     var timer;
     const Links = document.createElement("div");
     Links.innerHTML = `<a id="prev" slot="end" aria-label="prev_page_link" class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" /></svg></a><a id="next" slot="end" aria-label="next_page_link" class="block w-6 h-6 text-x-black outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" /></svg></a>`;
@@ -287,14 +130,7 @@ function TableVisualizer(dataVisualizer, Type, Data) {
         dataVisualizer.loading = false;
     })();
 
-    dataVisualizer.cols = COLS[Type]({
-        Currency: Data.Currency,
-        Scene: Data.Scene,
-        Print: Data.Print,
-        Patch: Data.Patch,
-        Clear: Data.Clear,
-        Csrf: Data.Csrf,
-    });
+    dataVisualizer.cols = COLS[Type](Data);
 
     dataVisualizer.addEventListener("search", async e => {
         e.preventDefault();
@@ -311,3 +147,9 @@ function TableVisualizer(dataVisualizer, Type, Data) {
         dataVisualizer.loading = false;
     });
 }
+
+const COLS = {},
+    $queryAll = (selector) => document.querySelectorAll(selector),
+    $query = (selector) => document.querySelector(selector),
+    $capitalize = Neo.Helper.Str.capitalize,
+    $trans = Neo.Helper.trans;

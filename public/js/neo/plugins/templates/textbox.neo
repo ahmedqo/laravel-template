@@ -34,7 +34,7 @@
             border-style: solid;
             display: inline-flex;
             border-radius: .25rem;
-            padding: .375rem .75rem;
+            padding: .4rem .75rem;
             {$ if @props.outline $}
                 border-color: {{ @Theme.colors("BLACK") }};
             {$ else $}
@@ -92,7 +92,8 @@
             }
         {$ endif $}
 
-        [part="field"] {
+         [part="field"] {
+        padding: 0;
             width: 100%;
             outline: none;
             border: unset;
@@ -102,7 +103,7 @@
             font-size: {{ @Theme.sizes("BASE") }};
             line-height: {{ @Theme.lines("SMALL") }};
             caret-color: {{ @Theme.colors("PRIME", 400) }};
-            margin: {{ @truty(@props.label) ? ".75rem 0 0 0" : ".375rem 0" }};
+            margin: {{ @truty(@props.label) ? ".75rem 0 0 0" : "0" }};
         }
     {$ endif $}
 </style>
