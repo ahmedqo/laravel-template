@@ -302,6 +302,7 @@
         {$ endif $}
         <input ref="field" part="field" id="{{ @state.uid }}" 
             value="{{ @when(Array.isArray(@props.text), () => @props.text.join(' | '), @props.text) }}"
+            {$ if @this.name $} name="{{ @this.name }}" {$ endif $}
             placeholder="{{ @when(@truty(@props.placeholder), @props.placeholder, ' ') }}"
             {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             readonly

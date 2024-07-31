@@ -11,4 +11,6 @@ Route::get('/language/{locale}', function ($locale) {
 
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/dashboard', [CoreController::class, 'index_view'])->name('views.core.index');
+
+    Route::get('/data/popular', [CoreController::class, 'popular_action'])->name('actions.core.popular');
 });

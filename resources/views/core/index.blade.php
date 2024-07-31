@@ -1,12 +1,26 @@
 @extends('shared.core.base')
 @section('title', __('Dashboard'))
 
+@section('meta')
+    <meta name="search" content="{{ route('actions.core.popular') }}" />
+@endsection
+
 @section('content')
-    <div class="w-full flex flex-col gap-16">
-        <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
-            <ul class="grid grid-rows-1 grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                <li
-                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+    <div
+        class="w-full items-start grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-6 bg-x-white rounded-x-thin shadow-x-core">
+        <div class="lg:col-span-12 grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div class="rounded-x-thin bg-x-light p-4 aspect-square relative">
+                <div
+                    class="dount-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+            </div>
+            <ul class="lg:col-span-3 grid grid-rows-1 grid-cols-2 lg:grid-rows-2 gap-6 lg:gap-8">
+                <li class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
+                    <div
+                        class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                        <neo-loader></neo-loader>
+                    </div>
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-0);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -18,7 +32,11 @@
                     </div>
                 </li>
                 <li
-                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
+                    <div
+                        class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                        <neo-loader></neo-loader>
+                    </div>
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-3);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -30,7 +48,11 @@
                     </div>
                 </li>
                 <li
-                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
+                    <div
+                        class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                        <neo-loader></neo-loader>
+                    </div>
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-4);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -42,7 +64,11 @@
                     </div>
                 </li>
                 <li
-                    class="rounded-x-thin border border-x-shade p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap">
+                    class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
+                    <div
+                        class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                        <neo-loader></neo-loader>
+                    </div>
                     <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-5);" fill="currentcolor"
                         viewBox="0 -960 960 960">
                         <path
@@ -55,9 +81,18 @@
                 </li>
             </ul>
         </div>
-        <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
-            <div class="rounded-x-thin border border-x-shade p-4 aspect-video">
+        <div class="lg:col-span-7 rounded-x-thin bg-x-light p-4 aspect-video relative">
+            <div
+                class="chart-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                <neo-loader></neo-loader>
             </div>
         </div>
+        <ul class="lg:col-span-5">
+            <neo-datavisualizer round></neo-datavisualizer>
+        </ul>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/dashboard.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @endsection

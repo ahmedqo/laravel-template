@@ -15,4 +15,16 @@ class CoreController extends Controller
     {
         return view('core.index');
     }
+
+    public function popular_action()
+    {
+        return response()->json([
+            'data' => [
+                [
+                    'product' => 'some product name',
+                    'orders' => 1000
+                ]
+            ]
+        ]);
+    }
 }

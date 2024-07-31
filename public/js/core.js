@@ -153,8 +153,8 @@ const COLS = {},
     $queryAll = (selector) => document.querySelectorAll(selector),
     $query = (selector) => document.querySelector(selector),
     $capitalize = Neo.Helper.Str.capitalize,
+    $money = Neo.Helper.Str.money,
     $trans = Neo.Helper.trans;
-
 
 
 $queryAll("form[require]").forEach(form => {

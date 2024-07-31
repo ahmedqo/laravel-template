@@ -331,6 +331,7 @@
         {$ endif $}
         <input ref="field" part="field" id="{{ @state.uid }}" 
             value="{{ @when(@truty(@props.value), () => @Str.moment("1990-10-10 " + @props.value, @props.format), '') }}"
+            {$ if @this.name $} name="{{ @this.name }}" {$ endif $}
             placeholder="{{ @when(@truty(@props.placeholder), @props.placeholder, ' ') }}"
             {$ if @props.disable $} disabled="{{ @props.disable }}" {$ endif $}
             readonly

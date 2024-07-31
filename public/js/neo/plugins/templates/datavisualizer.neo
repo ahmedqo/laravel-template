@@ -998,7 +998,7 @@
                         },
                     },
                     props: {
-                        "size,title,margin,print,outline": () => {
+                        "size,title,margin,print,outline,loading": () => {
                             this.emit("change:" + name, { data: next });
                         },
                         "filter,search": () => {
