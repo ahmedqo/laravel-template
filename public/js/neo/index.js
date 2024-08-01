@@ -658,8 +658,14 @@ const Neo = (function Neo() {
                     }).format(number);
                 }
 
+                static titlize = function titlize(string) {
+                    return (!string || typeof string !== 'string') ? '' : string.trim().replace(/\b\w/g, function(char) {
+                        return char.toUpperCase();
+                    });
+                }
+
                 static capitalize = function capitalize(string) {
-                    return (!string || typeof string !== 'string') ? '' : string.trim().charAt(0).toUpperCase() + string.slice(1);
+                    return (!string || typeof string !== 'string') ? '' : string.trim().charAt(0).toUpperCase() + string.trim().slice(1);
                 }
             }
         }

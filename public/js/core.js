@@ -63,17 +63,7 @@ async function getData(url, createLinks) {
     return res.data;
 }
 
-function TableVisualizer(dataVisualizer, Type) {
-    const __ = { content: null },
-        Data = {
-            Search: ($query("meta[name=search]") || __).content,
-            Scene: ($query("meta[name=scene]") || __).content,
-            Print: ($query("meta[name=print]") || __).content,
-            Patch: ($query("meta[name=patch]") || __).content,
-            Clear: ($query("meta[name=clear]") || __).content,
-            Csrf: ($query("meta[name=csrf_token]") || __).content,
-        }
-
+function TableVisualizer(dataVisualizer, callback) {
     var timer;
     const Links = document.createElement("div");
     Links.innerHTML = `<a id="prev" slot="end" aria-label="prev_page_link" class="flex w-8 h-8 items-center justify-center text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M452-219 190-481l262-262 64 64-199 198 199 197-64 65Zm257 0L447-481l262-262 63 64-198 198 198 197-63 65Z" /></svg></a><a id="next" slot="end" aria-label="next_page_link" class="flex w-8 h-8 items-center justify-center text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black"><svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960"><path d="M388-481 190-679l64-64 262 262-262 262-64-65 198-197Zm257 0L447-679l63-64 262 262-262 262-63-65 198-197Z" /></svg></a>`;
@@ -90,7 +80,7 @@ function TableVisualizer(dataVisualizer, Type) {
         const preva = document.querySelector("#prev");
         const nexta = document.querySelector("#next");
         if (prev) {
-            const href = Data.Search + search + "&cursor=" + prev;
+            const href = $routes.search + search + "&cursor=" + prev;
             if (preva) preva.href = href
             else {
                 const _preva = Links.querySelector("#prev").cloneNode(true);
@@ -107,7 +97,7 @@ function TableVisualizer(dataVisualizer, Type) {
             }
         }
         if (next) {
-            const href = Data.Search + search + "&cursor=" + next;
+            const href = $routes.search + search + "&cursor=" + next;
             if (nexta) nexta.href = href
             else {
                 const _nexta = Links.querySelector("#next").cloneNode(true);
@@ -127,11 +117,11 @@ function TableVisualizer(dataVisualizer, Type) {
 
     (async function() {
         dataVisualizer.loading = true;
-        dataVisualizer.rows = await getData(Data.Search + window.location.search, createLinks);
+        dataVisualizer.rows = await getData($routes.search + window.location.search, createLinks);
         dataVisualizer.loading = false;
     })();
 
-    dataVisualizer.cols = COLS[Type](Data);
+    dataVisualizer.cols = callback($routes);
 
     dataVisualizer.addEventListener("search", async e => {
         e.preventDefault();
@@ -139,7 +129,7 @@ function TableVisualizer(dataVisualizer, Type) {
         dataVisualizer.loading = true;
         dataVisualizer.rows = await new Promise((resolver, rejecter) => {
             timer = setTimeout(async() => {
-                const data = await getData(Data.Search + "?search=" +
+                const data = await getData($routes.search + "?search=" +
                     encodeURIComponent(e.detail
                         .data), createLinks);
                 resolver(data);
@@ -149,10 +139,20 @@ function TableVisualizer(dataVisualizer, Type) {
     });
 }
 
-const COLS = {},
+const
     $queryAll = (selector) => document.querySelectorAll(selector),
     $query = (selector) => document.querySelector(selector),
     $capitalize = Neo.Helper.Str.capitalize,
+    $titlize = Neo.Helper.Str.titlize,
+    $routes = (() => {
+        const routes = $query("meta[name=routes]"),
+            $data = {};
+        if (routes) {
+            $data = JSON.parse(routes.content);
+            routes.remove();
+        }
+        return { search: "", ...$data };
+    })(),
     $money = Neo.Helper.Str.money,
     $trans = Neo.Helper.trans;
 

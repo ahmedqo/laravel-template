@@ -1,7 +1,7 @@
-COLS.users = ({
-    Csrf,
-    Patch,
-    Clear
+TableVisualizer($query("neo-datavisualizer"), ({
+    csrf,
+    patch,
+    clear
 }) => [{
     name: "id",
     text: $trans("Id"),
@@ -19,8 +19,8 @@ COLS.users = ({
     },
 }, {
     name: "full_name",
-    text: $trans("Full Name"),
-    bodyRender: (row) => $capitalize(row.first_name) + " " + $capitalize(row.last_name),
+    text: $trans("Full name"),
+    bodyRender: (row) => $titlize(row.first_name + " " + row.last_name),
     bodyPdfRender: function(row) {
         return this.bodyRender(row);
     },
@@ -36,7 +36,7 @@ COLS.users = ({
 }, {
     visible: false,
     name: "birth_date",
-    text: $trans("Birth Date"),
+    text: $trans("Birth date"),
     headStyle: { width: 120, textAlign: "center" },
     bodyStyle: { width: 120, textAlign: "center" },
     headPdfStyle: function() {
@@ -87,9 +87,7 @@ COLS.users = ({
     text: $trans("Actions"),
     headStyle: { width: 20, textAlign: "center" },
     bodyStyle: { width: 20, textAlign: "center" },
-    bodyRender: (row) => {
-        return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
-    },
+    bodyRender: (row) => `<action-tools target="${row.id}"csrf="${csrf}"patch="${patch}"clear="${clear}"></action-tools>`,
     headPdfStyle: function() {
         return this.headStyle
     },
@@ -98,6 +96,4 @@ COLS.users = ({
     },
     bodyPdfRender: () => empty(),
     bodyCsvRender: () => empty(),
-}];
-
-TableVisualizer($query("neo-datavisualizer"), "users");
+}]);

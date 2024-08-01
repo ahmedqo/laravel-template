@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductViews;
-use App\Models\Quotation;
-use App\Models\QuotationItem;
-use App\Models\Request as _Request;
-use Carbon\Carbon;
 
 class CoreController extends Controller
 {
     public function index_view()
     {
-        return view('core.index');
+        $data = [680, 884];
+        return view('core.index', compact('data'));
     }
 
     public function popular_action()
@@ -24,6 +19,24 @@ class CoreController extends Controller
                     'product' => 'some product name',
                     'orders' => 1000
                 ]
+            ]
+        ]);
+    }
+
+    public function chart_action()
+    {
+        return response()->json([
+            'data' => [
+                'keys' => [
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday'
+                ],
+                'values' =>  [680, 884, 802, 869, 141, 406, 600]
             ]
         ]);
     }

@@ -1,5 +1,5 @@
 @extends('shared.auth.base')
-@section('title', __('Reset Password'))
+@section('title', __('Reset password'))
 
 @section('content')
     <div style="background-image: url({{ asset('img/bg-reset.webp') }}?v={{ env('APP_VERSION') }})"
@@ -16,8 +16,8 @@
             <form require action="{{ route('actions.reset.index', $token) }}" method="POST"
                 class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
-                <neo-password require label="{{ __('New Password') }} (*)" name="new_password"></neo-password>
-                <neo-password require label="{{ __('Confirm Password') }} (*)" name="confirm_password"></neo-password>
+                <neo-password require label="{{ __('New password') }} (*)" name="new_password"></neo-password>
+                <neo-password require label="{{ __('Confirm password') }} (*)" name="confirm_password"></neo-password>
                 <neo-button
                     class="w-full text-base lg:text-lg font-x-huge text-x-white bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">
                     <span>{{ __('Reset') }}</span>

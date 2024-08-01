@@ -2,7 +2,11 @@
 @section('title', __('Dashboard'))
 
 @section('meta')
-    <meta name="search" content="{{ route('actions.core.popular') }}" />
+    <meta name="routes" content='{!! json_encode([
+        'search' => route('actions.core.popular'),
+        'chart' => route('actions.core.chart'),
+    ]) !!}' />
+    <meta name="count" content="{!! json_encode($data) !!}" />
 @endsection
 
 @section('content')
@@ -11,12 +15,19 @@
         <div class="lg:col-span-12 grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
             <div class="rounded-x-thin bg-x-light p-4 aspect-square relative">
                 <div
-                    class="dount-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                    class="donut-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center z-10">
                     <neo-loader></neo-loader>
                 </div>
+                <div class="w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
+                    <h1 class="text-xl font-x-thin text-x-black">
+                        {{ number_format(($data[0] / (array_sum($data) ?? 1)) * 100, 2) }}%
+                    </h1>
+                </div>
+                <canvas id="donut" class="w-full h-full"></canvas>
             </div>
             <ul class="lg:col-span-3 grid grid-rows-1 grid-cols-2 lg:grid-rows-2 gap-6 lg:gap-8">
-                <li class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
+                <li
+                    class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
                     <div
                         class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
                         <neo-loader></neo-loader>
@@ -28,7 +39,7 @@
                     </svg>
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Total') }}</h2>
-                        <p class="text-base lg:text-base text-gray-800">00</p>
+                        <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[0]) }}</p>
                     </div>
                 </li>
                 <li
@@ -76,16 +87,17 @@
                     </svg>
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Requests') }}</h2>
-                        <p class="text-base lg:text-base text-gray-800">00</p>
+                        <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[1]) }}</p>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="lg:col-span-7 rounded-x-thin bg-x-light p-4 aspect-video relative">
+        <div class="lg:col-span-7 rounded-x-thin bg-x-light p-4 relative">
             <div
                 class="chart-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
                 <neo-loader></neo-loader>
             </div>
+            <canvas id="chart" class="w-full aspect-video"></canvas>
         </div>
         <ul class="lg:col-span-5">
             <neo-datavisualizer round></neo-datavisualizer>
@@ -94,5 +106,6 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="{{ asset('js/dashboard.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @endsection

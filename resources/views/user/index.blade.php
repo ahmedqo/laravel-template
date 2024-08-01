@@ -1,17 +1,20 @@
 @extends('shared.core.base')
-@section('title', __('Users List'))
+@section('title', __('Users list'))
+
 
 @section('meta')
-    <meta name="search" content="{{ route('actions.users.search') }}" />
-    <meta name="patch" content="{{ route('views.users.patch', 'XXX') }}" />
-    <meta name="clear" content="{{ route('actions.users.clear', 'XXX') }}" />
+    <meta name="routes" content='{!! json_encode([
+        'search' => route('actions.users.search'),
+        'patch' => route('views.users.patch', 'XXX'),
+        'clear' => route('actions.users.clear', 'XXX'),
+        'csrf' => csrf_token(),
+    ]) !!}' />
 @endsection
 
 @section('content')
     <div class="bg-x-white rounded-x-thin shadow-x-core">
-        <neo-datavisualizer print search filter download title="{{ __('Users List') }}">
-            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}"
-                aria-label="create_page_link"
+        <neo-datavisualizer print search filter download title="{{ __('Users list') }}">
+            <a slot="end" title="{{ __('Create') }}" href="{{ route('views.users.store') }}" aria-label="create_page_link"
                 class="flex w-8 h-8 items-center justify-center text-x-white outline-none rounded-x-thin bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                     <path

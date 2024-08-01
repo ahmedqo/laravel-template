@@ -18,8 +18,8 @@
                 @csrf
                 <neo-textbox require type="email" label="{{ __('Email') }} (*)" name="email"
                     value="{{ old('email') }}"></neo-textbox>
-                <neo-password require label="{{ __('Password') }}" name="password"
-                    value="{{ old('password') }} (*)"></neo-password>
+                <neo-password require label="{{ __('Password') }} (*)" name="password"
+                    value="{{ old('password') }}"></neo-password>
                 <neo-button
                     class="w-full text-base lg:text-lg font-x-huge text-x-white bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">
                     <span>{{ __('Login') }}</span>

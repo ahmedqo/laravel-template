@@ -1,5 +1,5 @@
 @extends('shared.core.base')
-@section('title', __('Update Password'))
+@section('title', __('Update password'))
 
 @section('content')
     <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
@@ -7,11 +7,11 @@
             class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
             @csrf
             @method('patch')
-            <neo-password require label="{{ __('Old Password') }} (*)" name="old_password" value="{{ old('old_password') }}"
+            <neo-password require label="{{ __('Old password') }} (*)" name="old_password" value="{{ old('old_password') }}"
                 class="lg:col-span-4"></neo-password>
-            <neo-password require label="{{ __('New Password') }} (*)" name="new_password" value="{{ old('new_password') }}"
+            <neo-password require label="{{ __('New password') }} (*)" name="new_password" value="{{ old('new_password') }}"
                 class="lg:col-span-2"></neo-password>
-            <neo-password require label="{{ __('Confirm Password') }} (*)" name="confirm_password"
+            <neo-password require label="{{ __('Confirm password') }} (*)" name="confirm_password"
                 value="{{ old('confirm_password') }}" class="lg:col-span-2"></neo-password>
             <div class="w-full flex lg:col-span-4">
                 <neo-button

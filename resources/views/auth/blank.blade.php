@@ -1,5 +1,5 @@
 @extends('shared.auth.base')
-@section('title', __('Forgot Password'))
+@section('title', __('Forgot password'))
 
 @section('content')
     <div class="w-full flex justify-center items-center p-4 lg:w-1/2">
