@@ -1160,6 +1160,155 @@ const Neo = (function Neo() {
         return Segment;
     })();
 
+    Neo.Validator = (function Validator() {
+        class Validator {
+            static exec = function exec(selector, { rules = {}, message = {}, success = () => {}, failure = () => {}, execute = null }) {
+                message = { success: {}, failure: {}, ...message };
+                const form = typeof selector === "string" ? document.querySelector(selector) : selector;
+
+                form.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    let isValid = true;
+                    for (const rule in rules) {
+                        const currentRules = typeof rules[rule] === "string" ? rules[rule].split("|") : rules[rule];
+                        const currentField = form.querySelector(`[name="${rule}"]`);
+                        const currentValue = currentField.value.trim();
+                        let isSuccess = true;
+
+                        for (const $$$ of currentRules) {
+                            const ruleParts = $$$.split(":");
+                            const ruleName = ruleParts[0].toLowerCase();
+                            const ruleValue = ruleParts[1];
+
+                            if (!Neo.Validator.Rules.hasOwnProperty(ruleName)) return;
+                            if (!Neo.Validator.Rules[ruleName](currentValue, ruleValue, currentField)) {
+                                var $message = message.failure[rule] || {};
+                                $message = typeof $message === "string" ? {
+                                    [ruleName]: $message
+                                } : $message;
+                                failure(currentField, ruleName, $message[ruleName]);
+                                isSuccess = false;
+                                isValid = false;
+                                break;
+                            }
+                        };
+
+                        if (isSuccess) {
+                            success(currentField, message.success[rule]);
+                        }
+                    }
+
+                    if (isValid) execute ? execute(e) : form.submit();
+                });
+            }
+        }
+
+        Validator.Rules = class Rules {
+            static required = function required(content, value, field) {
+                if (["checkbox", "radio"].includes(field.type)) {
+                    const checkboxes = document.querySelectorAll(`[name="${field.name}"]`);
+                    return Array.from(checkboxes).some((checkbox) => checkbox.checked);
+                }
+                return content.trim() !== "";
+            }
+            static email = function email(content) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(content);
+            }
+            static numeric = function numeric(content) {
+                return !isNaN(content);
+            }
+            static integer = function integer(content) {
+                return Number.isInteger(Number(content));
+            }
+            static float = function float(content) {
+                return !isNaN(parseFloat(content));
+            }
+            static alpha = function alpha(content) {
+                const alphaRegex = /^[A-Za-z]+$/;
+                return alphaRegex.test(content);
+            }
+            static date = function date(content) {
+                const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+                return dateRegex.test(content);
+            }
+            static url = function url(content) {
+                const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+                return urlRegex.test(content);
+            }
+            static phone = function phone(content) {
+                const phoneNumberRegex = /^(?:\+*([0-9]{3}|0))(?:[ \-]?[0-9]){9}$/;
+                return phoneNumberRegex.test(content);
+            }
+            static length = function length(content, value) {
+                const sizeParts = value
+                    .split(",")
+                    .map((e) => e.trim())
+                    .filter((e) => e.length);
+                const minLength = sizeParts[0] ? parseInt(sizeParts[0]) : null;
+                const maxLength = sizeParts[1] ? parseInt(sizeParts[1]) : null;
+                if (minLength !== null && content.length < minLength) {
+                    return false;
+                }
+                if (maxLength !== null && content.length > maxLength) {
+                    return false;
+                }
+                return true;
+            }
+            static strong = function strong(content, value) {
+                const rulesParts = value
+                    .split(",")
+                    .map((e) => e.trim())
+                    .filter((e) => e.length);
+                let isValid = true;
+                rulesParts.forEach((rule) => {
+                    rule = rule.trim();
+                    if (rule === "uppercase" && !/[A-Z]/.test(content)) {
+                        isValid = false;
+                    }
+                    if (rule === "lowercase" && !/[a-z]/.test(content)) {
+                        isValid = false;
+                    }
+                    if (rule === "numeric" && !/\d/.test(content)) {
+                        isValid = false;
+                    }
+                    if (rule === "special" && !/[!@#$%^&*]/.test(content)) {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+            static min = function min(content, value) {
+                return parseFloat(content) >= parseFloat(value);
+            }
+            static max = function max(content, value) {
+                return parseFloat(content) <= parseFloat(value);
+            }
+            static regex = function regex(content, value) {
+                const customRegex = new RegExp(value);
+                return customRegex.test(content);
+            }
+            static size = function size(input, value) {
+                const maxSize = parseInt(value);
+                return input.files[0].size <= maxSize;
+            }
+            static type = function type(content, value, filed) {
+                const fileTypes = filed.accept
+                    .split(",")
+                    .map((e) => e.trim())
+                    .filter((e) => e.length);
+                return fileTypes.some((type) => value.includes(type));
+            }
+            static match = function match(content, value, filed) {
+                const match = document.querySelector("[name=" + value + "]");
+                if (!match) return false;
+                return content.trim() === String(match.value).trim();
+            }
+        }
+
+        return Validator;
+    })();
+
     Neo.Component = (function Component() {
         function Component(options) {
             const selector = options.tag || "",

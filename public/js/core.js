@@ -145,8 +145,8 @@ const
     $capitalize = Neo.Helper.Str.capitalize,
     $titlize = Neo.Helper.Str.titlize,
     $routes = (() => {
-        const routes = $query("meta[name=routes]"),
-            $data = {};
+        const routes = $query("meta[name=routes]");
+        var $data = {};
         if (routes) {
             $data = JSON.parse(routes.content);
             routes.remove();
@@ -157,18 +157,19 @@ const
     $trans = Neo.Helper.trans;
 
 
-$queryAll("form[require]").forEach(form => {
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-        const errors = [],
-            fields = form.querySelectorAll("[require]");
-
-        fields.forEach(f => {
-            if (String(f.value).trim()) f.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
-            else f.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
-            errors.push(String(f.value).trim() ? true : false);
-        });
-
-        if (!errors.includes(false)) form.submit();
+$queryAll("form[validate]").forEach(form => {
+    Neo.Validator.exec(form, {
+        ...([...form.querySelectorAll("[rules]")].reduce((carry, item) => {
+            carry.rules[item.name] = (item.getAttribute("rules") || "").split("|");
+            carry.message.failure[item.name] = JSON.parse(item.getAttribute("errors") || "");
+            return carry;
+        }, { rules: {}, message: { failure: {} } })),
+        failure(field, __, message) {
+            Neo.Toaster.toast(message, "error");
+            field.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+        },
+        success(field) {
+            field.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+        }
     });
 });
