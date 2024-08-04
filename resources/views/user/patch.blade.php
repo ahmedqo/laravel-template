@@ -22,10 +22,12 @@
             </neo-select>
             <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} label="{{ __('Birth date') }}" name="birth_date"
                 format="dddd dd mmmm yyyy" value="{{ $data->birth_date }}" class="lg:col-span-2"></neo-datepicker>
-            <neo-textbox rules="email" errors='{"email": "{{ __('The email field must be a valid email') }}"}'
+            <neo-textbox rules="required|email"
+                errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
                 type="email" label="{{ __('Email') }} (*)" name="email" value="{{ $data->email }}"
                 class="lg:col-span-2"></neo-textbox>
-            <neo-textbox rules="phone" errors='{"phone": "{{ __('The phone field must be a valid phone number') }}"}'
+            <neo-textbox rules="required|phone"
+                errors='{"required": "{{ __('The phone field is required') }}", "phone": "{{ __('The phone field must be a valid phone number') }}"}'
                 type="tel" label="{{ __('Phone') }} (*)" name="phone" value="{{ $data->phone }}"
                 class="lg:col-span-2"></neo-textbox>
             <neo-textarea label="{{ __('Address') }}" name="address" value="{{ $data->address }}"

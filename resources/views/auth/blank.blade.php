@@ -14,7 +14,8 @@
                     {{ __('Forgot your password? No problem. Just tell us your email, and we will send you a link that will allow you to choose a new password') }}
                 </p>
                 @csrf
-                <neo-textbox rules="email" errors='{"email": "{{ __('The email field must be a valid email') }}"}'
+                <neo-textbox rules="required|email"
+                    errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
                     type="email" label="{{ __('Email') }} (*)" name="email" value="{{ old('email') }}"></neo-textbox>
                 <neo-button
                     class="w-full text-base lg:text-lg font-x-huge text-x-white bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">

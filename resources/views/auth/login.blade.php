@@ -16,7 +16,8 @@
             <form validate action="{{ route('actions.login.index') }}" method="POST"
                 class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
-                <neo-textbox rules="email" errors='{"email": "{{ __('The email field must be a valid email') }}"}'
+                <neo-textbox rules="required|email"
+                    errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
                     type="email" label="{{ __('Email') }} (*)" name="email"
                     value="{{ old('email') }}"></neo-textbox>
                 <neo-password rules="required" errors='{"required": "{{ __('The password field is required') }}"}'
