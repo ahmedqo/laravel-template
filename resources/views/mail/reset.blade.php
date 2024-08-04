@@ -15,7 +15,7 @@
                 ">
                     <a href="{{ route('views.reset.index', $data['token']) }}" aria-label="reset_page_link"
                         style="display: block;max-width: 100%;text-align: center;color: #fcfcfc;font-weight: 600;font-size: 18px;padding: 12px 32px;text-decoration: unset;">
-                        {{ __('Reset Password') }}
+                        {{ __('Reset password') }}
                     </a>
                 </div>
             </div>

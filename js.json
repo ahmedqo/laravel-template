@@ -1,12 +1,16 @@
 {
+    "Prev": "Prev",
+    "Next": "Next",
+    "Completed": "Completed",
+    "Pending": "Pending",
+    "Product": "Product",
+    "Orders": "Orders",
     "Id": "Id",
-    "Full Name": "Full Name",
+    "Full name": "Full name",
     "Email": "Email",
     "Phone": "Phone",
-    "Birth Date": "Birth Date",
+    "Birth date": "Birth date",
     "Gender": "Gender",
     "Address": "Address",
-    "Actions": "Actions",
-    "male": "male",
-    "female": "female"
+    "Actions": "Actions"
 }
