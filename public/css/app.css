@@ -177,6 +177,10 @@ neo-datavisualizer::part(table-body-col) {
     padding-block: .75rem;
 }
 
+neo-datavisualizer::part(table-empty-col) {
+    font-weight: var(--w-thin);
+}
+
 neo-datavisualizer:not([round])::part(wrapper) {
     border-top-right-radius: 0;
     border-top-left-radius: 0;

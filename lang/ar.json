@@ -62,5 +62,9 @@
     "Edit user": "تحرير العضو",
     "New user": "مستخدم جديد",
     "male": "ذكر",
-    "female": "أنثى"
+    "female": "أنثى",
+    "Product": "منتج",
+    "Name": "الاسم",
+    "Price": "السعر",
+    "Quantity": "الكمية"
 }

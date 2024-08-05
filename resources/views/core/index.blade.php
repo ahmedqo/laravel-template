@@ -6,7 +6,8 @@
         'search' => route('actions.core.popular'),
         'chart' => route('actions.core.chart'),
     ]) !!}' />
-    <meta name="count" content="{!! json_encode($data) !!}" />
+    <meta name="count" content="{!! json_encode([$data[0], $data[1] - $data[0]]) !!}" />
+    <meta name="rtl" content="{{ Core::lang('ar') }}" />
 @endsection
 
 @section('content')
@@ -18,9 +19,9 @@
                     class="donut-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center z-10">
                     <neo-loader></neo-loader>
                 </div>
-                <div class="w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                    <h1 class="text-xl font-x-thin text-x-black">
-                        {{ number_format(($data[0] / (array_sum($data) ?? 1)) * 100, 2) }}%
+                <div class="w-full h-full absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <h1 class="text-2xl font-x-thin text-x-black pointer-events-auto">
+                        {{ number_format(($data[0] / ($data[1] ?? 1)) * 100, 2) }}%
                     </h1>
                 </div>
                 <canvas id="donut" class="w-full h-full"></canvas>
@@ -39,7 +40,7 @@
                     </svg>
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Total') }}</h2>
-                        <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[0]) }}</p>
+                        <p class="text-base lg:text-base text-gray-800">00</p>
                     </div>
                 </li>
                 <li
@@ -71,7 +72,7 @@
                     </svg>
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Quotations') }}</h2>
-                        <p class="text-base lg:text-base text-gray-800">00</p>
+                        <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[0]) }}</p>
                     </div>
                 </li>
                 <li
@@ -102,10 +103,35 @@
         <ul class="lg:col-span-5">
             <neo-datavisualizer round></neo-datavisualizer>
         </ul>
+        <div class="flex flex-col gap-1 lg:col-span-12">
+            <neo-autocomplete id="product" label="{{ __('Product') }}" set-query="name"></neo-autocomplete>
+            <div class="w-full rounded-x-thin overflow-x-auto overflow-y-hidden border border-x-light">
+                <table class="w-max min-w-full">
+                    <thead id="head" class="bg-x-light hidden">
+                        <tr>
+                            <td class="ps-6 px-4 py-2 text-x-black font-x-thin text-sm">
+                                {{ __('Name') }}
+                            </td>
+                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
+                                {{ __('Price') }}
+                            </td>
+                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
+                                {{ __('Quantity') }}
+                            </td>
+                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
+                                {{ __('Total') }}
+                            </td>
+                            <td class="pe-6 text-center w-20 px-4 py-2 text-x-black font-x-thin text-sm"></td>
+                        </tr>
+                    </thead>
+                    <tbody id="content-table"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/dashboard.min.js') }}?v={{ env('APP_VERSION') }}"></script>
+    <script src="{{ asset('js/core/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @endsection

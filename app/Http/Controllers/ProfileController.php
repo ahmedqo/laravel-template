@@ -81,7 +81,10 @@ class ProfileController extends Controller
         }
 
         User::findorfail($data->id)->update(
-            $Request->all()
+            $Request->merge([
+                'first_name' => strtolower($Request->first_name),
+                'last_name' => strtolower($Request->last_name)
+            ])->all()
         );
 
         return Redirect::back()->with([

@@ -55,7 +55,11 @@ class UserController extends Controller
             ]);
         }
 
-        User::create($Request->merge(['password' =>  Hash::make(Str::random(20))])->all());
+        User::create($Request->merge([
+            'password' =>  Hash::make(Str::random(20)),
+            'first_name' => strtolower($Request->first_name),
+            'last_name' => strtolower($Request->last_name)
+        ])->all());
         Mailer::reset($Request->email);
 
         return Redirect::back()->with([
@@ -80,7 +84,10 @@ class UserController extends Controller
             ]);
         }
 
-        User::findorfail($id)->update($Request->all());
+        User::findorfail($id)->update($Request->merge([
+            'first_name' => strtolower($Request->first_name),
+            'last_name' => strtolower($Request->last_name)
+        ])->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

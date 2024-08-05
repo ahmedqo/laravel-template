@@ -27,5 +27,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/users.min.js') }}?v={{ env('APP_VERSION') }}"></script>
+    <script src="{{ asset('js/user/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
 @endsection

@@ -415,7 +415,7 @@ const Neo = (function Neo() {
                 "Search": "Recherche",
                 "Columns": "Colonnes",
                 "Download": "Telecharger",
-                "No Data Found": "Aucune Donnee Disponible",
+                "No data found": "Aucune donnee disponible",
             },
             ar: {
                 /** months */
@@ -444,7 +444,7 @@ const Neo = (function Neo() {
                 "Search": "بحث",
                 "Columns": "أعمدة",
                 "Download": "تحميل",
-                "No Data Found": "لا توجد بيانات",
+                "No data found": "لا توجد بيانات",
             }
         }
 
@@ -1118,6 +1118,8 @@ const Neo = (function Neo() {
     })();
 
     Neo.Segment = (function Segment() {
+        const EFFECT_MAPS = [];
+
         class Segment {
             constructor(root, sketch, context = {}) {
                 this.sketch = new Neo.Sketch(sketch, context, {
@@ -1125,6 +1127,10 @@ const Neo = (function Neo() {
                 });
                 this.driver = new Neo.Driver(root, []);
                 this.upgrade();
+            }
+
+            setEffect(callback) {
+                EFFECT_MAPS.push(callback.bind(this));
             }
 
             setContext(props) {
@@ -1146,10 +1152,15 @@ const Neo = (function Neo() {
 
             upgrade() {
                 Segment.build(this.driver, this.sketch);
+                EFFECT_MAPS.forEach((callable) => callable());
             }
 
             get context() {
                 return this.sketch.context;
+            }
+
+            get effect() {
+                return EFFECT_MAPS;
             }
         }
 

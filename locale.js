@@ -68,7 +68,7 @@ const extractTextFromFiles = (dir, js) => {
 };
 
 if (process.argv.includes('--js')) {
-    const directoryPath = ['public/js/'];
+    const directoryPath = ['public/js'];
     var data = {};
     directoryPath.forEach(path => {
         const extractedText = extractTextFromFiles(path, true);

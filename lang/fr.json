@@ -62,5 +62,9 @@
     "Edit user": "Modifier l'utilisateur",
     "New user": "Nouvel utilisateur",
     "male": "mâle",
-    "female": "femelle"
+    "female": "femelle",
+    "Product": "Produit",
+    "Name": "Nom",
+    "Price": "Prix",
+    "Quantity": "Quantité"
 }

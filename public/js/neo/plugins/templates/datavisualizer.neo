@@ -676,7 +676,7 @@
                     {$ empty $}
                         <tr ref="tableemptyrow" part="table-empty-row">
                             <td colspan="{{ @props.cols.length }}" ref="tablebodycol" part="table-empty-col">
-                                {{ @trans("No Data Found") }}
+                                {{ @trans("No data found") }}
                             </td>
                         </tr>
                     {$ endforelse $}
@@ -744,7 +744,7 @@
                                             {$ empty $}
                                                 <tr id="table-empty-row">
                                                     <td colspan="{{ @props.cols.length }}" id="table-empty-col">
-                                                        {{ @trans("No Data Found") }}
+                                                        {{ @trans("No data found") }}
                                                     </td>
                                                 </tr>
                                             {$ endforelse $}

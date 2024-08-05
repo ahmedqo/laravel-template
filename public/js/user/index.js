@@ -20,7 +20,7 @@ TableVisualizer($query("neo-datavisualizer"), ({
 }, {
     name: "full_name",
     text: $trans("Full name"),
-    bodyRender: (row) => $titlize(row.first_name + " " + row.last_name),
+    bodyRender: (row) => row.last_name.toUpperCase() + " " + $capitalize(row.first_name),
     bodyPdfRender: function(row) {
         return this.bodyRender(row);
     },
@@ -37,8 +37,8 @@ TableVisualizer($query("neo-datavisualizer"), ({
     visible: false,
     name: "birth_date",
     text: $trans("Birth date"),
-    headStyle: { width: 120, textAlign: "center" },
-    bodyStyle: { width: 120, textAlign: "center" },
+    headStyle: { textAlign: "center" },
+    bodyStyle: { textAlign: "center" },
     headPdfStyle: function() {
         return this.headStyle
     },

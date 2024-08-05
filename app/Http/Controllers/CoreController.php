@@ -7,7 +7,7 @@ class CoreController extends Controller
 {
     public function index_view()
     {
-        $data = [680, 884];
+        $data = [25, 100];
         return view('core.index', compact('data'));
     }
 
