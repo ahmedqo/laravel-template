@@ -1407,6 +1407,10 @@ const Neo = (function Neo() {
             return [contentDate, compareDate];
         }
 
+        const split = function split(value) {
+            return value.split(",").map(e => e.trim()).filter(e => e.length);
+        }
+
         class Validator {
             static exec(selector, { rules = {}, message = {}, success = () => {}, failure = () => {}, execute = null }) {
                 message = { success: {}, failure: {}, ...message };
@@ -1465,7 +1469,7 @@ const Neo = (function Neo() {
             }
 
             static required_if = function required_if(content, value, { field, query }) {
-                const [fieldName, expectedValue] = value.split(",").map(e => e.trim());
+                const [fieldName, expectedValue] = split(value);
                 const matchingField = query(`[name="${fieldName}"]`);
                 return !matchingField || expectedValue === String(matchingField.value).trim() ? Validator.Rules.required(content, "", { field }) : true;
             }
@@ -1475,20 +1479,17 @@ const Neo = (function Neo() {
             }
 
             static required_with = function required_with(content, value, { field, query }) {
-                const fields = value.split(',').map(f => f.trim());
-                const isFieldPresent = fields.some(name => query(`[name="${name}"]`));
+                const isFieldPresent = split(value).some(name => query(`[name="${name}"]`));
                 return !isFieldPresent || Validator.Rules.required(content, value, { field, query });
             }
 
             static required_without = function required_without(content, value, { field, query }) {
-                const fields = value.split(',').map(f => f.trim());
-                const isFieldPresent = fields.some(name => query(`[name="${name}"]`));
+                const isFieldPresent = split(value).some(name => query(`[name="${name}"]`));
                 return isFieldPresent ? true : Validator.Rules.required(content, value, { field, query });
             }
 
             static required_with_all = function required_with_all(content, value, { field, query }) {
-                const fields = value.split(',').map(f => f.trim());
-                const areFieldsPresent = fields.every(name => query(`[name="${name}"]`));
+                const areFieldsPresent = split(value).every(name => query(`[name="${name}"]`));
                 return !areFieldsPresent || Validator.Rules.required(content, value, { field, query });
             }
 
@@ -1550,15 +1551,14 @@ const Neo = (function Neo() {
             }
 
             static length = function length(content, value) {
-                const [minLength, maxLength] = value.split(",").map(e => e.trim()).filter(e => e.length).map(Number);
+                const [minLength, maxLength] = split(value).map(Number);
                 return (minLength === undefined || String(content).length >= minLength) &&
                     (maxLength === undefined || String(content).length <= maxLength);
             }
 
             static strong = function strong(content, value) {
                 const contentStr = String(content).trim();
-                const rules = value.split(",").map(e => e.trim()).filter(e => e.length);
-                return rules.every(rule => {
+                return split(value).every(rule => {
                     switch (rule) {
                         case "uppercase":
                             return /[A-Z]/.test(contentStr);
@@ -1593,8 +1593,7 @@ const Neo = (function Neo() {
             }
 
             static type = function type(content, value, { field }) {
-                const fileTypes = field.accept.split(",").map(e => e.trim()).filter(e => e.length);
-                return fileTypes.some(type => value.includes(type));
+                return split(field.accept).some(type => value.includes(type));
             }
 
             static match = function match(content, value, { query }) {
@@ -1606,18 +1605,32 @@ const Neo = (function Neo() {
                 return !Validator.Rules.match(content, value, extra);
             }
 
-            static include = function include(content, value) {
-                const values = value.split(",").map(v => v.trim());
-                return values.includes(String(content));
+            static exists = function exists(content, value) {
+                return split(value).includes(String(content).trim());
             }
 
-            static exclude = function exclude(content, value, extra) {
-                return !Validator.Rules.include(content, value, extra);
+            static absent = function absent(content, value, extra) {
+                return !Validator.Rules.exists(content, value, extra);
+            }
+
+            static equal = function equal(content, value) {
+                return String(content).trim() === String(value).trim();
+            }
+
+            static different = function different(content, value) {
+                return !Validator.Rules.equal(content, value);
+            }
+
+            static include = function include(content, value) {
+                return split(value).some(v => String(content).includes(v));
+            }
+
+            static exclude = function exclude(content, value) {
+                return split(value).every(v => !String(content).includes(v));
             }
 
             static contain = function contain(content, value) {
-                const substrings = value.split(",").map(v => v.trim());
-                return substrings.some(substring => content.includes(substring));
+                return split(value).some(substring => content.includes(substring));
             }
         }
 
