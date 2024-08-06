@@ -4,7 +4,7 @@
 @section('content')
     <div class="p-6 bg-x-white rounded-x-thin shadow-x-core">
         <form validate action="{{ route('actions.profile.patch') }}" method="POST"
-            class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+            class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6">
             @csrf
             @method('patch')
             <neo-textbox rules="required" errors='{"required": "{{ __('The first name field is required') }}"}'

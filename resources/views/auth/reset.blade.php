@@ -14,7 +14,7 @@
                     class="block w-full" width="916" height="516" loading="lazy" />
             </a>
             <form validate action="{{ route('actions.reset.index', $token) }}" method="POST"
-                class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-thin shadow-x-core">
+                class="w-full flex flex-col gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
                 <neo-password rules="required" errors='{"required": "{{ __('The new password field is required') }}"}'
                     label="{{ __('New password') }} (*)" name="new_password"></neo-password>

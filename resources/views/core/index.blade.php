@@ -12,8 +12,8 @@
 
 @section('content')
     <div
-        class="w-full items-start grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-6 bg-x-white rounded-x-thin shadow-x-core">
-        <div class="lg:col-span-12 grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+        class="w-full items-start grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
+        <div class="lg:col-span-12 grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="rounded-x-thin bg-x-light p-4 aspect-square relative">
                 <div
                     class="donut-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center z-10">
@@ -26,7 +26,7 @@
                 </div>
                 <canvas id="donut" class="w-full h-full"></canvas>
             </div>
-            <ul class="lg:col-span-3 grid grid-rows-1 grid-cols-2 lg:grid-rows-2 gap-6 lg:gap-8">
+            <ul class="lg:col-span-3 grid grid-rows-1 grid-cols-2 lg:grid-rows-2 gap-6">
                 <li
                     class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
                     <div
@@ -101,7 +101,7 @@
             <canvas id="chart" class="w-full aspect-video"></canvas>
         </div>
         <ul class="lg:col-span-5">
-            <neo-datavisualizer round></neo-datavisualizer>
+            <neo-datavisualizer></neo-datavisualizer>
         </ul>
         <div class="flex flex-col gap-1 lg:col-span-12">
             <neo-autocomplete id="product" label="{{ __('Product') }}" set-query="name"></neo-autocomplete>
@@ -109,7 +109,8 @@
                 <table class="w-max min-w-full">
                     <thead id="head" class="bg-x-light hidden">
                         <tr>
-                            <td class="ps-6 px-4 py-2 text-x-black font-x-thin text-sm">
+                            <td></td>
+                            <td class="px-4 py-2 text-x-black font-x-thin text-sm">
                                 {{ __('Name') }}
                             </td>
                             <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">

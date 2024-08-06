@@ -121,6 +121,11 @@ function TableVisualizer(dataVisualizer, callback) {
         dataVisualizer.loading = false;
     })();
 
+    dataVisualizer.refs.wrapper.style.background = Neo.Helper.Theme.colors("LIGHT");
+    dataVisualizer.addEventListener("change:loading", e => {
+        dataVisualizer.refs.wrapper.style.background = e.detail.data ? Neo.Helper.Theme.colors("LIGHT") : "";
+    });
+
     dataVisualizer.cols = callback($routes);
 
     dataVisualizer.addEventListener("search", async e => {
