@@ -163,18 +163,24 @@ const
 
 
 $queryAll("form[validate]").forEach(form => {
-    Neo.Validator.exec(form, {
-        ...([...form.querySelectorAll("[rules]")].reduce((carry, item) => {
-            carry.rules[item.name] = (item.getAttribute("rules") || "").split("|");
-            carry.message.failure[item.name] = JSON.parse(item.getAttribute("errors") || "");
-            return carry;
-        }, { rules: {}, message: { failure: {} } })),
-        failure(field, __, message) {
-            Neo.Toaster.toast(message, "error");
-            field.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
-        },
-        success(field) {
-            field.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
-        }
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        Neo.Validator.validate(form, {
+            ...([...form.querySelectorAll("[rules]")].reduce((carry, item) => {
+                carry.rules[item.name] = (item.getAttribute("rules") || "").split("|");
+                carry.message.failure[item.name] = JSON.parse(item.getAttribute("errors") || "");
+                return carry;
+            }, { rules: {}, message: { failure: {} } })),
+            failure(field, __, message) {
+                Neo.Toaster.toast(message, "error");
+                field.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            },
+            success(field) {
+                field.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            },
+            execute() {
+                form.submit();
+            }
+        });
     });
 });

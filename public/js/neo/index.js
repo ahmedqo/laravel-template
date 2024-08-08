@@ -1171,466 +1171,234 @@ const Neo = (function Neo() {
         return Segment;
     })();
 
-    // Neo.Validator = (function Validator() {
-    //     class Validator {
-    //         static exec = function exec(selector, { rules = {}, message = {}, success = () => {}, failure = () => {}, execute = null }) {
-    //             message = { success: {}, failure: {}, ...message };
-    //             const form = typeof selector === "string" ? document.querySelector(selector) : selector;
-
-    //             form.addEventListener("submit", (e) => {
-    //                 e.preventDefault();
-    //                 let isValid = true;
-    //                 for (const rule in rules) {
-    //                     const currentRules = typeof rules[rule] === "string" ? rules[rule].split("|") : rules[rule];
-    //                     const currentField = form.querySelector(`[name="${rule}"]`);
-    //                     const currentValue = currentField.value;
-    //                     let isSuccess = true;
-
-    //                     for (const $$$ of currentRules) {
-    //                         const ruleParts = $$$.split(":");
-    //                         const ruleName = ruleParts[0].toLowerCase();
-    //                         const ruleValue = ruleParts[1];
-
-    //                         if (!Neo.Validator.Rules.hasOwnProperty(ruleName)) return;
-    //                         if (!Neo.Validator.Rules[ruleName](currentValue, ruleValue, {
-    //                                 field: currentField,
-    //                                 query: (s) => form.querySelector(s),
-    //                                 queryAll: (s) => form.querySelectorAll(s),
-    //                             })) {
-    //                             var $message = message.failure[rule] || {};
-    //                             $message = typeof $message === "string" ? {
-    //                                 [ruleName]: $message
-    //                             } : $message;
-    //                             failure(currentField, ruleName, $message[ruleName]);
-    //                             isSuccess = false;
-    //                             isValid = false;
-    //                             break;
-    //                         }
-    //                     };
-
-    //                     if (isSuccess) {
-    //                         success(currentField, message.success[rule]);
-    //                     }
-    //                 }
-
-    //                 if (isValid) execute ? execute(e) : form.submit();
-    //             });
-    //         }
-    //     }
-
-    //     Validator.Rules = class Rules {
-    //         static required = function required(content, value, extra) {
-    //             if (["checkbox", "radio"].includes(extra.field.type)) {
-    //                 const checkboxes = extra.queryAll(`[name="${extra.field.name}"]`);
-    //                 return Array.from(checkboxes).some((checkbox) => checkbox.checked);
-    //             }
-    //             return String(content).trim() !== "";
-    //         }
-
-    //         static required_if = function required_if(content, value, extra) {
-    //             const parts = value.split(",").map(e => e.trim());
-    //             const match = extra.query("[name=" + parts[0] + "]");
-    //             if (!match) return false;
-    //             return parts[1] === String(match.value).trim() ? Validator.Rules.required(content, "", extra) : true;
-    //         }
-
-    //         static required_unless = function required_unless(content, value, extra) {
-    //             return !Validator.Rules.required_if(content, value, extra);
-    //         }
-
-    //         static required_with = function required_with(content, value, extra) {
-    //             const fields = value.split(',').map(f => f.trim());
-    //             const isFieldPresent = fields.some(name => extra.query("[name=" + name + "]"));
-    //             return !isFieldPresent || Validator.Rules.required(content, value, extra);
-    //         }
-
-    //         static required_without = function required_without(content, value, extra) {
-    //             const fields = value.split(',').map(f => f.trim());
-    //             const isFieldPresent = fields.some(name => extra.query("[name=" + name + "]"));
-    //             return isFieldPresent ? true : Validator.Rules.required(content, value, extra);
-    //         }
-
-    //         static required_with_all = function required_with_all(content, value, extra) {
-    //             const fields = value.split(',').map(f => f.trim());
-    //             const areFieldsPresent = fields.every(name => extra.query("[name=" + name + "]"));
-    //             return !areFieldsPresent || Validator.Rules.required(content, value, extra);
-    //         }
-
-    //         static email = function email(content, value, extra) {
-    //             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //             return emailRegex.test(String(content).trim());
-    //         }
-
-    //         static numeric = function numeric(content, value, extra) {
-    //             return !isNaN(content) && String(content).trim() !== "";
-    //         }
-
-    //         static integer = function integer(content, value, extra) {
-    //             return Number.isInteger(Number(content));
-    //         }
-
-    //         static float = function float(content, value, extra) {
-    //             return !isNaN(parseFloat(content));
-    //         }
-
-    //         static alpha = function alpha(content, value, extra) {
-    //             const alphaRegex = /^[A-Za-z]+$/;
-    //             return alphaRegex.test(String(content).trim());
-    //         }
-
-    //         static date = function date(content, value, extra) {
-    //             const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    //             return dateRegex.test(String(content).trim());
-    //         }
-
-    //         static date_before = function date_before(content, value, extra) {
-    //             const contentDate = new Date(content);
-    //             const compareDate = new Date(Validator.Rules.date(value) ? value : extra.query("[name=" + value.trim() + "]").value);
-    //             return contentDate < compareDate;
-    //         }
-
-    //         static date_after = function date_after(content, value, extra) {
-    //             const contentDate = new Date(content);
-    //             const compareDate = new Date(Validator.Rules.date(value) ? value : extra.query("[name=" + value.trim() + "]").value);
-    //             return contentDate > compareDate;
-    //         }
-
-    //         static url = function url(content, value, extra) {
-    //             const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
-    //             return urlRegex.test(content);
-    //         }
-
-    //         static phone = function phone(content, value, extra) {
-    //             const phoneNumberRegex = /^(?:\+*([0-9]{3}|0))(?:[ \-]?[0-9]){9}$/;
-    //             return phoneNumberRegex.test(content);
-    //         }
-
-    //         static length = function length(content, value, extra) {
-    //             const sizeParts = value
-    //                 .split(",")
-    //                 .map((e) => e.trim())
-    //                 .filter((e) => e.length);
-    //             const minLength = sizeParts[0] ? parseInt(sizeParts[0]) : null;
-    //             const maxLength = sizeParts[1] ? parseInt(sizeParts[1]) : null;
-    //             if (minLength !== null && String(content).length < minLength) {
-    //                 return false;
-    //             }
-    //             if (maxLength !== null && String(content).length > maxLength) {
-    //                 return false;
-    //             }
-    //             return true;
-    //         }
-
-    //         static strong = function strong(content, value, extra) {
-    //             content = String(content).trim();
-    //             const rulesParts = value
-    //                 .split(",")
-    //                 .map((e) => e.trim())
-    //                 .filter((e) => e.length);
-    //             let isValid = true;
-    //             rulesParts.forEach((rule) => {
-    //                 rule = rule.trim();
-    //                 if (rule === "uppercase" && !/[A-Z]/.test(content)) {
-    //                     isValid = false;
-    //                 }
-    //                 if (rule === "lowercase" && !/[a-z]/.test(content)) {
-    //                     isValid = false;
-    //                 }
-    //                 if (rule === "numeric" && !/\d/.test(content)) {
-    //                     isValid = false;
-    //                 }
-    //                 if (rule === "special" && !/[!@#$%^&*]/.test(content)) {
-    //                     isValid = false;
-    //                 }
-    //             });
-    //             return isValid;
-    //         }
-
-    //         static min = function min(content, value, extra) {
-    //             return parseFloat(content) >= parseFloat(value);
-    //         }
-
-    //         static max = function max(content, value, extra) {
-    //             return parseFloat(content) <= parseFloat(value);
-    //         }
-
-    //         static regex = function regex(content, value, extra) {
-    //             const customRegex = new RegExp(value.trim());
-    //             return customRegex.test(String(content).trim());
-    //         }
-
-    //         static size = function size(content, value, extra) {
-    //             const maxSize = parseInt(value);
-    //             return extra.field.files[0].size <= maxSize;
-    //         }
-
-    //         static type = function type(content, value, extra) {
-    //             const fileTypes = extra.field.accept
-    //                 .split(",")
-    //                 .map((e) => e.trim())
-    //                 .filter((e) => e.length);
-    //             return fileTypes.some((type) => value.includes(type));
-    //         }
-
-    //         static match = function match(content, value, extra) {
-    //             const match = extra.query("[name=" + value.trim() + "]");
-    //             if (!match) return false;
-    //             return String(content).trim() === String(match.value).trim();
-    //         }
-
-    //         static clash = function clash(content, value, extra) {
-    //             return !Validator.Rules.match(content, value, extra);
-    //         }
-
-    //         static include = function include(content, value, extra) {
-    //             const values = value.split(",").map(v => v.trim());
-    //             return values.includes(String(content));
-    //         }
-
-    //         static exclude = function exclude(content, value, extra) {
-    //             return !Validator.Rules.include(content, value, extra);
-    //         }
-
-    //         static contain = function contain(content, value, extra) {
-    //             const substrings = value.split(",").map(v => v.trim());
-    //             return substrings.some(substring => content.includes(substring));
-    //         }
-    //     }
-
-    //     return Validator;
-    // })();
-
     Neo.Validator = (function Validator() {
-        const dates = function dates(content, value, query) {
-            const contentDate = new Date(content);
-            const compareDate = new Date(value.trim() === "today" ? (new Date()).toLocaleDateString() : (Validator.Rules.date(value) ? value : query(`[name="${value.trim()}"]`).value));
+        const dates = function dates(value, parts, query) {
+            const contentDate = new Date(value);
+            const compareDate = new Date(parts[0] === "today" ? (new Date()).toLocaleDateString() : (Validator.Rules.date(parts[0]) ? parts[0] : query(`[name="${parts[0]}"]`).value));
             return [contentDate, compareDate];
         }
 
-        const split = function split(value) {
-            return value.split(",").map(e => e.trim()).filter(e => e.length);
+        const split = function split(parts) {
+            return String(parts).split(",").map(e => e.trim()).filter(e => e.length);
         }
 
         class Validator {
-            static exec(selector, { rules = {}, message = {}, success = () => {}, failure = () => {}, execute = null }) {
+            static validate(selector, { rules = {}, message = {}, success = () => {}, failure = () => {}, execute = null }) {
                 message = { success: {}, failure: {}, ...message };
-                const form = typeof selector === "string" ? document.querySelector(selector) : selector;
+                const element = typeof selector === "string" ? document.querySelector(selector) : selector;
+                let isValid = true;
 
-                form.addEventListener("submit", (e) => {
-                    e.preventDefault();
-                    let isValid = true;
+                Object.entries(rules).forEach(([rule, ruleValue]) => {
+                    const currentRules = typeof ruleValue === "string" ? ruleValue.split("|") : ruleValue;
+                    const currentField = element.querySelector(`[name="${rule}"]`);
+                    const currentValue = String(currentField.value || '').trim();
+                    let isSuccess = true;
 
-                    Object.entries(rules).forEach(([rule, ruleValue]) => {
-                        const currentRules = typeof ruleValue === "string" ? ruleValue.split("|") : ruleValue;
-                        const currentField = form.querySelector(`[name="${rule}"]`);
-                        const currentValue = currentField.value;
-                        let isSuccess = true;
+                    currentRules.some(ruleItem => {
+                        const [ruleName, ruleValue] = ruleItem.split(":");
+                        const normalizedRuleName = ruleName.toLowerCase();
+                        const parts = String(ruleValue || '').trim().split(",").map(e => e.trim()).filter(e => e.length);
 
-                        currentRules.some(ruleItem => {
-                            const [ruleName, ruleValue] = ruleItem.split(":");
-                            const normalizedRuleName = ruleName.toLowerCase();
-
-                            if (!Validator.Rules[normalizedRuleName]) return false;
-                            const isValidRule = Validator.Rules[normalizedRuleName](currentValue, ruleValue, {
+                        if (!Validator.Rules[normalizedRuleName]) return false;
+                        const isValidRule = Validator.Rules[normalizedRuleName](
+                            currentValue, parts, {
                                 field: currentField,
-                                query: (s) => form.querySelector(s),
-                                queryAll: (s) => form.querySelectorAll(s),
+                                query: (s) => element.querySelector(s),
+                                queryAll: (s) => element.querySelectorAll(s),
                             });
 
-                            if (!isValidRule) {
-                                const failureMessage = message.failure[rule] || {};
-                                const messageText = typeof failureMessage === "string" ? failureMessage : failureMessage[normalizedRuleName];
-                                failure(currentField, normalizedRuleName, messageText);
-                                isSuccess = false;
-                                isValid = false;
-                                return true; // Exit `some` loop
-                            }
-
-                            return false; // Continue `some` loop
-                        });
-
-                        if (isSuccess) {
-                            success(currentField, message.success[rule]);
+                        if (!isValidRule) {
+                            const failureMessage = message.failure[rule] || {};
+                            const messageText = typeof failureMessage === "string" ? failureMessage : failureMessage[normalizedRuleName];
+                            failure(currentField, normalizedRuleName, messageText);
+                            isSuccess = false;
+                            isValid = false;
+                            return true; // Exit `some` loop
                         }
+
+                        return false; // Continue `some` loop
                     });
 
-                    if (isValid) execute ? execute(e) : form.submit();
-                });
-            }
-        }
-
-        Validator.Rules = class Rules {
-            static required = function required(content, value, { field, query, queryAll }) {
-                if (["checkbox", "radio"].includes(field.type)) {
-                    const checkboxes = queryAll(`[name="${field.name}"]`);
-                    return Array.from(checkboxes).some(checkbox => checkbox.checked);
-                }
-                return String(content).trim() !== "";
-            }
-
-            static required_if = function required_if(content, value, { field, query }) {
-                const [fieldName, expectedValue] = split(value);
-                const matchingField = query(`[name="${fieldName}"]`);
-                return !matchingField || expectedValue === String(matchingField.value).trim() ? Validator.Rules.required(content, "", { field }) : true;
-            }
-
-            static required_unless = function required_unless(content, value, extra) {
-                return !Validator.Rules.required_if(content, value, extra);
-            }
-
-            static required_with = function required_with(content, value, { field, query }) {
-                const isFieldPresent = split(value).some(name => query(`[name="${name}"]`));
-                return !isFieldPresent || Validator.Rules.required(content, value, { field, query });
-            }
-
-            static required_without = function required_without(content, value, { field, query }) {
-                const isFieldPresent = split(value).some(name => query(`[name="${name}"]`));
-                return isFieldPresent ? true : Validator.Rules.required(content, value, { field, query });
-            }
-
-            static required_with_all = function required_with_all(content, value, { field, query }) {
-                const areFieldsPresent = split(value).every(name => query(`[name="${name}"]`));
-                return !areFieldsPresent || Validator.Rules.required(content, value, { field, query });
-            }
-
-            static email = function email(content) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(String(content).trim());
-            }
-
-            static numeric = function numeric(content) {
-                return !isNaN(content) && String(content).trim() !== "";
-            }
-
-            static integer = function integer(content) {
-                return Number.isInteger(Number(content));
-            }
-
-            static float = function float(content) {
-                return !isNaN(parseFloat(content));
-            }
-
-            static alpha = function alpha(content) {
-                const alphaRegex = /^[A-Za-z]+$/;
-                return alphaRegex.test(String(content).trim());
-            }
-
-            static date = function date(content) {
-                const dateRegex = /^(?:(?:\d{4}[-/]\d{2}[-/]\d{2})|(?:\d{2}[-/]\d{2}[-/]\d{4}))$/;
-                return dateRegex.test(String(content).trim());
-            }
-
-            static date_before = function date_before(content, value, { query }) {
-                const [contentDate, compareDate] = dates(content, value, query);
-                return contentDate < compareDate;
-            }
-
-            static date_after = function date_after(content, value, { query }) {
-                const [contentDate, compareDate] = dates(content, value, query);
-                return contentDate > compareDate;
-            }
-
-            static date_before_or_equal = function date_before_or_equal(content, value, { query }) {
-                const [contentDate, compareDate] = dates(content, value, query);
-                return contentDate <= compareDate;
-            }
-
-            static date_after_or_equal = function date_after_or_equal(content, value, { query }) {
-                const [contentDate, compareDate] = dates(content, value, query);
-                return contentDate >= compareDate;
-            }
-
-            static url = function url(content) {
-                const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
-                return urlRegex.test(content);
-            }
-
-            static phone = function phone(content) {
-                const phoneNumberRegex = /^(?:\+*([0-9]{3}|0))(?:[ \-]?[0-9]){9}$/;
-                return phoneNumberRegex.test(content);
-            }
-
-            static length = function length(content, value) {
-                const [minLength, maxLength] = split(value).map(Number);
-                return (minLength === undefined || String(content).length >= minLength) &&
-                    (maxLength === undefined || String(content).length <= maxLength);
-            }
-
-            static strong = function strong(content, value) {
-                const contentStr = String(content).trim();
-                return split(value).every(rule => {
-                    switch (rule) {
-                        case "uppercase":
-                            return /[A-Z]/.test(contentStr);
-                        case "lowercase":
-                            return /[a-z]/.test(contentStr);
-                        case "numeric":
-                            return /\d/.test(contentStr);
-                        case "special":
-                            return /[!@#$%^&*]/.test(contentStr);
-                        default:
-                            return true;
+                    if (isSuccess) {
+                        success(currentField, message.success[rule]);
                     }
                 });
+
+                return isValid && execute ? execute() : isValid;
             }
 
-            static min = function min(content, value) {
-                return parseFloat(content) >= parseFloat(value);
-            }
+            static Rules = class Rules {
+                static required = function required(value, parts, { field, query, queryAll }) {
+                    if (["checkbox", "radio"].includes(field.type)) {
+                        const checkboxes = queryAll(`[name="${field.name}"]`);
+                        return Array.from(checkboxes).some(checkbox => checkbox.checked);
+                    }
+                    return value !== "";
+                }
 
-            static max = function max(content, value) {
-                return parseFloat(content) <= parseFloat(value);
-            }
+                static required_if = function required_if(value, parts, { field, query }) {
+                    const [fieldName, expectedValue] = parts;
+                    const matchingField = query(`[name="${fieldName}"]`);
+                    return !matchingField || expectedValue === String(matchingField.value).trim() ? Validator.Rules.required(value, "", { field }) : true;
+                }
 
-            static regex = function regex(content, value) {
-                const customRegex = new RegExp(value.trim());
-                return customRegex.test(String(content).trim());
-            }
+                static required_unless = function required_unless(value, parts, extra) {
+                    return !Validator.Rules.required_if(value, parts, extra);
+                }
 
-            static size = function size(content, value, { field }) {
-                const maxSize = parseInt(value);
-                return field.files[0].size <= maxSize;
-            }
+                static required_with = function required_with(value, parts, { field, query }) {
+                    const isFieldPresent = parts.some(name => query(`[name="${name}"]`));
+                    return !isFieldPresent || Validator.Rules.required(value, parts, { field, query });
+                }
 
-            static type = function type(content, value, { field }) {
-                return split(field.accept).some(type => value.includes(type));
-            }
+                static required_without = function required_without(value, parts, { field, query }) {
+                    const isFieldPresent = parts.some(name => query(`[name="${name}"]`));
+                    return isFieldPresent ? true : Validator.Rules.required(value, parts, { field, query });
+                }
 
-            static match = function match(content, value, { query }) {
-                const matchField = query(`[name="${value.trim()}"]`);
-                return matchField && String(content).trim() === String(matchField.value).trim();
-            }
+                static required_with_all = function required_with_all(value, parts, { field, query }) {
+                    const areFieldsPresent = parts.every(name => query(`[name="${name}"]`));
+                    return !areFieldsPresent || Validator.Rules.required(value, parts, { field, query });
+                }
 
-            static clash = function clash(content, value, extra) {
-                return !Validator.Rules.match(content, value, extra);
-            }
+                static email = function email(value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return emailRegex.test(value);
+                }
 
-            static exists = function exists(content, value) {
-                return split(value).includes(String(content).trim());
-            }
+                static numeric = function numeric(value) {
+                    return !isNaN(value) && value !== "";
+                }
 
-            static absent = function absent(content, value, extra) {
-                return !Validator.Rules.exists(content, value, extra);
-            }
+                static integer = function integer(value) {
+                    return Number.isInteger(Number(value));
+                }
 
-            static equal = function equal(content, value) {
-                return String(content).trim() === String(value).trim();
-            }
+                static float = function float(value) {
+                    return !isNaN(parseFloat(value));
+                }
 
-            static different = function different(content, value) {
-                return !Validator.Rules.equal(content, value);
-            }
+                static alpha = function alpha(value) {
+                    const alphaRegex = /^[A-Za-z]+$/;
+                    return alphaRegex.test(value);
+                }
 
-            static include = function include(content, value) {
-                return split(value).some(v => String(content).includes(v));
-            }
+                static date = function date(value) {
+                    const dateRegex = /^(?:(?:\d{4}[-/]\d{2}[-/]\d{2})|(?:\d{2}[-/]\d{2}[-/]\d{4}))$/;
+                    return dateRegex.test(value);
+                }
 
-            static exclude = function exclude(content, value) {
-                return split(value).every(v => !String(content).includes(v));
-            }
+                static date_before = function date_before(value, parts, { query }) {
+                    const [contentDate, compareDate] = dates(value, parts, query);
+                    return contentDate < compareDate;
+                }
 
-            static contain = function contain(content, value) {
-                return split(value).some(substring => content.includes(substring));
+                static date_after = function date_after(value, parts, { query }) {
+                    const [contentDate, compareDate] = dates(value, parts, query);
+                    return contentDate > compareDate;
+                }
+
+                static date_before_or_equal = function date_before_or_equal(value, parts, { query }) {
+                    const [contentDate, compareDate] = dates(value, parts, query);
+                    return contentDate <= compareDate;
+                }
+
+                static date_after_or_equal = function date_after_or_equal(value, parts, { query }) {
+                    const [contentDate, compareDate] = dates(value, parts, query);
+                    return contentDate >= compareDate;
+                }
+
+                static url = function url(value) {
+                    const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+                    return urlRegex.test(value);
+                }
+
+                static phone = function phone(value) {
+                    const phoneNumberRegex = /^(?:\+*([0-9]{3}|0))(?:[ \-]?[0-9]){9}$/;
+                    return phoneNumberRegex.test(value);
+                }
+
+                static length = function length(value, parts) {
+                    const [minLength, maxLength] = parts.map(Number);
+                    return (minLength === undefined || value.length >= minLength) &&
+                        (maxLength === undefined || value.length <= maxLength);
+                }
+
+                static strong = function strong(value, parts) {
+                    return parts.every(rule => {
+                        switch (rule) {
+                            case "uppercase":
+                                return /[A-Z]/.test(value);
+                            case "lowercase":
+                                return /[a-z]/.test(value);
+                            case "numeric":
+                                return /\d/.test(value);
+                            case "special":
+                                return /[!@#$%^&*]/.test(value);
+                            default:
+                                return true;
+                        }
+                    });
+                }
+
+                static min = function min(value, parts) {
+                    return parseFloat(value) >= parseFloat(parts[0]);
+                }
+
+                static max = function max(value, parts) {
+                    return parseFloat(value) <= parseFloat(parts[0]);
+                }
+
+                static regex = function regex(value, parts) {
+                    const customRegex = new RegExp(parts[0]);
+                    return customRegex.test(value);
+                }
+
+                static size = function size(value, parts, { field }) {
+                    const maxSize = parseInt(parts[0]);
+                    return field.files[0].size <= maxSize;
+                }
+
+                static type = function type(value, parts, { field }) {
+                    return split(field.accept).some(type => parts.includes(type));
+                }
+
+                static match = function match(value, parts, { query }) {
+                    const matchField = query(`[name="${parts[0]}"]`);
+                    return matchField && value === String(matchField.value).trim();
+                }
+
+                static clash = function clash(value, parts, extra) {
+                    return !Validator.Rules.match(value, parts, extra);
+                }
+
+                static exists = function exists(value, parts) {
+                    return parts.includes(value);
+                }
+
+                static absent = function absent(value, parts, extra) {
+                    return !Validator.Rules.exists(value, parts, extra);
+                }
+
+                static equal = function equal(value, parts) {
+                    return value === parts[0];
+                }
+
+                static different = function different(value, parts) {
+                    return !Validator.Rules.equal(value, parts);
+                }
+
+                static include = function include(value, parts) {
+                    return parts.some(v => value.includes(v));
+                }
+
+                static exclude = function exclude(value, parts) {
+                    return parts.every(v => !value.includes(v));
+                }
+
+                static contain = function contain(value, parts) {
+                    return parts.some(substring => value.includes(substring));
+                }
             }
         }
 

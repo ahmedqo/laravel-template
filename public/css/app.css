@@ -55,6 +55,40 @@ html[lang="ar"] *::before {
     display: none;
 }
 
+::-webkit-scrollbar {
+    appearance: none;
+    -o-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    height: 5px;
+    width: 5px;
+}
+
+body::-webkit-scrollbar {
+    height: 12px;
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgb(209 213 219 / 1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(156 163 175 / 1);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
 input {
     -webkit-appearance: textfield;
     -moz-appearance: textfield;

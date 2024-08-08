@@ -11,12 +11,12 @@
     <title>@yield('title')</title>
 </head>
 
-<body close>
+<body close class="bg-x-light">
     <section id="neo-page-cover">
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
             class="block w-36" width="916" height="516" />
     </section>
-    <neo-wrapper class="bg-x-light flex flex-wrap">
+    <neo-wrapper class="flex flex-wrap">
         @include('shared.core.sidebar')
         <main class="w-full lg:w-0 lg:flex-1">
             @include('shared.core.topbar')
