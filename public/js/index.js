@@ -77,13 +77,13 @@ function TableVisualizer(dataVisualizer, callback) {
 
     function createLinks(prev, next, str) {
         const search = "?search" + (str ? ("=" + str) : "");
-        const preva = document.querySelector("#prev");
-        const nexta = document.querySelector("#next");
+        const preva = $query("#prev", dataVisualizer);
+        const nexta = $query("#next", dataVisualizer);
         if (prev) {
             const href = $routes.search + search + "&cursor=" + prev;
             if (preva) preva.href = href
             else {
-                const _preva = Links.querySelector("#prev").cloneNode(true);
+                const _preva = $query("#prev", Links).cloneNode(true);
                 _preva.addEventListener("click", event);
                 if (nexta) nexta.insertAdjacentElement('beforebegin', _preva);
                 else dataVisualizer.insertAdjacentElement("afterbegin", _preva);
@@ -100,7 +100,7 @@ function TableVisualizer(dataVisualizer, callback) {
             const href = $routes.search + search + "&cursor=" + next;
             if (nexta) nexta.href = href
             else {
-                const _nexta = Links.querySelector("#next").cloneNode(true);
+                const _nexta = $query("#next", Links).cloneNode(true);
                 _nexta.addEventListener("click", event);
                 if (preva) preva.insertAdjacentElement('afterend', _nexta);
                 else dataVisualizer.insertAdjacentElement("afterbegin", _nexta);
@@ -145,8 +145,8 @@ function TableVisualizer(dataVisualizer, callback) {
 }
 
 const
-    $queryAll = (selector) => document.querySelectorAll(selector),
-    $query = (selector) => document.querySelector(selector),
+    $queryAll = (selector, content = document) => [...content.querySelectorAll(selector)],
+    $query = (selector, content = document) => content.querySelector(selector),
     $capitalize = Neo.Helper.Str.capitalize,
     $titlize = Neo.Helper.Str.titlize,
     $routes = (() => {
@@ -161,12 +161,81 @@ const
     $money = Neo.Helper.Str.money,
     $trans = Neo.Helper.trans;
 
+$queryAll("neo-tab-wrapper").forEach(wrapper => {
+    var nextTrigger, nextOutlet;
+
+    wrapper.triggers = $queryAll("neo-tab-trigger", wrapper);
+    wrapper.outlets = $queryAll("neo-tab-outlet", wrapper);
+
+    wrapper.activate = (function activate(e) {
+        wrapper.activeTrigger = nextTrigger;
+        wrapper.activeOutlet = nextOutlet;
+
+        if (!wrapper.activeTrigger || !wrapper.activeOutlet) return;
+
+        wrapper.triggers.forEach(t => {
+            t.classList.remove("bg-x-prime", "text-x-white");
+            t.classList.add("text-x-black", "bg-x-white");
+        });
+
+        wrapper.outlets.forEach(t => {
+            t.style.display = "none";
+        });
+
+        wrapper.activeTrigger.classList.remove("text-x-prime", "bg-x-white");
+        wrapper.activeTrigger.classList.add("bg-x-prime", "text-x-white");
+        wrapper.activeOutlet.style.display = "";
+    }).bind(wrapper);
+
+    (new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === "attributes" && mutation.attributeName === "outlet") {
+                const target = wrapper.getAttribute("outlet");
+
+                nextTrigger = wrapper.triggers.find(e => e.getAttribute("for") === target);
+                nextOutlet = wrapper.outlets.find(e => e.getAttribute("name") === target);
+
+                const ev = new CustomEvent("change:tab", {
+                    bubbles: true,
+                    cancelable: true,
+                    composed: true,
+                    isTrusted: true,
+                    detail: {
+                        nextTrigger,
+                        nextOutlet
+                    },
+                });
+                wrapper.dispatchEvent(ev);
+                if (!ev.defaultPrevented) {
+                    wrapper.activate();
+                }
+            }
+        }
+    })).observe(wrapper, { attributes: true });
+
+    wrapper.triggers.forEach(t => {
+        function active() {
+            wrapper.setAttribute("outlet", t.getAttribute("for"));
+        }
+
+        t.addEventListener("click", active);
+        t.addEventListener("keydown", e => {
+            if (e.keyCode === 13) active();
+        });
+    });
+
+    wrapper.outlets.forEach(o => {
+        o.style.display = "none";
+    });
+
+    wrapper.setAttribute("outlet", wrapper.getAttribute("outlet"));
+});
 
 $queryAll("form[validate]").forEach(form => {
     form.addEventListener("submit", e => {
         e.preventDefault();
         Neo.Validator.validate(form, {
-            ...([...form.querySelectorAll("[rules]")].reduce((carry, item) => {
+            ...($queryAll("[rules]", form).reduce((carry, item) => {
                 carry.rules[item.name] = (item.getAttribute("rules") || "").split("|");
                 carry.message.failure[item.name] = JSON.parse(item.getAttribute("errors") || "");
                 return carry;
@@ -182,5 +251,73 @@ $queryAll("form[validate]").forEach(form => {
                 form.submit();
             }
         });
+    });
+});
+
+Neo.load(function() {
+    $queryAll("neo-tab-wrapper").forEach(wrapper => {
+        const tabPrev = $query("#prev", wrapper),
+            tabSave = $query("#save", wrapper),
+            tabNext = $query("#next", wrapper),
+            track = $query("#track", wrapper);
+
+        wrapper.addEventListener("change:tab", e => {
+            if (wrapper.triggers.indexOf(wrapper.activeTrigger) < wrapper.triggers.indexOf(e.detail.nextTrigger)) {
+                e.preventDefault();
+                Neo.Validator.validate(wrapper.activeOutlet, {
+                    ...($queryAll("[rules]", wrapper.activeOutlet).reduce((carry, item) => {
+                        carry.rules[item.name] = (item.getAttribute("rules") || "").split("|");
+                        carry.message.failure[item.name] = JSON.parse(item.getAttribute("errors") || "");
+                        return carry;
+                    }, { rules: {}, message: { failure: {} } })),
+                    failure(field, __, message) {
+                        Neo.Toaster.toast(message, "error");
+                        field.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+                    },
+                    success(field) {
+                        field.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+                    },
+                    execute() {
+                        wrapper.activate();
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                const tabIndex = wrapper.triggers.indexOf(wrapper.activeTrigger);
+                tabPrev.style.display = tabIndex > 0 ? "" : "none";
+                tabNext.style.display = tabIndex < wrapper.triggers.length - 1 ? "" : "none";
+                tabSave.style.display = tabIndex === wrapper.triggers.length - 1 ? "" : "none";
+                track.style.width = ((100 / (wrapper.triggers.length - 1)) * tabIndex) + "%";
+
+                wrapper.triggers.forEach((t, i) => {
+                    const txt = $query("span", t),
+                        svg = $query("svg", t)
+                    if (i < tabIndex) {
+                        svg.classList.remove("hidden");
+                        txt.classList.add("hidden");
+                        svg.classList.add("block");
+                    } else {
+                        txt.classList.remove("hidden");
+                        svg.classList.remove("block");
+                        svg.classList.add("hidden");
+                    }
+                });
+            }, 50);
+        });
+
+        tabPrev.addEventListener("click", e => {
+            const tabIndex = wrapper.triggers.indexOf(wrapper.activeTrigger);
+            if (tabIndex <= 0) return;
+
+            wrapper.setAttribute("outlet", "outlet-" + tabIndex);
+        });
+
+        tabNext.addEventListener("click", e => {
+            const tabIndex = wrapper.triggers.indexOf(wrapper.activeTrigger);
+            if (tabIndex >= wrapper.triggers.length - 1) return;
+
+            wrapper.setAttribute("outlet", "outlet-" + (tabIndex + 2));
+        })
     });
 });
