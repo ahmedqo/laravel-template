@@ -147,6 +147,17 @@ neo-imagetransfer {
     border: 1px solid rgb(var(--light) / 1);
 }
 
+neo-select::part(field),
+neo-textbox::part(field),
+neo-password::part(field),
+neo-textarea::part(field),
+neo-explorer::part(field),
+neo-datepicker::part(field),
+neo-timepicker::part(field),
+neo-autocomplete::part(field) {
+    padding-block: .375rem;
+}
+
 neo-select-group {
     border-bottom: 1px solid rgb(var(--light) / 1);
 }

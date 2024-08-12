@@ -16,12 +16,23 @@
             <form validate action="{{ route('actions.login.index') }}" method="POST"
                 class="w-full flex flex-col gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
-                <neo-textbox rules="required|email"
-                    errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
-                    type="email" label="{{ __('Email') }} (*)" name="email"
-                    value="{{ old('email') }}"></neo-textbox>
-                <neo-password rules="required" errors='{"required": "{{ __('The password field is required') }}"}'
-                    label="{{ __('Password') }} (*)" name="password" value="{{ old('password') }}"></neo-password>
+                <div class="flex flex-col">
+                    <label class="text-x-black font-x-thin text-base">
+                        {{ __('Email') }} (*)
+                    </label>
+                    <neo-textbox rules="required|email"
+                        errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
+                        type="email" placeholder="{{ __('Email') }} (*)" name="email"
+                        value="{{ old('email') }}"></neo-textbox>
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-x-black font-x-thin text-base">
+                        {{ __('Password') }} (*)
+                    </label>
+                    <neo-password rules="required" errors='{"required": "{{ __('The password field is required') }}"}'
+                        placeholder="{{ __('Password') }} (*)" name="password"
+                        value="{{ old('password') }}"></neo-password>
+                </div>
                 <neo-button
                     class="w-full text-base lg:text-lg font-x-huge text-x-white bg-x-prime hover:bg-x-acent focus:bg-x-acent focus-within:bg-x-acent">
                     <span>{{ __('Login') }}</span>

@@ -42,7 +42,7 @@
         <form validate action="{{ route('actions.users.patch', $data->id) }}" method="POST" class="w-full">
             @csrf
             @method('patch')
-            <neo-tab-wrapper outlet="outlet-1" class="w-full flex flex-col gap-6 lg:col-span-12">
+            <neo-tab-wrapper outlet="outlet-1" class="w-full flex flex-col gap-6">
                 <div class="flex flex-wrap items-center justify-between gap-6 relative isolate">
                     <div class="absolute h-1 w-full bg-x-light left-0 right-0 top-1/2 -translate-y-1/2 z-[-1]">
                         <div id="track" class="absolute h-full top-0 bottom-0 w-0 bg-x-prime"></div>
@@ -60,33 +60,69 @@
                     @endfor
                 </div>
                 <neo-tab-outlet name="outlet-1" class="grid grid-cols-1 grid-rows-1 gap-6">
-                    <neo-textbox rules="required" errors='{"required": "{{ __('The first name field is required') }}"}'
-                        label="{{ __('First name') }} (*)" name="first_name"
-                        value="{{ ucwords($data->first_name) }}"></neo-textbox>
-                    <neo-textbox rules="required" errors='{"required": "{{ __('The last name field is required') }}"}'
-                        label="{{ __('Last name') }} (*)" name="last_name"
-                        value="{{ ucwords($data->last_name) }}"></neo-textbox>
-                    <neo-textbox rules="required|email"
-                        errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
-                        type="email" label="{{ __('Email') }} (*)" name="email"
-                        value="{{ $data->email }}"></neo-textbox>
-                    <neo-textbox rules="required|phone"
-                        errors='{"required": "{{ __('The phone field is required') }}", "phone": "{{ __('The phone field must be a valid phone number') }}"}'
-                        type="tel" label="{{ __('Phone') }} (*)" name="phone"
-                        value="{{ $data->phone }}"></neo-textbox>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('First name') }} (*)
+                        </label>
+                        <neo-textbox rules="required" errors='{"required": "{{ __('The first name field is required') }}"}'
+                            placeholder="{{ __('First name') }} (*)" name="first_name"
+                            value="{{ ucwords($data->first_name) }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Last name') }} (*)
+                        </label>
+                        <neo-textbox rules="required" errors='{"required": "{{ __('The last name field is required') }}"}'
+                            placeholder="{{ __('Last name') }} (*)" name="last_name"
+                            value="{{ ucwords($data->last_name) }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Email') }} (*)
+                        </label>
+                        <neo-textbox rules="required|email"
+                            errors='{"required": "{{ __('The email field is required') }}", "email": "{{ __('The email field must be a valid email') }}"}'
+                            type="email" placeholder="{{ __('Email') }} (*)" name="email"
+                            value="{{ $data->email }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Phone') }} (*)
+                        </label>
+                        <neo-textbox rules="required|phone"
+                            errors='{"required": "{{ __('The phone field is required') }}", "phone": "{{ __('The phone field must be a valid phone number') }}"}'
+                            type="tel" placeholder="{{ __('Phone') }} (*)" name="phone"
+                            value="{{ $data->phone }}"></neo-textbox>
+                    </div>
                 </neo-tab-outlet>
                 <neo-tab-outlet name="outlet-2" class="grid grid-cols-1 grid-rows-1 gap-6">
-                    <neo-select label="{{ __('Gender') }}" name="gender">
-                        @foreach (Core::genderList() as $gender)
-                            <neo-select-item value="{{ $gender }}" {{ $gender == $data->gender ? 'active' : '' }}>
-                                {{ ucwords(__($gender)) }}
-                            </neo-select-item>
-                        @endforeach
-                    </neo-select>
-                    <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} label="{{ __('Birth date') }}"
-                        name="birth_date" format="dddd dd mmmm yyyy" value="{{ $data->birth_date }}"></neo-datepicker>
-                    <neo-textarea label="{{ __('Address') }}" name="address" value="{{ $data->address }}"
-                        rows="4"></neo-textarea>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Gender') }}
+                        </label>
+                        <neo-select placeholder="{{ __('Gender') }}" name="gender">
+                            @foreach (Core::genderList() as $gender)
+                                <neo-select-item value="{{ $gender }}"
+                                    {{ $gender == $data->gender ? 'active' : '' }}>
+                                    {{ ucwords(__($gender)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Birth date') }}
+                        </label>
+                        <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} placeholder="{{ __('Birth date') }}"
+                            name="birth_date" format="dddd dd mmmm yyyy" value="{{ $data->birth_date }}"></neo-datepicker>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-x-black font-x-thin text-base">
+                            {{ __('Address') }}
+                        </label>
+                        <neo-textarea placeholder="{{ __('Address') }}" name="address" value="{{ $data->address }}"
+                            rows="4"></neo-textarea>
+                    </div>
                 </neo-tab-outlet>
                 <div class="w-full flex flex-wrap gap-6">
                     <neo-button outline type="button" id="prev" style="display: none"
