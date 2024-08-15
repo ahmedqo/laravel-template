@@ -16,7 +16,7 @@
     --r-huge: 10px;
     --w-thin: 600;
     --w-huge: 800;
-    --shadow: 0px 5px 15px -10px rgb(var(--black) / 40%);
+    --shadow: 0px 5px 15px -10px rgb(var(--black) / 40%), 0px 0px 2px rgb(var(--black) / 20%);
     /** */
     --color-sys-0: #94A3B8;
     --color-sys-1: #78716C;
@@ -156,6 +156,23 @@ neo-datepicker::part(field),
 neo-timepicker::part(field),
 neo-autocomplete::part(field) {
     padding-block: .375rem;
+}
+
+neo-select::part(content),
+neo-sidebar::part(content),
+neo-dropdown::part(content),
+neo-datepicker::part(content),
+neo-timepicker::part(content),
+neo-autocomplete::part(content) {
+    border: unset;
+}
+
+neo-select::part(content),
+neo-dropdown::part(content),
+neo-datepicker::part(content),
+neo-timepicker::part(content),
+neo-autocomplete::part(content) {
+    box-shadow: var(--shadow);
 }
 
 neo-select-group {
