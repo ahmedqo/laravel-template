@@ -9,16 +9,36 @@
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
+    @if (Core::setting())
+        @php
+            $colors = Core::themesList(Core::setting('theme_color'));
+            \Carbon\Carbon::setLocale(Core::setting('language'));
+        @endphp
+        <meta name="core"
+            content="{{ json_encode([
+                'format' => Core::formatsList(Core::setting('date_format'), 0),
+                'currency' => Core::setting('currency'),
+            ]) }}">
+        <style>
+            *,
+            :root,
+            *::after,
+            *::before {
+                --prime: {{ $colors[0] }};
+                --acent: {{ $colors[1] }};
+            }
+        </style>
+    @endif
 </head>
 
-<body close class="bg-x-light">
+<body close class="bg-x-light bg-x-gradient">
     <section id="neo-page-cover">
-        <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
+        <img src="{{ Core::image() }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
             class="block w-36" width="916" height="516" />
     </section>
     <neo-wrapper class="flex flex-wrap">
         @include('shared.core.sidebar')
-        <main class="w-full lg:w-0 lg:flex-1">
+        <main class="w-full lg:w-0 lg:flex-1 h-[100dvh] overflow-auto">
             @include('shared.core.topbar')
             <div class="p-4 py-8 md:pt-0 container mx-auto">
                 @yield('content')

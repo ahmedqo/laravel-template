@@ -16,7 +16,7 @@
             <form validate action="{{ route('actions.login.index') }}" method="POST"
                 class="w-full flex flex-col gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <label class="text-x-black font-x-thin text-base">
                         {{ __('Email') }} (*)
                     </label>
@@ -25,7 +25,7 @@
                         type="email" placeholder="{{ __('Email') }} (*)" name="email"
                         value="{{ old('email') }}"></neo-textbox>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <label class="text-x-black font-x-thin text-base">
                         {{ __('Password') }} (*)
                     </label>

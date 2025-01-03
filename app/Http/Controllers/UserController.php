@@ -44,8 +44,8 @@ class UserController extends Controller
         $validator = Validator::make($Request->all(), [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'phone' => ['required', 'string', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'phone' => ['required', 'string', 'unique:users,phone'],
         ]);
 
         if ($validator->fails()) {
@@ -55,11 +55,12 @@ class UserController extends Controller
             ]);
         }
 
-        User::create($Request->merge([
+        $User = User::create($Request->merge([
             'password' =>  Hash::make(Str::random(20)),
             'first_name' => strtolower($Request->first_name),
-            'last_name' => strtolower($Request->last_name)
+            'last_name' => strtolower($Request->last_name),
         ])->all());
+
         Mailer::reset($Request->email);
 
         return Redirect::back()->with([

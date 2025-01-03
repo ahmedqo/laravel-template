@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/companies/{id}/upload', [CompanyController::class, 'image_action'])->name('actions.companies.image');
+Route::get('/data/notify', [CoreController::class, 'notify_action'])->name('actions.core.notify');
+Route::get('/data/read', [CoreController::class, 'read_action'])->name('actions.core.read');

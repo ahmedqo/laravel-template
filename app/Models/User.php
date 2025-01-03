@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Functions\Core;
 use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -26,6 +28,8 @@ class User extends Authenticatable
         'phone',
         'address',
         'password',
+
+        'company'
     ];
 
     protected $searchable = [
@@ -47,10 +51,21 @@ class User extends Authenticatable
         'password',
     ];
 
-    // protected static function booted()
-    // {
-    //     self::creating(function ($data) {
-    //         $data->gender = "female";
-    //     });
-    // }
+    protected static function booted()
+    {
+        self::created(function ($Self) {
+            $Self->Setting()->create([
+                'language' => 'fr',
+                'currency' => 'MAD',
+                'report_frequency' => 'week',
+                'date_format' => 'YYYY-MM-DD',
+                'theme_color' => 'ocean tide',
+            ]);
+        });
+    }
+
+    public function Setting(): MorphOne
+    {
+        return $this->morphOne(Setting::class, 'target');
+    }
 }

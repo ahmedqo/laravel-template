@@ -14,12 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'first_name' => 'john',
-            'last_name' => 'doe',
-            'email' => 'admin@test.com',
-            'phone' => '212999999999',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-        ]);
+
+        if (!User::where('email', 'super@test.com')->orWhere('phone', '212999999991')->limit(1)->first()) {
+            User::create([
+                'first_name' => 'User',
+                'last_name' => 'User',
+                'email' => 'super@test.com',
+                'phone' => '212999999991',
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+            ]);
+        }
     }
 }

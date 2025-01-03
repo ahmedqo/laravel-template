@@ -10,15 +10,14 @@
     <title>@yield('title')</title>
 </head>
 
-<body close class="bg-x-light">
+<body close class="bg-x-light bg-x-gradient">
     <section id="neo-page-cover">
         <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('APP_NAME') }} logo image"
             class="block w-36" width="916" height="516" loading="lazy" />
     </section>
     <neo-wrapper class="isolate">
         <neo-topbar transparent align="end" class="fixed top-0 left-0 right-0 w-full pointer-events-none z-[1]">
-            <neo-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}"
-                class="pointer-events-auto">
+            <neo-dropdown label="{{ __('Languages') }}" class="pointer-events-auto">
                 <button slot="trigger" aria-label="language_trigger"
                     class="flex w-8 h-8 items-center justify-center text-x-white outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ !Core::matchRoute('admin/forgot') ? 'lg:text-x-black' : '' }}">
                     <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">

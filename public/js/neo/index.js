@@ -360,7 +360,18 @@ const Neo = (function Neo() {
             if (target && target.length) {
                 for (let i = 0; i < target.length; i++) {
                     if (target[i].nodeType === 3) {
-                        target[i].nodeValue.trim() && fiber.props.children.push(new Fiber(NEO_TEXT_SYMBOL, { nodeValue: target[i].nodeValue.replace(/\s\s+|\n|\r\n/g, '') }));
+                        if (target[i].nodeValue.trim()) {
+                            const index = target[i].nodeValue.replace(/\s\s+|\n|\r\n/g, '');
+                            const isElement = Parser.join.test(index) && this.props[+index.match(Parser.nbr)];
+                            if (isElement) {
+                                const _fiber = new Fiber(isElement, { children: [] });
+                                fiber.props.children.push(_fiber);
+                                //this.attrs(isElement, _fiber);
+                                this.tree(isElement, fiber.props.children[fiber.props.children.length - 1]);
+                            } else {
+                                fiber.props.children.push(new Fiber(NEO_TEXT_SYMBOL, { nodeValue: index }));
+                            }
+                        }
                     } else {
                         fiber.props.children.push(new Fiber());
                         this.tree(target[i], fiber.props.children[fiber.props.children.length - 1]);
@@ -646,7 +657,7 @@ const Neo = (function Neo() {
 
                 static money = function money(number, zeros = 2) {
                     return number.toLocaleString('en-US', {
-                        minimumFractionDigits: Math.max(zeros, (number.toString().split('.')[1] || '').length)
+                        minimumFractionDigits: Math.max(zeros, (number.toFixed(zeros).toString().split('.')[1] || '').length)
                     });
                 }
 
@@ -925,7 +936,7 @@ const Neo = (function Neo() {
                 const { type, props } = fiber;
                 const dom =
                     type === NEO_TEXT_SYMBOL ?
-                    document.createTextNode("") :
+                    document.createTextNode("") : type instanceof HTMLElement ? type :
                     type in NEO_SVG_NODES ?
                     document.createElementNS("http://www.w3.org/2000/svg", type) :
                     document.createElement(type);
@@ -1228,7 +1239,7 @@ const Neo = (function Neo() {
             }
 
             static Rules = class Rules {
-                static required = function required(value, parts, { field, query, queryAll }) {
+                static required = function required(value, parts, { field, queryAll }) {
                     if (["checkbox", "radio"].includes(field.type)) {
                         const checkboxes = queryAll(`[name="${field.name}"]`);
                         return Array.from(checkboxes).some(checkbox => checkbox.checked);
@@ -1236,14 +1247,16 @@ const Neo = (function Neo() {
                     return value !== "";
                 }
 
-                static required_if = function required_if(value, parts, { field, query }) {
+                static required_if = function required_if(value, parts, { field, query, queryAll }) {
                     const [fieldName, expectedValue] = parts;
                     const matchingField = query(`[name="${fieldName}"]`);
-                    return !matchingField || expectedValue === String(matchingField.value).trim() ? Validator.Rules.required(value, "", { field }) : true;
+                    return !matchingField || expectedValue === String(matchingField.value).trim() ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
-                static required_unless = function required_unless(value, parts, extra) {
-                    return !Validator.Rules.required_if(value, parts, extra);
+                static required_unless = function required_unless(value, parts, { field, query, queryAll }) {
+                    const [fieldName, expectedValue] = parts;
+                    const matchingField = query(`[name="${fieldName}"]`);
+                    return !matchingField || expectedValue !== String(matchingField.value).trim() ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
                 static required_with = function required_with(value, parts, { field, query }) {
@@ -1404,7 +1417,6 @@ const Neo = (function Neo() {
 
         return Validator;
     })();
-
 
     Neo.Component = (function Component() {
         function Component(options) {

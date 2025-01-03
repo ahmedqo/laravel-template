@@ -9,46 +9,12 @@
             </svg>
         </button>
     </div>
-    <h1 class="lg:flex-[3] me-auto md:me-0 lg:text-center text-x-white md:text-x-black font-x-thin text-lg md:text-2xl">
+    <h1
+        class="lg:flex-[3] me-auto md:me-0 lg:text-center text-x-white md:text-x-black font-x-thin text-base md:text-2xl">
         @yield('title')
     </h1>
-    <div class="lg:flex-1 min-w-max items-center justify-end flex flex-wrap gap-4">
-        <neo-dropdown label="{{ __('Languages') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
-            <button slot="trigger" aria-label="language_trigger"
-                class="flex w-8 h-8 items-center justify-center text-x-white md:text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
-                <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
-                    <path
-                        d="M610-196 568.513-90.019Q566-78 555.452-71q-10.548 7-23.606 7Q510-64 499.5-80.963 489-97.927 497-118.094L654.571-537.15Q658-549 668-556.5q10-7.5 22-7.5h31.552q11.821 0 21.672 7T758-538l164 419q6 20.462-5.6 37.73Q904.799-64 884.273-64q-14.692 0-26.733-7.76t-15.536-22.576L808.585-196H610Zm22-72h148l-73.054-202H705l-73 202ZM355.135-397l-179.34 178.842Q162.86-206 146.206-206.5q-16.654-.5-27.93-11Q107-229 108-246.689q1-17.69 11.654-28.321L303-458q-39.6-45.818-70.8-92.409Q201-597 179-646h90q16 34 38.329 64.567 22.328 30.566 48.274 63.433Q403-567 434.628-619.861 466.256-672.721 489-730H63.857q-17.753 0-29.305-12.289Q23-754.579 23-771.982q0-17.404 12.35-29.318 12.35-11.914 29.895-11.914h248.731v-41.893q0-17.529 11.748-29.211Q337.471-896 355.098-896t29.637 11.682q12.011 11.682 12.011 29.211v41.893h249.548q17.685 0 29.696 11.768Q688-789.679 688-771.895q0 17.509-12.282 29.702Q663.436-730 645.759-730h-74.975Q548-656 510-587.5T416-457l102 103-29.389 83.933L355.135-397Z" />
-                </svg>
-            </button>
-            <ul class="w-full flex flex-col">
-                <li class="w-full">
-                    <a href="{{ route('actions.language.index', 'en') }}"
-                        class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('en') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
-                        <img src="{{ asset('lang/en.png') }}?v={{ env('APP_VERSION') }}" alt="english flag"
-                            class="block w-6 h-4 object-contain" />
-                        <span class="block flex-1 text-base text-start">English</span>
-                    </a>
-                </li>
-                <li class="w-full">
-                    <a href="{{ route('actions.language.index', 'fr') }}"
-                        class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('fr') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
-                        <img src="{{ asset('lang/fr.png') }}?v={{ env('APP_VERSION') }}" alt="french flag"
-                            class="block w-6 h-4 object-contain" />
-                        <span class="block flex-1 text-base text-start">Francais</span>
-                    </a>
-                </li>
-                <li class="w-full">
-                    <a href="{{ route('actions.language.index', 'ar') }}"
-                        class="w-full flex flex-wrap gap-2 px-4 py-2 items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ Core::lang('ar') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
-                        <img src="{{ asset('lang/ar.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
-                            class="block w-6 h-4 object-contain" />
-                        <span class="block flex-1 text-base text-start">العربية</span>
-                    </a>
-                </li>
-            </ul>
-        </neo-dropdown>
-        <neo-dropdown label="{{ __('Settings') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
+    <div class="lg:flex-1 min-w-max items-center justify-end flex flex-wrap gap-1">
+        <neo-dropdown label="{{ __('System') }}">
             <button slot="trigger" aria-label="setting_trigger"
                 class="flex w-8 h-8 items-center justify-center text-x-white md:text-x-black outline-none rounded-x-thin !bg-opacity-5 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                 <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
@@ -56,7 +22,7 @@
                         d="M408-59q-18 0-31-10.5T363-98l-15-94q-14-4-31-14t-28-19l-86 41q-15 6-32.5 1.5T144-204L72-332q-10-16-5-32.5T85-391l80-59q-1-5-1-14.5v-30q0-8.5 1-15.5l-81-58q-13-11-17.5-27.5T72-628l72-127q9-16 26.5-21t32.5 0l88 41q10-7 27-17t30-14l15-98q1-16 14.5-27t31.5-11h143q17 0 30.5 11t15.5 27l14 97q15 4 31.5 14t27.5 18l86-41q15-5 32.5 0t26.5 21l73 126q9 16 5 33t-19 28l-81 55q1 8 2.5 17t1.5 16q0 7-1.5 15.5T794-449l81 58q13 10 18.5 26.5T890-332l-74 128q-10 17-27 21.5t-32-1.5l-86-41q-11 9-28.5 19.5T613-192l-15 94q-2 18-15 28.5T552-59H408Zm71-294q53 0 90-37t37-90q0-52-37-89.5T479-607q-54 0-90.5 37.5T352-480q0 53 36.5 90t90.5 37Z" />
                 </svg>
             </button>
-            <ul class="sys-colors w-full flex flex-col">
+            <ul class="sys-colors w-full lg:w-[170px] flex flex-col">
                 <li class="w-full">
                     <a href="{{ route('views.profile.patch') }}"
                         class="w-full flex flex-wrap gap-2 px-4 py-2 text-start items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ request()->routeIs('views.profile.patch') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
@@ -75,6 +41,16 @@
                                 d="M229-62q-36.775 0-63.888-27.112Q138-116.225 138-153v-415q0-38.588 27.112-65.294Q192.225-660 229-660h53v-74q0-83.965 57.921-142.483Q397.843-935 479.731-935q81.889 0 140.079 58.517Q678-817.965 678-734v74h53q37.188 0 64.594 26.706Q823-606.588 823-568v415q0 36.775-27.406 63.888Q768.188-62 731-62H229Zm251.248-223Q512-285 533.5-306.615q21.5-21.616 21.5-51.969Q555-388 533.252-412q-21.748-24-53.5-24T426.5-412.064Q405-388.128 405-358.42q0 30.12 21.748 51.77 21.748 21.65 53.5 21.65ZM373-660h214v-73.769q0-47.731-30.973-78.481Q525.054-843 480.235-843q-44.818 0-76.027 30.75Q373-781.5 373-733.769V-660Z" />
                         </svg>
                         <span class="block flex-1 text-base text-start">{{ __('Password') }}</span>
+                    </a>
+                </li>
+                <li class="w-full">
+                    <a href="{{ route('views.settings.patch') }}"
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-start items-center outline-none hover:text-x-white hover:bg-x-acent focus:text-x-white focus:bg-x-acent focus-within:text-x-white focus-within:bg-x-acent {{ request()->routeIs('views.settings.patch') ? 'bg-x-prime text-x-white' : 'text-x-black' }}">
+                        <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                            <path
+                                d="m185-501-14-71q-7.45-4.06-14.73-8.03Q149-584 142-589l-69 21-56-98 54-47v-31l-54-47 56-99 69 22q7-5 14.27-8.97 7.28-3.97 14.73-8.03l14-71h116l15 71q7.45 4.06 14.73 8.03Q338-873 344-868l69-22 57 99-55 47q1 8.25 1 15.5t-1 15.5l55 47-57 98-69-21q-6 5-13.27 8.97-7.28 3.97-14.73 8.03l-15 71H185Zm58.21-156Q273-657 294-677.92t21-51q0-30.08-20.92-50.58t-51-20.5q-30.08 0-50.58 20.71t-20.5 50.5Q172-699 192.71-678t50.5 21ZM590 6l-19-93q-22-6-42.5-17.5T492-133l-87 31-63-107 71-63q-5-22-5-45t5-45l-71-63 63-107 87 31q16-17 36.5-28.5T571-547l19-93h126l19 93q22 6 42 17.5t35 28.5l88-31 63 107-71 63q5 22 5 45t-5 45l71 63-63 107-88-31q-15 17-35 28.5T735-87L716 6H590Zm63-214q45 0 76.5-32t31.5-77q0-45-31.71-77T653-426q-46 0-77.5 31.5T544-317q0 46 31.5 77.5T653-208Z" />
+                        </svg>
+                        <span class="block flex-1 text-base text-start">{{ __('Settings') }}</span>
                     </a>
                 </li>
                 <li class="w-full">

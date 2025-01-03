@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Functions\Core;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Locale
 {
@@ -16,7 +18,8 @@ class Locale
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->has('locale')) app()->setLocale(session()->get('locale'));
+        if (Auth::user() && Core::setting() && Core::setting('language')) app()->setLocale(Core::setting('language'));
+        else if (session()->has('locale')) app()->setLocale(session()->get('locale'));
         return $next($request);
     }
 }

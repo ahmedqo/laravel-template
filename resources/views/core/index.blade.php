@@ -2,153 +2,171 @@
 @section('title', __('Dashboard'))
 
 @section('meta')
-    <meta name="routes" content='{!! json_encode([
-        'search' => route('actions.core.popular'),
-        'chart' => route('actions.core.chart'),
-    ]) !!}' />
-    <meta name="count" content="{!! json_encode([$data[0], $data[1] - $data[0]]) !!}" />
-    <meta name="rtl" content="{{ Core::lang('ar') }}" />
+    <meta name="routes" content='{!! json_encode([]) !!}' />
 @endsection
 
+@php
+    $currency = Core::setting() ? Core::setting('currency') : '';
+@endphp
+
 @section('content')
-    <div
-        class="w-full items-start grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
-        <div class="lg:col-span-12 flex flex-col">
-            <label class="text-x-black font-x-thin text-xl">
-                {{ __('Stats') }}
-            </label>
-            <div class="grid grid-rows-1 grid-cols-1 lg:grid-cols-4 gap-6">
-                <div class="rounded-x-thin bg-x-light p-4 aspect-square relative">
-                    <div
-                        class="donut-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center z-10">
-                        <neo-loader></neo-loader>
-                    </div>
+    <div class="w-full items-start grid grid-rows-1 grid-cols-1 gap-6">
+        <ul class="container mx-auto grid gap-6 grid-cols-2 grid-rows-1 lg:grid-cols-12 lg:grid-rows-5">
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="block w-10 aspect-square pointer-events-none text-green-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M222-340v-56H121v-121h202v-40H180q-24.28 0-41.64-16.8T121-615.94V-782q0-23.85 17.36-40.42Q155.72-839 180-839h42v-55h121v55h101v121H242v40h145q23.85 0 40.42 16.86Q444-644.27 444-620v166q0 23.85-16.58 40.92Q410.85-396 387-396h-44v56H222ZM573-75 380-269l91-90 102 102 216-214 90 90L573-75Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Payments') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                        {{ $currency }}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="lock w-10 aspect-square pointer-events-none text-yellow-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M479 5Q362 5 265-44.5T103-176v88H-17v-300h300v120h-98q48 68 125 110t169 42q72 0 137-27t115-74.5Q781-265 811.5-330T844-472h121q-2 102-42 189T816.5-132Q750-68 663-31.5T479 5Zm-47-200v-46q-44-10-78-44t-45-92l88-34q9 46 32.5 66.5T486-324q34 0 51.5-13t17.5-40q0-25-22-40.5T461-450q-71-24-102.5-57.5T327-593q0-42 26.5-78t80.5-50v-44h94v44q40 6 68.5 34t40.5 73l-86 35q-7-27-25.5-43T476-638q-25 0-40 11t-15 29q0 23 22 37.5t81 34.5q75 25 100 64.5t25 84.5q0 33-10 56.5T612-281q-17 16-39 26t-47 16v44h-94ZM-5-488q0-97 38-183.5t104-152Q203-889 291.5-927T480-965q114 0 214 49.5T856-784v-88h121v300H677v-120h98q-53-73-132-112.5T480-844q-72 0-137.5 27T227-742.5Q177-695 147-630t-32 142H-5Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Creances') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                        {{ $currency }}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="lock w-10 aspect-square pointer-events-none text-red-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M509-75v-136h147L509-357v-192l242 242v-146h136v378H509ZM210-260v-47H74v-136h242v-65H204q-53.95 0-91.97-37.97Q74-583.94 74-639v-77q0-54 38.03-92 38.02-38 91.97-38h6v-46h105v46h137v136H210v66h111q55.06 0 93.03 37.5T452-514v77q0 53.95-37.97 91.98Q376.06-307 321-307h-6v47H210Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Charges') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                        {{ $currency }}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="lock w-10 aspect-square pointer-events-none text-teal-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M482.77-98Q434-135 378-160q-56-25-117.59-25Q221-185 184-174t-71 29q-37 19-71.5-1T7-206v-480q0-26.06 11-48.33Q29-756.61 52-769q47.63-22 99.32-32.5Q203-812 257.24-812q60.26 0 116.51 15Q430-782 480-748.53V-229q51-31 106-50t114-19q36 0 71 7t69 20v-524q17.52 6 34.52 13 17 7 35.48 13 23 10.39 33 33.67 10 23.27 10 49.33v496q0 35-34.5 49.5T847-145q-34-18-71-29t-76.41-11q-60.59 0-114.82 25-54.23 25-102 62ZM560-332v-417l200-208v437L560-332Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Reservations') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                    </p>
+                </div>
+            </li>
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="lock w-10 aspect-square pointer-events-none text-fuchsia-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M686 11 505-170l95-95 85 85 170-171 95 97L686 11ZM333-216l-95-95 64-64-64-64 95-95 64 64 64-64 95 95-64 64 64 64-95 95-64-64-64 64ZM210-34q-57.12 0-96.56-40.14Q74-114.28 74-170v-541q0-57.13 39.44-96.56Q152.88-847 210-847h15v-79h113v79h284v-79h113v79h15q57.13 0 96.56 39.44Q886-768.13 886-711v215L750-358v-210H210v398h181L526-34H210Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Period') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                        {{ __('Days') }}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="lg:col-span-3 p-4 gap-4 flex flex-col flex-wrap items-center lg:flex-row relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                <svg class="lock w-10 aspect-square pointer-events-none text-violet-500" fill="currentcolor"
+                    viewBox="0 -960 960 960">
+                    <path
+                        d="M479.77 12Q303 12 191.5-44.11 80-100.23 80-189q0-43.06 30-80.53T196-335l94 103q-18 6-39 17t-36 24q21.49 27.2 101.28 47.1Q396.07-124 481.25-124q86.02 0 164.81-20.3T746-191q-16-14-37.81-24.86Q686.38-226.71 667-233l95-104q57 28 87.5 66.5t30.5 80.77q0 89.63-111.73 145.68Q656.54 12 479.77 12ZM481-154Q315.76-271 235.38-382.44T155-600.74q0-80.61 29.83-141.33 29.83-60.71 76.62-101.57 46.79-40.85 104.54-61.61Q423.74-926 480.31-926q56.9 0 115.53 20.93 58.63 20.92 104.87 61.77t75.77 101.49Q806-681.17 806-601.08q0 107.38-80.63 218.73Q644.73-271 481-154Zm.12-360q38.88 0 66.38-27.56 27.5-27.57 27.5-65.16 0-38.87-27.44-66.58Q520.13-701 481.5-701q-39.04 0-67.27 27.7Q386-645.59 386-607.22q0 38.38 28.12 65.8 28.12 27.42 67 27.42Z" />
+                </svg>
+                <div class="flex flex-1 flex-col">
+                    <h2 class="text-center lg:text-end text-base lg:text-xl text-x-black font-x-thin">
+                        {{ __('Mileage') }}
+                    </h2>
+                    <p class="text-center lg:text-end text-base lg:text-lg text-gray-800">
+                        {{ __('Km') }}
+                    </p>
+                </div>
+            </li>
+            <li
+                class="flex flex-col col-span-2 lg:col-span-9 lg:row-span-5 lg:row-start-2 relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="chart-loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center">
+                    <neo-loader></neo-loader>
+                </div>
+                {{-- <div class="py-3 px-6 border-b border-x-shade">
+                    <h2 class="text-x-black font-x-thin text-xl">
+                        {{ __('Income visualization') }}
+                    </h2>
+                </div> --}}
+                <div class="flex-1 rounded-x-thin bg-x-white p-4 flex items-center justify-center">
+                    <canvas id="chart" class="w-full aspect-video !h-full"></canvas>
+                </div>
+            </li>
+            <li
+                class="flex flex-col col-span-2 lg:col-span-3 lg:row-span-3 relative bg-x-white rounded-x-thin shadow-x-core">
+                <div
+                    class="donut-loader w-full h-full rounded-x-thin bg-x-white absolute inset-0 flex items-center justify-center z-10">
+                    <neo-loader></neo-loader>
+                </div>
+                {{-- <div class="py-3 px-6 border-b border-x-shade">
+                    <h2 class="text-x-black font-x-thin text-xl">
+                        {{ __('Profit rate') }}
+                    </h2>
+                </div> --}}
+                <div class="my-auto w-full rounded-x-thin bg-x-white p-4 aspect-square relative">
                     <div class="w-full h-full absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <h1 class="text-2xl font-x-thin text-x-black pointer-events-auto">
-                            {{ number_format(($data[0] / ($data[1] ?? 1)) * 100, 2) }}%
+                        <h1 class="text-lg font-x-thin text-x-black pointer-events-auto">
+
                         </h1>
                     </div>
                     <canvas id="donut" class="w-full h-full"></canvas>
                 </div>
-                <ul class="lg:col-span-3 grid grid-rows-1 grid-cols-2 lg:grid-rows-2 gap-6">
-                    <li
-                        class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
-                        <div
-                            class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                            <neo-loader></neo-loader>
-                        </div>
-                        <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-0);" fill="currentcolor"
-                            viewBox="0 -960 960 960">
-                            <path
-                                d="M255-638q-38.2 0-64.6-27.125Q164-692.25 164-730v-100q0-38.613 26.4-65.306Q216.8-922 255-922h450q38.613 0 65.306 26.694Q797-868.613 797-830v100q0 37.75-26.694 64.875Q743.613-638 705-638H255Zm12-80h426q8 0 15.5-7.1T716-741v-78q0-8-7.5-15.5T693-842H267q-8 0-15.5 7.5T244-819v78q0 8.8 7.5 15.9T267-718ZM130-38q-38.612 0-65.306-26.694Q38-91.388 38-130v-55h884v55q0 38.612-26.694 65.306Q868.613-38 830-38H130ZM38-214l153-341q10-24 32.405-39T274-609h413q27.143 0 49.571 15Q759-579 770-555l153 341H38Zm291-80h40q11.2 0 18.1-7 6.9-7 6.9-17.5 0-11.5-6.9-19T369-345h-40q-11 0-18.5 7.4T303-319q0 11 7.5 18t18.5 7Zm0-91h40q11.2 0 18.1-7.5 6.9-7.5 6.9-18 0-11.5-6.9-18.5t-18.1-7h-40q-11 0-18.5 6.9T303-411q0 11 7.5 18.5T329-385Zm0-91h40q11.2 0 18.1-7.5 6.9-7.5 6.9-18 0-11.5-6.9-19T369-528h-40q-11 0-18.5 7.4T303-502q0 11 7.5 18.5T329-476Zm131 182h40q11.2 0 18.6-7 7.4-7 7.4-17.5 0-11.5-7.4-19T500-345h-40q-11 0-18.5 7.4T434-319q0 11 7.5 18t18.5 7Zm0-91h40q11.2 0 18.6-7.5 7.4-7.5 7.4-18 0-11.5-7.4-18.5t-18.6-7h-40q-11 0-18.5 6.9T434-411q0 11 7.5 18.5T460-385Zm0-91h40q11.2 0 18.6-7.5 7.4-7.5 7.4-18 0-11.5-7.4-19T500-528h-40q-11 0-18.5 7.4T434-502q0 11 7.5 18.5T460-476Zm131 182h40q11.2 0 18.6-7 7.4-7 7.4-17.5 0-11.5-7.4-19T631-345h-40q-10.2 0-17.6 7.4-7.4 7.4-7.4 18.6 0 11 7.4 18t17.6 7Zm0-91h40q11.2 0 18.6-7.5 7.4-7.5 7.4-18 0-11.5-7.4-18.5t-18.6-7h-40q-10.2 0-17.6 6.9-7.4 6.9-7.4 18.1 0 11 7.4 18.5T591-385Zm0-91h40q11.2 0 18.6-7.5 7.4-7.5 7.4-18 0-11.5-7.4-19T631-528h-40q-10.2 0-17.6 7.4-7.4 7.4-7.4 18.6 0 11 7.4 18.5T591-476Z" />
-                        </svg>
-                        <div class="flex flex-1 flex-col items-center lg:items-end">
-                            <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Total') }}</h2>
-                            <p class="text-base lg:text-base text-gray-800">00</p>
-                        </div>
-                    </li>
-                    <li
-                        class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
-                        <div
-                            class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                            <neo-loader></neo-loader>
-                        </div>
-                        <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-3);" fill="currentcolor"
-                            viewBox="0 -960 960 960">
-                            <path
-                                d="M191-99q-37.8 0-64.9-27.1Q99-153.2 99-192v-490q0-14.882 5-29.559 5-14.676 15-27.441l73-94q11.75-16.034 29.316-22.517Q238.882-862 259-862h443q18.085 0 35.664 6.483Q755.242-849.034 767-834l76 95q8 13.765 13.5 28.441Q862-695.882 862-681v489q0 38.8-27.394 65.9Q807.213-99 769-99H191Zm33-626h512l-36.409-46H259l-35 46Zm429 84H309v266q0 27 21 39.5t43 2.5l107-54 107 54q22 10 44-2.5t22-39.5v-266Z" />
-                        </svg>
-                        <div class="flex flex-1 flex-col items-center lg:items-end">
-                            <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Products') }}</h2>
-                            <p class="text-base lg:text-base text-gray-800">00</p>
-                        </div>
-                    </li>
-                    <li
-                        class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
-                        <div
-                            class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                            <neo-loader></neo-loader>
-                        </div>
-                        <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-4);" fill="currentcolor"
-                            viewBox="0 -960 960 960">
-                            <path
-                                d="M445-243v17q0 9.8 7.6 16.4 7.6 6.6 16.4 6.6h23.833q9.567 0 15.867-7.2 6.3-7.2 6.3-16.8v-16h55q16.275 0 25.638-9.075Q605-261.15 605-276.752V-412q0-15.425-9.362-25.212Q586.275-447 569.752-447H425v-65h146q14.45 0 24.225-9.967 9.775-9.966 9.775-24.7 0-14.308-9.775-24.32Q585.45-581 571-581h-56v-17q0-8.8-7-15.9t-16-7.1h-23.833q-9.367 0-16.267 7.1-6.9 7.1-6.9 15.9v17h-55q-16.275 0-25.638 9.5Q355-562 355-547v135.248q0 16.027 9.362 25.39Q373.725-377 390.248-377H535v65H389q-14.45 0-24.225 9.805-9.775 9.806-9.775 24.3 0 15.345 10.062 25.12Q375.125-243 390-243h55ZM229-59q-35.775 0-63.388-26.912Q138-112.825 138-150v-660q0-37.588 27.612-64.794Q193.225-902 229-902h347l247 246v506q0 37.175-27.906 64.088Q767.188-59 731-59H229Zm325-751v130q0 20.75 13.325 33.375T600-634h131L554-810Z" />
-                        </svg>
-                        <div class="flex flex-1 flex-col items-center lg:items-end">
-                            <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Quotations') }}</h2>
-                            <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[0]) }}</p>
-                        </div>
-                    </li>
-                    <li
-                        class="rounded-x-thin bg-x-light p-4 flex gap-2 flex-col items-center lg:flex-row lg:flex-wrap relative">
-                        <div
-                            class="loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                            <neo-loader></neo-loader>
-                        </div>
-                        <svg class="block w-12 h-12 pointer-events-none" style="color: var(--color-5);" fill="currentcolor"
-                            viewBox="0 -960 960 960">
-                            <path
-                                d="M227-38q-58.917 0-97.958-39.75Q90-117.5 90-175v-100q0-19.65 13.312-32.825Q116.625-321 136-321h93v-546q0-8.5 6.5-11.25t12.794 3.544L277-846q5.455 7 16.227 6.5Q304-840 310-847l32-31q4.818-5 15.909-5Q369-883 374-878l30 31q4.818 7 15.955 7 11.136 0 17.045-7l32-31q4.273-5 15.409-5 11.136 0 17.591 5l30 31q5.727 7 16.864 7Q560-840 565-847l32-31q3.636-5 15.136-5T630-878l30 31q5.455 7 16.227 7Q687-840 693-847l31-31q4.545-5 16.045-5 11.5 0 16.955 5l31 31q4.818 7 15.955 7.5 11.136.5 17.045-6.5l30-29q5.118-6 12.559-3.042Q871-875.083 871-867v692q0 57.5-40.042 97.25Q790.917-38 734-38H227Zm505.5-92q18.5 0 31-12.885T776-174.6V-775H323v504h324q18.8 0 32.4 13.175Q693-244.65 693-225v50q0 19 10 32t29.5 13ZM405-674h162q11.8 0 20.4 8.456 8.6 8.456 8.6 20.316t-8.6 20.044Q578.8-617 567-617H405q-11.375 0-19.688-8.439-8.312-8.438-8.312-20 0-11.561 8.312-20.061Q393.625-674 405-674Zm0 132h162q11.8 0 20.4 8.375 8.6 8.376 8.6 20.116 0 11.741-8.6 20.125T567-485H405q-11.375 0-19.688-8.56-8.312-8.559-8.312-20.3 0-11.74 8.312-19.94Q393.625-542 405-542Zm284.421-75Q678-617 669.5-625.763t-8.5-19.5Q661-656 669.281-665q8.28-9 20-9 11.719 0 20.219 8.781 8.5 8.78 8.5 19.815 0 11.036-8.579 19.72t-20 8.684Zm0 127Q678-490 669.5-498.884t-8.5-19.8q0-10.916 8.281-19.616 8.28-8.7 20-8.7 11.719 0 20.219 8.7 8.5 8.7 8.5 19.616t-8.579 19.8q-8.579 8.884-20 8.884Z" />
-                        </svg>
-                        <div class="flex flex-1 flex-col items-center lg:items-end">
-                            <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Requests') }}</h2>
-                            <p class="text-base lg:text-base text-gray-800">{{ Core::formatNumber($data[1]) }}</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="lg:col-span-7 flex flex-col">
-            <label class="text-x-black font-x-thin text-xl">
-                {{ __('Income visualization') }}
-            </label>
-            <div class="rounded-x-thin bg-x-light p-4 relative">
-                <div
-                    class="chart-loader w-full h-full rounded-x-thin bg-x-light absolute inset-0 flex items-center justify-center">
-                    <neo-loader></neo-loader>
-                </div>
-                <canvas id="chart" class="w-full aspect-video"></canvas>
-            </div>
-        </div>
-        <div class="lg:col-span-5">
-            <div class="flex flex-col">
-                <label class="text-x-black font-x-thin text-xl">
-                    {{ __('Best sellers') }}
-                </label>
-                <neo-datavisualizer></neo-datavisualizer>
-            </div>
-        </div>
-        <div class="flex flex-col gap-1 lg:col-span-12">
-            <div class="flex flex-col">
-                <label class="text-x-black font-x-thin text-base">
-                    {{ __('Product') }}
-                </label>
-                <neo-autocomplete id="product" placeholder="{{ __('Product') }}" set-query="name"></neo-autocomplete>
-            </div>
-            <div class="w-full rounded-x-thin overflow-x-auto overflow-y-hidden border border-x-light">
-                <table class="w-max min-w-full">
-                    <thead id="head" class="bg-x-light hidden">
-                        <tr>
-                            <td></td>
-                            <td class="px-4 py-2 text-x-black font-x-thin text-sm">
-                                {{ __('Name') }}
-                            </td>
-                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
-                                {{ __('Price') }}
-                            </td>
-                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
-                                {{ __('Quantity') }}
-                            </td>
-                            <td class="text-center w-32 px-4 py-2 text-x-black font-x-thin text-sm">
-                                {{ __('Total') }}
-                            </td>
-                            <td class="pe-6 text-center w-20 px-4 py-2 text-x-black font-x-thin text-sm"></td>
-                        </tr>
-                    </thead>
-                    <tbody id="content-table"></tbody>
-                </table>
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
 @endsection
 

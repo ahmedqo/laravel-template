@@ -14,7 +14,7 @@
                     {{ __('Forgot your password? No problem. Just tell us your email, and we will send you a link that will allow you to choose a new password') }}
                 </p>
                 @csrf
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <label class="text-x-black font-x-thin text-base">
                         {{ __('Email') }} (*)
                     </label>

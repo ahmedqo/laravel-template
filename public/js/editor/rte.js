@@ -1439,7 +1439,7 @@ var RTE_CreateConfig, RichTextEditor;
 		lF._ = kf(fE, bK, iv, cx, fH, fq, iy, dp);
 		mO._ = kk(ig, iv, iy, is, dY, iz, im);
 		nM._ = kl(ez, iy, dw, eT);
-		nL._ = km(iv, gE);
+		nL._ = Km(iv, gE);
 		mL._ = kn(iy, de, is, hJ);
 		mK._ = ko(iv, eT);
 		mP._ = kp(iy, de, iv, is, fP, im, hJ);
@@ -1457,7 +1457,7 @@ var RTE_CreateConfig, RichTextEditor;
 		op._ = kG(eP, pD, eR);
 		oq._ = kI(eP, pD, eR);
 		mp._ = kK(cs, is, fq, eR, eb, ig, hp, hq);
-		mb._ = kM(ig, is);
+		mb._ = Km(ig, is);
 		nF._ = kN(cs, is, eb, ed, gu);
 		nJ._ = kW(ig);
 		kj._ = kX(gy, pA, ig, fz, pz, ih, bz);
@@ -6418,7 +6418,7 @@ var RTE_CreateConfig, RichTextEditor;
 		}
 	}
 
-	function km (c, b) {return function (d) {return (1 && b._)(c._[a[13]](d))}}
+	function Km (c, b) {return function (d) {return (1 && b._)(c._[a[13]](d))}}
 
 	function kn (f, b, d, c) {
 		return function (g) {
@@ -6675,7 +6675,7 @@ var RTE_CreateConfig, RichTextEditor;
 		}
 	}
 
-	function kM (b, c) {
+	function Km (b, c) {
 		return function () {
 			if(b._[a[1145]]) {return };
 			var f = c._[a[367]](a[1146]);

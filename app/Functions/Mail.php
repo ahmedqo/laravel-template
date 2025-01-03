@@ -12,7 +12,7 @@ use Illuminate\Support\{
     Str,
 };
 use App\Models\User;
-
+use Illuminate\Mail\Mailables\Address;
 
 class Mail
 {
@@ -41,7 +41,11 @@ class Mail
             ]);
         }
 
-        $mail = new ResetMail(['to' => [$user->email], 'token' => $token]);
+        $mail = new ResetMail([
+            'token' => $token,
+            'to' => new Address($user->email, strtoupper($user->last_name) . ' ' . ucfirst($user->first_name)),
+            'color' => $user->Setting ? Core::themesList($user->Setting->theme_color)[0] : '33 150 243',
+        ]);
         Mailer::send($mail);
 
         return true;

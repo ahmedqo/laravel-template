@@ -3,7 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/users', [UserController::class, 'index_view'])->name('views.users.index');
     Route::get('/users/store', [UserController::class, 'store_view'])->name('views.users.store');
     Route::get('/users/{id}/patch', [UserController::class, 'patch_view'])->name('views.users.patch');

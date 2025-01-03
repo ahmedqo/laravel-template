@@ -180,7 +180,8 @@
             },
             createFrame() {
                 const frame = document.createElement("iframe");
-                this.root.appendChild(frame);
+                frame.style.display = "none";
+                document.body.appendChild(frame);
                 return frame;
             },
             insertStyles(page) {
@@ -233,6 +234,7 @@
                     Neo.Wrapper && Neo.Wrapper.rules.opened();
                     setTimeout(() => {
                         frame.remove();
+                        this.emit("close");
                     }, 1000);
                 };
             }

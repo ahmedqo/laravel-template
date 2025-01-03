@@ -16,14 +16,14 @@
             <form validate action="{{ route('actions.reset.index', $token) }}" method="POST"
                 class="w-full flex flex-col gap-6 p-6 bg-x-white rounded-x-thin shadow-x-core">
                 @csrf
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <label class="text-x-black font-x-thin text-base">
                         {{ __('New password') }} (*)
                     </label>
                     <neo-password rules="required" errors='{"required": "{{ __('The new password field is required') }}"}'
                         placeholder="{{ __('New password') }} (*)" name="new_password"></neo-password>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col gap-1">
                     <label class="text-x-black font-x-thin text-base">
                         {{ __('Confirm password') }} (*)
                     </label>
