@@ -349,6 +349,10 @@
         },
         cycle: {
             created() {
+                this.state.hidden = document.createElement("input");
+                this.state.hidden.name = this.name + "-query";
+                this.state.hidden.type = "hidden";
+
                 this.reset = function() {
                     this.state.expand = false;
                     this.setProps({
@@ -361,6 +365,7 @@
                 this.blur = function() { this.refs.field.blur() }
             },
             mounted() {
+                this.appendChild(this.state.hidden);
                 if (this.hasAttribute("value")) {
                     this.props.value = this.getAttribute("value");
                     this.removeAttribute("value");
@@ -415,6 +420,7 @@
                             this.emit("change:disable", { data: next });
                         },
                         "query": () => {
+                            this.state.hidden.value = this.props.query;
                             Neo.Helper.falsy(next) && (this.props.value = "");
                             this.emit("change:" + name, { 
                                 data: next 

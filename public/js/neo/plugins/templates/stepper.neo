@@ -131,7 +131,8 @@
             next() {
                 if (this.props.current + 1 > this.steps.length - 1) return;
                 this.emit("next", {
-                    step: this.steps[this.props.current]
+                    step: this.steps[this.props.current],
+                    next: this.steps[this.props.current + 1],
                 }, () => {
                     this.props.step = this.steps[this.props.current + 1].step;
                 })
@@ -139,7 +140,8 @@
             prev() {
                 if (this.props.current - 1 < 0) return;
                 this.emit("prev", {
-                    step: this.steps[this.props.current]
+                    step: this.steps[this.props.current],
+                    next: this.steps[this.props.current - 1],
                 }, () => {
                     this.props.step = this.steps[this.props.current - 1].step;
                 });
@@ -147,7 +149,8 @@
             goto(index) {
                 if (index < 0 || index > this.steps.length - 1 || this.props.current === index) return;
                 this.emit(this.props.current < index ? "next" : "prev", {
-                    step: this.steps[this.props.current]
+                    step: this.steps[this.props.current],
+                    next: this.steps[index],
                 }, () => {
                     this.props.step = this.steps[index].step;
                 });
