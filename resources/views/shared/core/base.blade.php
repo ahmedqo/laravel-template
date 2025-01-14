@@ -9,15 +9,15 @@
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
-    @if (Core::setting())
+    @if (Core::preference())
         @php
-            $colors = Core::themesList(Core::setting('theme_color'));
-            \Carbon\Carbon::setLocale(Core::setting('language'));
+            $colors = Core::themesList(Core::preference('theme_color'));
+            \Carbon\Carbon::setLocale(Core::preference('language'));
         @endphp
         <meta name="core"
             content="{{ json_encode([
-                'format' => Core::formatsList(Core::setting('date_format'), 0),
-                'currency' => Core::setting('currency'),
+                'format' => Core::formatsList(Core::preference('date_format'), 0),
+                'currency' => Core::preference('currency'),
             ]) }}">
         <style>
             *,

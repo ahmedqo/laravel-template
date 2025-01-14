@@ -263,7 +263,7 @@
         <ul ref="content" part="content" @click:propagation="{{ () => {} }}">
             {$ if Array.isArray(@props.data) $}
                 {$ forelse result into @props.data $}
-                    <li ref="item" part="item" tabindex="0" @click:propagation="{{ (event) => @rules.select(event, result) }}" @keydown:propagation="{{ (event) => @rules.select(event, result) }}">
+                    <li ref="item" part="item" tabindex="0" @click:propagation="{{ (event) => @rules.select(event, @loop.index) }}" @keydown:propagation="{{ (event) => @rules.select(event, @loop.index) }}">
                         {{ @when(@props.item, () => @props.item(result, @loop), @rules.write(result, @props.setQuery)) }}
                     </li>
                 {$ empty $}
@@ -276,7 +276,7 @@
 
 <script>
     export default {
-        attrs: ["label","loading", "outline", "disable", "placeholder","set-query", "set-value"],
+        attrs: ["label", "loading", "outline", "disable", "handfree", "placeholder", "set-query", "set-value"],
         props: {
             data: [],
             label: "",
@@ -289,6 +289,7 @@
             loading: false,
             outline: false,
             disable: false,
+            handfree: false,
             placeholder: "",
         },
         state: {
@@ -305,6 +306,7 @@
                 this.emit("blur", { value: this.props.value, query: this.props.query });
             },
             change() {
+                this.props.handfree && (this.props.value = this.props.query);
                 Neo.Helper.falsy(this.props.value) && (this.props.query = "");
                 this.emit("change", { value: this.props.value, query: this.props.query });
             },
@@ -324,8 +326,9 @@
                 });
                 this.emit("input", { value: this.props.value, query: this.props.query });
             },
-            select(event, result) {
+            select(event, index) {
                 if (event.type === "click" || event.keyCode === 13) {
+                    const result = this.props.data[index];
                     this.emit("select", { data: result }, () => {
                         this.setProps({
                             query: this.rules.write(result, this.props.setQuery),
@@ -349,10 +352,6 @@
         },
         cycle: {
             created() {
-                this.state.hidden = document.createElement("input");
-                this.state.hidden.name = this.name + "-query";
-                this.state.hidden.type = "hidden";
-
                 this.reset = function() {
                     this.state.expand = false;
                     this.setProps({
@@ -365,7 +364,6 @@
                 this.blur = function() { this.refs.field.blur() }
             },
             mounted() {
-                this.appendChild(this.state.hidden);
                 if (this.hasAttribute("value")) {
                     this.props.value = this.getAttribute("value");
                     this.removeAttribute("value");
@@ -391,7 +389,7 @@
                         "label,placeholder,set-query,set-value": () => {
                             this.props[Neo.Helper.Str.snake(name)] = next;
                         },
-                        "outline,disable,loading": () => {
+                        "outline,disable,loading,handfree": () => {
                             this.props[name] = Neo.Helper.truty(next) || this.hasAttribute(name) && !["false", "null", "undefined"].includes(this.getAttribute(name)); 
                         }
                     },
@@ -410,7 +408,7 @@
                         }
                     },
                     props: {
-                        "label,setQuery,setValue,outline,loading,placeholder": () => {
+                        "label,setQuery,setValue,outline,loading,placeholder,handfree": () => {
                             this.emit("change:" + name, { 
                                 data: next 
                             });
@@ -420,7 +418,6 @@
                             this.emit("change:disable", { data: next });
                         },
                         "query": () => {
-                            this.state.hidden.value = this.props.query;
                             Neo.Helper.falsy(next) && (this.props.value = "");
                             this.emit("change:" + name, { 
                                 data: next 

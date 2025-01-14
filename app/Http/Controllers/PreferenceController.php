@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
-class SettingController extends Controller
+class PreferenceController extends Controller
 {
     public function patch_view()
     {
-        $data = Core::setting();
-        return view('setting.patch', compact('data'));
+        $data = Core::preference();
+        return view('preference.patch', compact('data'));
     }
 
     public function patch_action(Request $Request)
@@ -32,7 +32,7 @@ class SettingController extends Controller
             ]);
         }
 
-        Core::setting()->update($Request->all());
+        Core::preference()->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

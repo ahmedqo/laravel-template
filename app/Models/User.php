@@ -54,7 +54,7 @@ class User extends Authenticatable
     protected static function booted()
     {
         self::created(function ($Self) {
-            $Self->Setting()->create([
+            $Self->Preference()->create([
                 'language' => 'fr',
                 'currency' => 'MAD',
                 'report_frequency' => 'week',
@@ -64,8 +64,8 @@ class User extends Authenticatable
         });
     }
 
-    public function Setting(): MorphOne
+    public function Preference(): MorphOne
     {
-        return $this->morphOne(Setting::class, 'target');
+        return $this->morphOne(Preference::class, 'target');
     }
 }

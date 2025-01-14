@@ -8,25 +8,25 @@ use Illuminate\Support\Str;
 
 class Core
 {
-    public static $Setting;
+    public static $Preference;
 
     public static function image()
     {
         return asset('img/logo.png');
     }
 
-    public static function setting($prop = null)
+    public static function preference($prop = null)
     {
-        if (!self::$Setting) {
-            self::$Setting = Auth::user()->Setting;
+        if (!self::$Preference) {
+            self::$Preference = Auth::user()->Preference;
         }
 
-        return $prop ? self::$Setting->{$prop} : self::$Setting;
+        return $prop ? self::$Preference->{$prop} : self::$Preference;
     }
 
     public static function getDates($period = null)
     {
-        switch ($period ?? Core::setting('report_frequency')) {
+        switch ($period ?? Core::preference('report_frequency')) {
             case "day":
                 $hours = [];
                 for ($hour = 0; $hour < 24; $hour += 3) {
@@ -89,13 +89,23 @@ class Core
                         __('December') => 0
                     ]
                 ];
+            case 'decade':
+                $year = Carbon::now()->year;
+                return [
+                    Carbon::now()->subYears(9)->startOfYear(),
+                    Carbon::now()->endOfYear(),
+                    array_reduce(range($year - 9, $year), function ($carry, $item) {
+                        $carry[$item] = 0;
+                        return $carry;
+                    }, [])
+                ];
         }
     }
 
     public static function groupKey($model, $period = null, $prop = 'created_at')
     {
         $object = Carbon::parse($model->{$prop});
-        switch ($period ?? Core::setting('report_frequency')) {
+        switch ($period ?? Core::preference('report_frequency')) {
             case 'day':
                 $hour = $object->hour;
                 $startHour = (int) floor($hour / 3) * 3;
@@ -107,6 +117,8 @@ class Core
                 return __('Week') . ' ' . Core::formatWeek($object->format('Y-m-d'));
             case 'year':
                 return __($object->format('F'));
+            case 'decade':
+                return (int) $object->format('Y');
         }
     }
 
@@ -231,7 +243,7 @@ class Core
 
     public static function periodsList()
     {
-        return ['day', 'week', 'month', 'year'];
+        return ['day', 'week', 'month', 'year', 'decade'];
     }
 
     public static function citiesList()

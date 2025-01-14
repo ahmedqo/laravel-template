@@ -528,6 +528,7 @@ const Neo = (function Neo() {
             }
 
             static trans = function trans(text, context = {}) {
+                if (typeof text !== "string") return text;
                 var dict = Neo.Locales[context["#locale"] || document.documentElement.lang || "en"];
                 return ((dict && dict[text]) || text).replace(/#([\w\d._-]+)/g, (full, key) => context[key] || full);
             }
@@ -1259,19 +1260,28 @@ const Neo = (function Neo() {
                     return !matchingField || expectedValue !== String(matchingField.value).trim() ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
-                static required_with = function required_with(value, parts, { field, query }) {
-                    const isFieldPresent = parts.some(name => query(`[name="${name}"]`));
-                    return !isFieldPresent || Validator.Rules.required(value, parts, { field, query });
+                static required_with = function required_with(value, parts, { field, query, queryAll }) {
+                    const isFieldPresent = parts.some(name => {
+                        const fieldElement = query(`[name="${name}"]`);
+                        return fieldElement && Validator.Rules.required(fieldElement.value, "", { field: fieldElement, queryAll });
+                    });
+                    return isFieldPresent ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
                 static required_without = function required_without(value, parts, { field, query }) {
-                    const isFieldPresent = parts.some(name => query(`[name="${name}"]`));
-                    return isFieldPresent ? true : Validator.Rules.required(value, parts, { field, query });
+                    const isFieldPresent = parts.some(name => {
+                        const fieldElement = query(`[name="${name}"]`);
+                        return fieldElement && Validator.Rules.required(fieldElement.value, "", { field: fieldElement, queryAll });
+                    });
+                    return !isFieldPresent ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
                 static required_with_all = function required_with_all(value, parts, { field, query }) {
-                    const areFieldsPresent = parts.every(name => query(`[name="${name}"]`));
-                    return !areFieldsPresent || Validator.Rules.required(value, parts, { field, query });
+                    const areFieldsPresent = parts.every(name => {
+                        const fieldElement = query(`[name="${name}"]`);
+                        return fieldElement && Validator.Rules.required(fieldElement.value, "", { field: fieldElement, queryAll });
+                    });
+                    return areFieldsPresent ? Validator.Rules.required(value, "", { field, queryAll }) : true;
                 }
 
                 static email = function email(value) {

@@ -44,7 +44,7 @@ class Mail
         $mail = new ResetMail([
             'token' => $token,
             'to' => new Address($user->email, strtoupper($user->last_name) . ' ' . ucfirst($user->first_name)),
-            'color' => $user->Setting ? Core::themesList($user->Setting->theme_color)[0] : '33 150 243',
+            'color' => $user->Preference ? Core::themesList($user->Preference->theme_color)[0] : '33 150 243',
         ]);
         Mailer::send($mail);
 
